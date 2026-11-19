@@ -1,8 +1,9 @@
 """The rehearsal library is kept by whoever replaces its source or its workflow engine (D-081, D-085), so it reaches
 the core through the client and the model alone. Imported in a fresh interpreter, its modules load nothing of
 Prefect, of a reader, of the example's other layers, of the core's `server` extra or of what the core's own clients
-may never load (`core/tests/test_boundary.py`); and their source imports the standard library, five modules of the
-core and the library itself, a function-local import included, which an import of the modules alone would not run."""
+may never load (`boundary.py`, copied from fylgja-core's `core/tests/test_boundary.py`); and their source imports the
+standard library, five modules of the core and the library itself, a function-local import included, which an import
+of the modules alone would not run."""
 
 from __future__ import annotations
 
@@ -12,7 +13,7 @@ import sys
 from collections.abc import Iterable, Sequence
 from pathlib import Path
 
-from test_boundary import forbidden
+from boundary import forbidden
 
 REHEARSAL = Path(__file__).resolve().parents[1] / "src" / "fylgja_orchestrator" / "rehearsal"
 SRC = REHEARSAL.parents[1]

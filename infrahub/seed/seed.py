@@ -1,8 +1,8 @@
 """The fixture network on the development Infrahub's `main`, and the seeded branch with its two staged edits, each
 generated, waited for, timed and marked, and by a flag its proposed change.
 
-Run by `make infrahub-seed` as `core/.venv/bin/python infrahub/seed/seed.py --branch <branch> --files infrahub/seed
---out <seed.json> --ctl <infrahubctl> --schema readers/infrahub/schema/fylgja-probe.yml --schema
+Run by `make infrahub-seed` as `.venv/bin/python infrahub/seed/seed.py --branch <branch> --files infrahub/seed
+--out <seed.json> --ctl <infrahubctl> --schema infrahub/schema/fylgja-probe.yml --schema
 infrahub/schema/fylgja-stage.yml [--proposed-change]`, with `local/.env` loaded (CONTRIBUTING.md, D-083):
 
 - `main` is refused where it holds no artifact definition `DEFINITION`, before anything is written: the definition

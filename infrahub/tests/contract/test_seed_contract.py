@@ -25,7 +25,7 @@ from .conftest import need
 
 SEED = Path(__file__).resolve().parents[2] / "seed"
 FIXTURE = Path(__file__).resolve().parents[3] / "testdata" / "blueprint" / "three-node.json"
-PROBE_KIND = Path(__file__).resolve().parents[3] / "readers" / "infrahub" / "schema" / "fylgja-probe.yml"
+PROBE_KIND = Path(__file__).resolve().parents[3] / "infrahub" / "schema" / "fylgja-probe.yml"
 """The reader's kind, which `make infrahub-seed` passes as `--schema`: absolute, since this tier runs from
 `infrahub/`."""
 STAGE_KIND = Path(__file__).resolve().parents[2] / "schema" / "fylgja-stage.yml"

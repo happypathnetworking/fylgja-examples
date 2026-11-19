@@ -1,4 +1,5 @@
 ---
+# Copied from fylgja-core's readers/infrahub/schema/fylgja-probe.yml at e7cdc0c968d481fd1f8446c344b6e0b4c4d37eeb; free to drift.
 # The kind FylgjaProbe: a probe declared in Infrahub, beside intent and not in it, which the reader reads into a
 # blueprint's probes where the reader document asks for them (readers/infrahub/mapping.md, D-082). It ships with the
 # reader, and is loaded on main by `make infrahub-seed` (infrahub/seed/seed.py, --schema).

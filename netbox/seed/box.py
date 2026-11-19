@@ -11,7 +11,7 @@ value a caller hands `hide`, before NetBox's words are cut; none is chained to t
 exception carries its request, whose headers hold the token. A token a header cannot carry is refused before a
 client is made, since httpx would print it in a `repr` no replacement matches.
 
-Run by `core/.venv/bin/python`; httpx and the standard library alone, never `fylgja_core`, a reader, the example or a
+Run by `.venv/bin/python`; httpx and the standard library alone, never `fylgja_core`, a reader, the example or a
 client library of NetBox's.
 """
 

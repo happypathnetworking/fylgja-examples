@@ -14,6 +14,7 @@ import re
 from pathlib import Path
 from typing import Any
 
+import pytest
 import yaml
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -118,6 +119,7 @@ def test_the_probes_context_is_three_node_probeds_declaration() -> None:
             assert (endpoint["device"], endpoint["interface"]) in ports
 
 
+@pytest.mark.xfail(strict=True, reason="Task 4: psp/nokia_srlinux.yaml")
 def test_the_reader_document_maps_the_fixtures_pair_to_a_shipped_package() -> None:
     reader = yaml.safe_load(READER.read_text())
     assert reader == {

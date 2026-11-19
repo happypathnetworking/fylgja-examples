@@ -461,13 +461,13 @@ def test_orchestrator_env_refuses_a_source_it_does_not_know(tmp_path: Path) -> N
 def test_netbox_hook_reads_prefects_api_then_installs_the_trigger(tmp_path: Path) -> None:
     api = f"python3 -I scripts/edge_dev.py api --local {tmp_path} --main {MAIN}"
     assert _make_n(tmp_path, "netbox-hook") == [
-        f'prefect=$({api}) && core/.venv/bin/python netbox/seed/hook.py --prefect "$prefect"'
+        f'prefect=$({api}) && .venv/bin/python netbox/seed/hook.py --prefect "$prefect"'
     ]
 
 
 def test_netbox_change_marks_through_the_examples_command_and_tags_only_by_1(tmp_path: Path) -> None:
     mark = f"python3 -I scripts/edge_dev.py run --source netbox --local {tmp_path} --main {MAIN} -- stage mark"
-    change = "core/.venv/bin/python netbox/seed/change.py --branch {} {}-- " + mark
+    change = ".venv/bin/python netbox/seed/change.py --branch {} {}-- " + mark
     assert _make_n(tmp_path, "netbox-change") == [change.format("third-link", "")]
     assert _make_n(tmp_path, "netbox-change", "NETBOX_BRANCH=other") == [change.format("other", "")]
     assert _make_n(tmp_path, "netbox-change", "NETBOX_TAG=1") == [change.format("third-link", "--tag ")]
@@ -634,7 +634,7 @@ def test_env_without_the_token_file_is_refused_with_nothing_written(
 
 
 HOME = Path("/srv/example/local/prefect")
-SERVER = ["/srv/example/core/.venv/bin/python", "/srv/example/core/.venv/bin/prefect", "server", "start"]
+SERVER = ["/srv/example/.venv/bin/python", "/srv/example/.venv/bin/prefect", "server", "start"]
 
 
 def ours(argv: list[str] = SERVER, home: Path = HOME) -> Any:

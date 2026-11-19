@@ -1,6 +1,6 @@
 """The schema library, the group and this repository's registration on the development Infrahub's `main`.
 
-Run by `make infrahub-register` as `core/.venv/bin/python infrahub/seed/register.py --ref <branch> --commit <hash>
+Run by `make infrahub-register` as `.venv/bin/python infrahub/seed/register.py --ref <branch> --commit <hash>
 --schema infrahub/schema/dcim --ctl <infrahubctl>`, with `local/.env` loaded (CONTRIBUTING.md, D-083):
 
 - the library: loaded by `infrahubctl` where `main` holds none of its kinds, and waited for until `main` lists them

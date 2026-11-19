@@ -1,4 +1,6 @@
-"""Fakes of the reconcile loop's runtime: a driver that keeps its labs in memory, and a readiness
+"""Copied from fylgja-core's core/tests/fakes.py at e7cdc0c968d481fd1f8446c344b6e0b4c4d37eeb; free to drift.
+
+Fakes of the reconcile loop's runtime: a driver that keeps its labs in memory, and a readiness
 wait, a push and a gNMI reader that answer by node. The loop's tests, the API's and verify's
 share them.
 

@@ -1,6 +1,6 @@
 """The example's Infrahub account, `fylgja-orchestrator`, and its token's line in `local/.env`.
 
-Run by `make orchestrator-env` as `core/.venv/bin/python infrahub/seed/account.py --env <local/.env> --ctl
+Run by `make orchestrator-env` as `.venv/bin/python infrahub/seed/account.py --env <local/.env> --ctl
 <infrahubctl>`, with `local/.env` loaded; no part of the seed. The example posts its report under an account of its
 own (D-085), whose one role, in one group, holds four permissions: `object:Core:ChangeThread:create:allow_default`
 and `object:Core:ThreadComment:create:allow_default`, which a thread and its comments take;

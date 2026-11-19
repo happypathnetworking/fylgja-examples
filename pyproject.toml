@@ -1,15 +1,11 @@
-# The uv workspace over the four distributions, and no distribution itself (D-108): uv's tables alone. Each member's
-# pyproject.toml stays the statement of its pins; uv.lock is derived from them (`uv lock`) and `make venv` refuses it
-# where it disagrees. infrahub/ and netbox/ hold pytest's settings alone and are no members.
+# The uv workspace of one member, the example orchestrator, and no distribution itself: uv's tables alone. The member's
+# pyproject.toml states its pins, the three published distributions at VERSION; uv.lock is derived from them
+# (`uv lock`) and `make venv` refuses it where it disagrees. infrahub/ and netbox/ hold pytest's settings alone and are
+# no members.
 [tool.uv]
 required-version = "==0.12.23"
 python-downloads = "never"
 python-preference = "only-system"
 
 [tool.uv.workspace]
-members = ["core", "readers/infrahub", "readers/netbox", "orchestrator"]
-
-[tool.uv.sources]
-fylgja-core = { workspace = true }
-fylgja-infrahub = { workspace = true }
-fylgja-netbox = { workspace = true }
+members = ["orchestrator"]

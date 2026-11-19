@@ -98,7 +98,7 @@ def serving(root: Path) -> Iterator[Served]:
     store = LocalStore.open(root / "store")
     tokens = root / "tokens"
     tokens.write_text(f"# the tests' clients\n{auth.hash_token(ALICE)} alice\n{auth.hash_token(BOB)} bob\n")
-    loaded = packages.load([ROOT / "psp", ROOT / "probes"])
+    loaded = packages.load(packages.shipped())
     driver = Runtime(store)
     pusher, ready = fake_push(driver=driver), fake_ready(driver=driver)
     verifier = Verifier(loaded.platforms, loaded.probes, Provider(ENVIRON), reader=driver.reader)

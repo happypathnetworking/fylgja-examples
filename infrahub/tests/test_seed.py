@@ -37,7 +37,7 @@ ADDRESS = f"http://{HOST}"
 CTL = Path("/opt/example/bin/infrahubctl")
 SEED = Path(__file__).resolve().parents[1] / "seed"
 FILES = SEED / "main"
-PROBE_KIND = Path(__file__).resolve().parents[2] / "readers" / "infrahub" / "schema" / "fylgja-probe.yml"
+PROBE_KIND = Path(__file__).resolve().parents[2] / "infrahub" / "schema" / "fylgja-probe.yml"
 """The reader's kind, which `make infrahub-seed` passes as `--schema`."""
 STAGE_KIND = Path(__file__).resolve().parents[2] / "infrahub" / "schema" / "fylgja-stage.yml"
 """The example's stage kind, which `make infrahub-seed` passes as a second `--schema`."""

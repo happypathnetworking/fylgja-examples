@@ -25,7 +25,7 @@ would run instead.
   PATH` for each it does not find. It does not check the versions of Python and uv, or the network:
   `make venv` needs Python 3.14 and uv 0.12.23, and a fetch, a build and an image pull need the
   network.
-- **The venv, `core/.venv`.** Without its commands the script says `<checkout>/core/.venv lacks
+- **The venv, `.venv`.** Without its commands the script says `<checkout>/.venv lacks
   <commands>: run make venv`. Through make the target runs `make venv` first where the venv lacks
   the server command.
 - **Docker with its Compose plugin, and containerlab,** each answering: a Docker daemon that answers

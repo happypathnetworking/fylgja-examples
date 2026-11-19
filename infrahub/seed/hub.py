@@ -10,7 +10,7 @@ exception it came from: an httpx exception carries its request, whose headers ho
 before any text is cut, split or joined, also where a child's output folds it across lines, and `connect` refuses a
 token a header cannot carry, which httpx would print in a `repr` no replacement matches.
 
-Run by `core/.venv/bin/python`; httpx and the standard library alone, never `fylgja_core` and never the SDK (D-083).
+Run by `.venv/bin/python`; httpx and the standard library alone, never `fylgja_core` and never the SDK (D-083).
 """
 
 from __future__ import annotations

@@ -54,8 +54,8 @@ from typing import Any, NamedTuple
 ROOT = Path(__file__).resolve().parent.parent
 """The checkout `make` runs in, whose venv runs Prefect and the runner."""
 
-PREFECT = ROOT / "core" / ".venv" / "bin" / "prefect"
-RUNNER = ROOT / "core" / ".venv" / "bin" / "fylgja-orchestrator"
+PREFECT = ROOT / ".venv" / "bin" / "prefect"
+RUNNER = ROOT / ".venv" / "bin" / "fylgja-orchestrator"
 
 PORT = 4200
 """The edge's Prefect's port: the task workers reach it at `host.docker.internal:4200`

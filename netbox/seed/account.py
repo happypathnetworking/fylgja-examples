@@ -1,7 +1,7 @@
 """The reader's and the example's NetBox accounts, `fylgja-reader` and `fylgja-orchestrator`, at their least
 permissions, and their tokens' lines in `local/.env`.
 
-Run by `make netbox-seed` after the seed, as `core/.venv/bin/python netbox/seed/account.py --env <local/.env>`, with
+Run by `make netbox-seed` after the seed, as `.venv/bin/python netbox/seed/account.py --env <local/.env>`, with
 `local/.env` loaded for `FYLGJA_NETBOX_ADDRESS` and the superuser's `FYLGJA_NETBOX_WRITE_TOKEN` (D-042). The reader
 writes nothing to NetBox, and the example's writes are a journal entry on a branch and the branch's tags (D-095,
 D-097), so each runs under an account of its own, no superuser, granted what was read as least for those on the
@@ -35,7 +35,7 @@ password is printed or carried by an error. Each is handed to `Box.hide` before 
 so that a refusal echoing it has it replaced before NetBox's words are cut. Exit 0; 1 for a refusal or a failure
 said on stderr; 2 for a command line not understood, a variable not set, or a file that is not there.
 
-Run by `core/.venv/bin/python`; httpx and the standard library alone, never `fylgja_core`, a reader, the example or a
+Run by `.venv/bin/python`; httpx and the standard library alone, never `fylgja_core`, a reader, the example or a
 client library of NetBox's.
 """
 

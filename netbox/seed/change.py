@@ -1,7 +1,7 @@
 """The seeded change on the development NetBox: a branch built in steps, each step marked as soon as it exists, as the
 Infrahub seed's `third-link` is built (D-097).
 
-Run by `make netbox-change` as `core/.venv/bin/python netbox/seed/change.py --branch <name> [--tag] -- <the mark's
+Run by `make netbox-change` as `.venv/bin/python netbox/seed/change.py --branch <name> [--tag] -- <the mark's
 command>`, with `local/.env` loaded for `FYLGJA_NETBOX_ADDRESS` and the superuser's `FYLGJA_NETBOX_WRITE_TOKEN`
 (D-042), once `make netbox-seed` has made `main` the fixture and the core runs at `FYLGJA_API_ADDRESS`, since a mark's
 blueprint is the core's:
@@ -25,7 +25,7 @@ on the branch, which the rehearsal takes off; a request lost is not sent again, 
 Exit 0; 1 for a refusal or a failure said on stderr, a mark refused among them; 2 for a command line not understood
 or a variable not set.
 
-Run by `core/.venv/bin/python`; `box` and the standard library alone, never httpx itself, `fylgja_core`, a reader, the
+Run by `.venv/bin/python`; `box` and the standard library alone, never httpx itself, `fylgja_core`, a reader, the
 example, the hook or a client library of NetBox's: what it shares with the example, it holds by value.
 """
 

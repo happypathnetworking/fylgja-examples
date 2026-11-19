@@ -1,6 +1,6 @@
 """The fixture network on the development NetBox's `main`, its configuration template and the probes' context.
 
-Run by `make netbox-seed` as `core/.venv/bin/python netbox/seed/seed.py --files netbox/seed`, with `local/.env`
+Run by `make netbox-seed` as `.venv/bin/python netbox/seed/seed.py --files netbox/seed`, with `local/.env`
 loaded for `FYLGJA_NETBOX_ADDRESS` and the superuser's `FYLGJA_NETBOX_WRITE_TOKEN` (CONTRIBUTING.md, D-042):
 
 - every object `files`/`main.yaml` says is found on `main` by its name, a device type by its model, an interface by
@@ -24,7 +24,7 @@ It prints one line an object, `made` or `found` and its path. Exit 0; 1 for a re
 each said on stderr with the remedy for what failed where one is known (`remedy`); 2 for a command line not
 understood or a variable not set.
 
-Run by `core/.venv/bin/python`; httpx, PyYAML and the standard library alone, never `fylgja_core`, a reader, the
+Run by `.venv/bin/python`; httpx, PyYAML and the standard library alone, never `fylgja_core`, a reader, the
 example or a client library of NetBox's.
 """
 

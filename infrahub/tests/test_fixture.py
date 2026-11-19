@@ -14,6 +14,7 @@ from collections.abc import Iterable, Iterator
 from pathlib import Path
 from typing import Any
 
+import pytest
 import register
 import yaml
 
@@ -23,7 +24,7 @@ STAGES = ROOT / "infrahub" / "seed" / "stages"
 READER = ROOT / "infrahub" / "seed" / "reader.yaml"
 PACKAGE = ROOT / "psp" / "nokia_srlinux.yaml"
 LIBRARY = ROOT / "infrahub" / "schema" / "dcim"
-PROBE_KIND = ROOT / "readers" / "infrahub" / "schema"
+PROBE_KIND = ROOT / "infrahub" / "schema"
 """The reader's own schema, its kind `FylgjaProbe`, which the seed loads on `main` before the object files."""
 FIXTURE = ROOT / "testdata" / "blueprint" / "three-node.json"
 
@@ -170,6 +171,7 @@ def test_the_probe_is_the_probed_fixtures() -> None:
     assert probes == [{"name": held["name"], "format": held["format"], **ends[0], **ends[1]}]
 
 
+@pytest.mark.xfail(strict=True, reason="Task 4: psp/nokia_srlinux.yaml")
 def test_the_reader_document_maps_the_fixtures_pair_to_a_shipped_package() -> None:
     reader = yaml.safe_load(READER.read_text())
     assert reader == {

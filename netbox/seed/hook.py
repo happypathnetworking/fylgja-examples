@@ -1,7 +1,7 @@
 """The trigger that asks the edge's Prefect for a rehearsal: the tag `fylgja-rehearse`, a webhook to Prefect's API and
 the event rule between them, on the development NetBox (D-097).
 
-Run by `make netbox-hook` as `core/.venv/bin/python netbox/seed/hook.py --prefect <Prefect's API>`, the API what
+Run by `make netbox-hook` as `.venv/bin/python netbox/seed/hook.py --prefect <Prefect's API>`, the API what
 `scripts/edge_dev.py api` prints, with `local/.env` loaded for `FYLGJA_NETBOX_ADDRESS`, the superuser's
 `FYLGJA_NETBOX_WRITE_TOKEN` and the basic auth `FYLGJA_ORCHESTRATOR_AUTH` (D-042), once
 `make orchestrator-serve SOURCE=netbox` serves:
@@ -38,7 +38,7 @@ deployment the webhook starts; that nothing was made or changed only where nothi
 header. Exit 0; 1 for a refusal or a failure said on stderr; 2 for a command line not understood or a variable not
 set.
 
-Run by `core/.venv/bin/python`; httpx, `box` and the standard library alone, never `fylgja_core`, a reader, the
+Run by `.venv/bin/python`; httpx, `box` and the standard library alone, never `fylgja_core`, a reader, the
 example or a client library of NetBox's or of Prefect's: what it shares with the example, it holds by value.
 """
 

@@ -31,6 +31,7 @@ def _listed(path: Path, name: str) -> tuple[str, ...]:
     return found
 
 
+@pytest.mark.xfail(strict=True, reason="Task 4: core/setup.py")
 def test_the_list_names_formats_under_formats_and_none_of_the_cores() -> None:
     listed = _listed(SETUP, "ORCHESTRATOR_FORMATS")
     assert list(listed) == sorted(set(listed))

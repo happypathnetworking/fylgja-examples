@@ -90,7 +90,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SOURCES = ("infrahub", "netbox")
 """The sources of truth a demonstration is of."""
 
-VENV = ROOT / "core" / ".venv"
+VENV = ROOT / ".venv"
 COMMANDS = ("fylgja-core-server", "fylgja-core", "fylgja-orchestrator", "prefect")
 """What a demonstration runs from `VENV`'s `bin`, which `make venv` puts there."""
 
@@ -158,7 +158,7 @@ on, its depth, and makefiles to read before the checkout's. No make child of the
 MAKE_VARIABLES = (
     "LOCAL", "INFRAHUB_VERSION", "INFRAHUB_SDK_VERSION", "REF", "SEED_BRANCH", "PURGE", "PROPOSED_CHANGE",
     "NETBOX_VERSION", "NETBOX_DOCKER_VERSION", "NETBOX_BRANCHING_VERSION", "NETBOX_BRANCH", "NETBOX_TAG", "SOURCE",
-    "IMAGE", "DRIVER",
+    "CORE",
 )  # fmt: skip
 """Every name the `Makefile` assigns by `?=`, in its order, held to it by a test: make takes each from its
 environment where that holds it, so no make child of the script's is given one (`make_env`), and a target's

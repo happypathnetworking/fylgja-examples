@@ -404,9 +404,9 @@ def passing(local: Path = LOCAL, disk: Path | None = None) -> FakeHost:
     container, the three networks Docker makes itself, of which the bridge alone has a subnet, and both images the
     seeded twin runs."""
     host = FakeHost(disk)
-    host.on_path = {*demo.TOOLS, *(str(demo.ROOT / "core" / ".venv" / "bin" / name) for name in demo.COMMANDS)}
+    host.on_path = {*demo.TOOLS, *(str(demo.ROOT / ".venv" / "bin" / name) for name in demo.COMMANDS)}
     host.interpreters = {
-        str(demo.ROOT / "core" / ".venv" / "bin" / name): str(demo.ROOT / "core" / ".venv" / "bin" / "python3")
+        str(demo.ROOT / ".venv" / "bin" / name): str(demo.ROOT / ".venv" / "bin" / "python3")
         for name in demo.COMMANDS
     }
     host.answer("docker", "info")
