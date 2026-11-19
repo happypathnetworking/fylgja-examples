@@ -1,7 +1,7 @@
 """The example's NetBox contract tier's branches, its fixtures' own functions over `httpx.MockTransport`: no contract
 branch outlives its test, whatever the test did, and the tier deletes no branch but its own. The functions are written
-again from `readers/netbox/tests/contract/conftest.py`, which cannot be imported, so they are held here as that tier's
-`tests/test_contract_branches.py` holds its own.
+again from fylgja-core's `readers/netbox/tests/contract/conftest.py`, which cannot be imported, so they are held here
+as that tier's `tests/test_contract_branches.py` holds its own.
 
 Nothing here opens a socket: NetBox is a fake that keeps the branches it is given and every request it is sent.
 """

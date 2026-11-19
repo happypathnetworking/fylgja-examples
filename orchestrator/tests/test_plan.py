@@ -82,7 +82,6 @@ def test_a_stage_the_source_refuses_ends_the_plan_there(served: Served) -> None:
     assert doc["headline"].partition("\n")[2] == cause["message"]
 
 
-@pytest.mark.xfail(strict=True, reason="Task 4: testdata/compiler/rejected/platform-unsupported.json")
 def test_a_stage_the_compiler_refuses_is_refused_with_its_findings(served: Served) -> None:
     unsupported = TESTDATA / "compiler" / "rejected" / "platform-unsupported.json"
     doc, _ = planned(served, [FIVE[1], built("unsupported", unsupported), FIVE[4]])

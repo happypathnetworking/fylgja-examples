@@ -717,7 +717,6 @@ def test_the_core_is_given_its_own_store_tokens_driver_and_packages() -> None:
         "FYLGJA_TOKENS": "elsewhere",
         "FYLGJA_STORE": "elsewhere",
         "FYLGJA_DRIVER": "clabernetes",
-        "FYLGJA_PACKAGES": "elsewhere",
         "FYLGJA_TLS_CERT": "c",
         "FYLGJA_TLS_KEY": "k",
         "FYLGJA_LEASE": "l",
@@ -731,12 +730,13 @@ def test_the_core_is_given_its_own_store_tokens_driver_and_packages() -> None:
         "FYLGJA_TOKENS": str(LOCAL / "demo" / "tokens"),
         "FYLGJA_DRIVER": "containerlab",
         "FYLGJA_STORE": str(LOCAL / "demo" / "store"),
-        "FYLGJA_PACKAGES": f"{ROOT / 'psp'}:{ROOT / 'probes'}",
         "FYLGJA_LISTEN": "127.0.0.1:7700",
     }
     removed = ("FYLGJA_TLS_CERT", "FYLGJA_TLS_KEY", "FYLGJA_LEASE", "FYLGJA_API_CA")
     assert {name: core[name] for name in set_for_it} == set_for_it
     assert [name for name in removed if name in core] == []
+    # The core loads its wheel's packages (D-124): it is given no `FYLGJA_PACKAGES`.
+    assert "FYLGJA_PACKAGES" not in core
     as_loaded = [name for name in env if name not in set_for_it and name not in removed]
     assert {*demo.LOGIN, "FYLGJA_LAB_POOL", "PATH"} <= set(as_loaded)
     the_rest_is_as_loaded = same({name: core[name] for name in as_loaded}, {name: env[name] for name in as_loaded})
@@ -747,12 +747,12 @@ def test_the_core_is_given_its_own_store_tokens_driver_and_packages() -> None:
     set_for_a_step = {"FYLGJA_API_ADDRESS": "127.0.0.1:7700", "FYLGJA_TOKENS": str(LOCAL / "demo" / "tokens")}
     assert {name: step[name] for name in set_for_a_step} == set_for_a_step
     assert [name for name in step if name == "FYLGJA_API_CA"] == []
-    # No store, driver or packages of the demonstration's: a step is a client of the core, and its own are as loaded.
-    assert {name: step[name] for name in ("FYLGJA_STORE", "FYLGJA_DRIVER", "FYLGJA_PACKAGES")} == {
+    # No store or driver of the demonstration's: a step is a client of the core, and its own are as loaded.
+    assert {name: step[name] for name in ("FYLGJA_STORE", "FYLGJA_DRIVER")} == {
         "FYLGJA_STORE": "elsewhere",
         "FYLGJA_DRIVER": "clabernetes",
-        "FYLGJA_PACKAGES": "elsewhere",
     }
+    assert "FYLGJA_PACKAGES" not in step
     kept_as_loaded = [name for name in env if name not in ("FYLGJA_API_ADDRESS", "FYLGJA_TOKENS", "FYLGJA_API_CA")]
     the_steps_rest_is_as_loaded = same(
         {name: step[name] for name in kept_as_loaded}, {name: env[name] for name in kept_as_loaded}
@@ -5279,9 +5279,9 @@ def test_a_ref_that_begins_with_a_dash_reaches_the_checks_own_sentence(capsys: p
     assert "usage:" in capsys.readouterr().err and host.locked == []
 
 
-@pytest.mark.xfail(strict=True, reason="Task 4: psp/nokia_srlinux.yaml")
 def test_the_images_are_the_packages_the_seeded_twin_runs() -> None:
     import yaml
+    from fylgja_core import packages
 
     def refs(held: Any) -> set[str]:
         """Every string under a key `ref`, however deep."""
@@ -5290,7 +5290,8 @@ def test_the_images_are_the_packages_the_seeded_twin_runs() -> None:
         return {ref for each in held for ref in refs(each)} if isinstance(held, list) else set()
 
     found = set()
-    for package in (ROOT / "psp" / "nokia_srlinux.yaml", ROOT / "probes" / "ping.yaml"):
+    psp, probes = packages.shipped()
+    for package in (psp / "nokia_srlinux.yaml", probes / "ping.yaml"):
         runtime = yaml.safe_load(package.read_text())["runtime"]["containerlab"]
         assert refs(runtime), package
         found |= refs(runtime)
@@ -6143,7 +6144,6 @@ def test_the_real_hosts_text_lock_and_secret(tmp_path: Path) -> None:
     assert real.which(str(tmp_path / "absent")) is None
 
 
-@pytest.mark.xfail(strict=True, reason="Task 4: core/pyproject.toml")
 def test_no_distribution_carries_the_script() -> None:
     """The script is development tooling, run from a checkout: no file that says what a distribution holds names it.
     The tree is walked, so that no process is started: a superset of what is tracked, less what is never tracked."""
@@ -6157,7 +6157,7 @@ def test_no_distribution_carries_the_script() -> None:
         ]
         found += [Path(directory) / name for name in files if name in says_what_is_packed]
     listed = {path.relative_to(ROOT).as_posix() for path in found}
-    assert {"core/pyproject.toml", "orchestrator/pyproject.toml", "readers/infrahub/pyproject.toml"} <= listed
+    assert "orchestrator/pyproject.toml" in listed
     assert sorted(path.relative_to(ROOT).as_posix() for path in found if "demo.py" in path.read_text()) == []
 
 

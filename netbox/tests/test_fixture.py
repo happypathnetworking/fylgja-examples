@@ -14,8 +14,9 @@ import re
 from pathlib import Path
 from typing import Any
 
-import pytest
 import yaml
+
+from fylgja_core import packages
 
 ROOT = Path(__file__).resolve().parents[2]
 SEED = ROOT / "netbox" / "seed"
@@ -24,7 +25,7 @@ TEMPLATE = SEED / "template.j2"
 READER = SEED / "reader.yaml"
 NETWORK = ROOT / "testdata" / "blueprint" / "three-node.json"
 PROBED = ROOT / "testdata" / "blueprint" / "three-node-probed.json"
-PACKAGE = ROOT / "psp" / "nokia_srlinux.yaml"
+PACKAGE = packages.shipped()[0] / "nokia_srlinux.yaml"
 
 LINK_N1_N3 = frozenset({"n1:ethernet-1/2", "n3:ethernet-1/2"})
 """The blueprint's link that `main` lacks: the change's first step adds it."""
@@ -119,7 +120,6 @@ def test_the_probes_context_is_three_node_probeds_declaration() -> None:
             assert (endpoint["device"], endpoint["interface"]) in ports
 
 
-@pytest.mark.xfail(strict=True, reason="Task 4: psp/nokia_srlinux.yaml")
 def test_the_reader_document_maps_the_fixtures_pair_to_a_shipped_package() -> None:
     reader = yaml.safe_load(READER.read_text())
     assert reader == {

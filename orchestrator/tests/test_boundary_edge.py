@@ -23,7 +23,7 @@ CROSSED = (
     ("netbox", ("fylgja_infrahub", "fylgja_orchestrator.infrahub")),
 )
 """What each change source never imports: the other source and its reader. `scripts/wheelcheck.py` judges the same of
-the installed wheel, and `core/tests/test_wheelcheck.py` holds its tuple to this one."""
+the installed wheel, and fylgja-core's `core/tests/test_wheelcheck.py` holds its tuple to this one."""
 
 # Run in a fresh interpreter, isolated (`-I`): a command's module imported and its help asked, then the modules of
 # Prefect loaded, one a line, after a line of its own.

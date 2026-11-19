@@ -3,8 +3,8 @@
 NetBox is `fake.FakeNetBox` and Prefect an `httpx.MockTransport` handler of this file's: nothing here opens a socket
 or starts a process. The tokens and the basic auth are values of the tests' own. No value of the auth or of its header
 is compared inside an assert, whose message would print it: each is compared first and the assert given the answer
-alone (`same`), as `core/tests/test_config.py` does. Every URL is built from its parts, since no file under `netbox/`
-writes one with its host (`test_tree.py`).
+alone (`same`), as fylgja-core's `core/tests/test_config.py` does. Every URL is built from its parts, since no file
+under `netbox/` writes one with its host (`test_tree.py`).
 """
 
 from __future__ import annotations

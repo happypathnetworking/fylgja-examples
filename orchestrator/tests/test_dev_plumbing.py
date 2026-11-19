@@ -44,7 +44,8 @@ edge_dev = _load()
 
 
 def same(a: object, b: object) -> bool:
-    """`a == b` as a bool, so that a failure shows no token (as `core/tests/test_config.py`'s `same()`)."""
+    """`a == b` as a bool, so that a failure shows no token (as fylgja-core's `core/tests/test_config.py`'s
+    `same()`)."""
     return a == b
 
 

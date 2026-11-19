@@ -85,7 +85,7 @@ from pathlib import Path
 from typing import IO, Any, NamedTuple, Protocol
 
 ROOT = Path(__file__).resolve().parent.parent
-"""The checkout this file is in: every child's working directory, and whose venv and packages the core runs from."""
+"""The checkout this file is in: every child's working directory, and whose venv the core runs from."""
 
 SOURCES = ("infrahub", "netbox")
 """The sources of truth a demonstration is of."""
@@ -132,7 +132,8 @@ SOURCE_MB = {"infrahub": 4608, "netbox": 1536}
 
 TWIN_MB = 7168
 """The memory the twin and the edge need, in MiB: the fixture's three nodes at 2048 MiB each by
-`psp/nokia_srlinux.yaml`, and 1024 for the probes' hosts, the core, Prefect and the runner, a first value."""
+fylgja-core's `psp/nokia_srlinux.yaml`, and 1024 for the probes' hosts, the core, Prefect and the runner, a first
+value."""
 
 POOL = "FYLGJA_LAB_POOL"
 DEFAULT_POOL = "172.20.0.0/16"
@@ -165,7 +166,7 @@ environment where that holds it, so no make child of the script's is given one (
 variables are its command line's alone."""
 
 IMAGES = ("ghcr.io/nokia/srlinux:24.7.1", "alpine:3.24.2")
-"""The images the seeded twin runs, its nodes' and its probe hosts', as `psp/nokia_srlinux.yaml` and
+"""The images the seeded twin runs, its nodes' and its probe hosts', as fylgja-core's `psp/nokia_srlinux.yaml` and
 `probes/ping.yaml` name them, held equal by a test."""
 
 LISTEN = "FYLGJA_LISTEN"
@@ -296,7 +297,7 @@ this is 231 times the slowest."""
 
 DESTROY_TIMEOUT_S = 300
 """Seconds one `fylgja-core twin destroy` is given: one was read to take 2.3 s (the same facts), and
-`psp/nokia_srlinux.yaml` gives a node 60 s to stop; a first value."""
+fylgja-core's `psp/nokia_srlinux.yaml` gives a node 60 s to stop; a first value."""
 
 ASK_S = 1.0
 """Seconds between two asks of a process just started: of the core's version, and of the runner's line, process and
@@ -977,14 +978,14 @@ def say_not_passed_on(env: Mapping[str, str], given: Sequence[str]) -> None:
 
 
 def core_env(env: Mapping[str, str], records: Records, listen: str) -> dict[str, str]:
-    """The demonstration's core's environment: a step's, with the local driver, the demonstration's own store, this
-    checkout's packages and the listen address, and with no certificate, key or lease. `<local>/.env`'s own token
-    file and store are never the demonstration's core's, so every twin it lists is the demonstration's."""
+    """The demonstration's core's environment: a step's, with the local driver, the demonstration's own store and the
+    listen address (no `FYLGJA_PACKAGES`: the core loads its wheel's packages, D-124), and with no certificate, key or
+    lease. `<local>/.env`'s own token file and store are never the demonstration's core's, so every twin it lists is
+    the demonstration's."""
     given = {name: value for name, value in step_env(env, records, listen).items() if name not in NOT_THE_CORES}
     return given | {
         "FYLGJA_DRIVER": "containerlab",
         STORE: str(records.store),
-        "FYLGJA_PACKAGES": f"{ROOT / 'psp'}:{ROOT / 'probes'}",
         LISTEN: listen,
     }
 

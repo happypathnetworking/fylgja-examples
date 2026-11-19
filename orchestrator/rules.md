@@ -3,8 +3,8 @@
 Every finding the example orchestrator files has a stable dotted rule id, as the core's do
 (Constitution X), and its documents, its checks and its tests match on the id, never on the
 wording. These rules are the example's own, never the core's
-([`formats/README.md`](../formats/README.md), note 11); the core's are in
-[`docs/rules.md`](../docs/rules.md). Each is filed as a finding of a plan 1 or a rehearsal 1
+([`formats/README.md`](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/formats/README.md), note 11); the core's are in
+[`docs/rules.md`](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/docs/rules.md). Each is filed as a finding of a plan 1 or a rehearsal 1
 document ([`plan-1.schema.json`](../formats/plan-1.schema.json),
 [`rehearsal-1.schema.json`](../formats/rehearsal-1.schema.json)), or, for the commands' own,
 beside a command's answer, its sentence the finding's message, and the code names each by a
@@ -16,7 +16,7 @@ stop dropped and the message cut to 300 characters, the last of them `…`, the 
 colon left out where the failure names none. A sentence with no stage in progress drops its
 `at stage {k}, {label}` or `of stage {k}, {label}` clause. `{twin}` is the twin's name. Three
 are the change source's own words, which the library takes from it and never says itself
-([D-097](../design/decisions.md#d-097)): `{Again}` is the source's `again`, the sentence that
+([D-097](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-097)): `{Again}` is the source's `again`, the sentence that
 says how the rehearsal is asked for again, whole; `{again}` is that sentence as the end of
 another, its first letter lowered and its final full stop dropped; and `{scope_remedy}` is the
 source's `scope_remedy`, the sentence that says where the scope is checked, whole. The Infrahub
@@ -27,13 +27,13 @@ given.` A row names its other placeholders.
 ## The rehearsal's errors
 
 A rehearsal's status is given by its document's first error finding, the cause, and by
-nothing else ([D-086](../design/decisions.md#d-086)): `passed` where there is none; `failed`
+nothing else ([D-086](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-086)): `passed` where there is none; `failed`
 where the change failed at a stage; `not_rehearsed` where the rehearsal could not be carried
 through for a reason that is not the change's; `stopped` where it was stopped before anything
 could be said of the change. The report's first sentence is the cause's sentence
-([D-087](../design/decisions.md#d-087)). A rehearsal ended by an exception it does not
+([D-087](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-087)). A rehearsal ended by an exception it does not
 conclude from, an interrupt or a cancel of whoever runs it among them, writes no document, and
-its caller concludes `stopped` ([D-085](../design/decisions.md#d-085)). The first two rules
+its caller concludes `stopped` ([D-085](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-085)). The first two rules
 are the plan's own, filed in its document; a rehearsal that ends at its plan files the same
 finding as its cause.
 
@@ -70,7 +70,7 @@ A warning is filed after the cause, and changes no status.
 `twin create` and `twin step` take one twin to a stage of a change, and file these beside what
 they answer, never in a document: no rehearsal files them, so none is a rehearsal's cause. A
 command keeps a record of the stage each twin it took stands at, trusted only while its
-blueprint id is the one the twin runs ([D-086](../design/decisions.md#d-086)). The two errors
+blueprint id is the one the twin runs ([D-086](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-086)). The two errors
 are a command's refusal of its target, which starts no run, and are `failed`, as every error
 has a status. Each names the twin as its object; `{twin}` is the twin, `{where}` the change in
 words, `{label}` a stage's label and `{scope}` the scope the stages are read under.
@@ -86,9 +86,9 @@ words, `{label}` a stage's label and `{scope}` the scope the stages are read und
 
 The example's Infrahub change source, [`fylgja_orchestrator.infrahub`](src/fylgja_orchestrator/infrahub/source.py),
 files these in a stage's read, beside the reader's own
-([`readers/infrahub/rules.md`](../readers/infrahub/rules.md)), and names each by a `RULE_*`
+([`readers/infrahub/rules.md`](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/readers/infrahub/rules.md)), and names each by a `RULE_*`
 constant of its own: the rehearsal library names no source's rules
-([D-085](../design/decisions.md#d-085)). An error refuses the stage, which the library files
+([D-085](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-085)). An error refuses the stage, which the library files
 as `stage.refused`, so it is `failed`; a warning or an info changes no status. `{label}` is the mark's
 label, `{branch}` the proposed change's source branch, `{destination}` the branch it goes into,
 `{cut}` the time `{branch}` was cut, as Infrahub answered it, and `{change}` the proposed
@@ -106,16 +106,16 @@ change's id.
 
 The example's NetBox change source, [`fylgja_orchestrator.netbox`](src/fylgja_orchestrator/netbox/source.py),
 files these in a stage's read, beside the reader's own
-([`readers/netbox/rules.md`](../readers/netbox/rules.md)), and names each by a `RULE_*`
+([`readers/netbox/rules.md`](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/readers/netbox/rules.md)), and names each by a `RULE_*`
 constant of its own: the rehearsal library names no source's rules
-([D-085](../design/decisions.md#d-085), [D-097](../design/decisions.md#d-097)). An error
+([D-085](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-085), [D-097](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-097)). An error
 refuses the stage, which the library files as `stage.refused`, so it is `failed`; a warning
 changes no status. `{label}` is the mark's label, `{branch}` the branch's name, `{entry}` the id
 of the mark's journal entry, `{scope}` the scope the rehearsal reads under, and `{time}` the
 branch's `last_sync`, or its `created` where that is null. A mark's errors are filed from its
 entry alone, the core unasked, but `mark.unheld`, which the core's answer decides. A label is
 unique within its branch and is never taken twice, and NetBox reads no branch as it stood
-earlier ([D-097](../design/decisions.md#d-097)), so a step is marked again only once its entry is
+earlier ([D-097](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-097)), so a step is marked again only once its entry is
 deleted and only while the branch still stands at that step: `{Redo}` is the sentence `Have someone
 who may delete journal entries delete entry {entry} in NetBox and mark the step again, which can be
 done only while the branch still stands at that step; otherwise seed the change again.`, and

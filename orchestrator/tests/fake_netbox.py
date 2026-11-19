@@ -122,7 +122,8 @@ class FakeNetBox:
         return [(m, path) for m, path, _, _ in self.log if method is None or m == method]
 
     def __call__(self, request: httpx.Request) -> httpx.Response:
-        # Compared outside any assert, so that no failure prints the header (core/tests/test_config.py's `same`).
+        # Compared outside any assert, so that no failure prints the header (fylgja-core's
+        # core/tests/test_config.py's `same`).
         header = request.headers.get("Authorization") == f"Bearer {TOKEN}"
         elsewhere = TOKEN in str(request.url) or TOKEN in request.content.decode()
         self.keyed = self.keyed and header and not elsewhere and "X-NetBox-Branch" not in request.headers

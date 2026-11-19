@@ -51,6 +51,8 @@ CITED = {
     "opsmill/infrahub": "Infrahub's repository, cited by README.md",
     "clabernetes/clabernetes": "clabernetes' repository, cited by README.md",
     "netbox-community/netbox-docker": "netbox-docker's release, fetched by scripts/netbox_dev.py",
+    "happypathnetworking/fylgja": "fylgja-core's repository, linked to at its pinned tag by the documents",
+    "happypathnetworking/fylgja-examples": "this repository, linked to at a tag by its own documents",
 }
 """Repositories on github.com the tree cites outside the organisation the formats' ids name."""
 
@@ -77,7 +79,9 @@ NOT_HOSTS = {
 NOT_A_SITES = {
     "0.0.0.0": "every address: a listener on all interfaces, and the whole IPv4 space of a policy",
     "1.37.0.8": "lightkube-models' version",
-    "172.20.0.0": "the local driver's default pool of lab subnets (core/src/fylgja_core/containerlab/pool.py)",
+    "172.20.0.0": (
+        "the local driver's default pool of lab subnets (fylgja-core's core/src/fylgja_core/containerlab/pool.py)"
+    ),
     "172.20.1.0": "the subnet the golden deployments are rendered with, from that pool (scripts/render-goldens.py)",
     "172.20.20.3": "a management address containerlab gave on its own default network, as read",
     "10.244.0.0": "the example network of FYLGJA_POD_CIDR's documentation (.env.example, CONTRIBUTING.md)",

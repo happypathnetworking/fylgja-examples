@@ -6,8 +6,8 @@ network, starts the core and the example orchestrator, makes a change in the sou
 twin to rehearse it and says the verdict and where the report is read.
 
 A demonstration is a development tool, run from a clone of the repository. It is not installed, and
-what it does is not promised the way the commands in [the command line](cli.md) are. The example
-orchestrator it uses is described in [integrating Fylgja](integrating.md).
+what it does is not promised the way the commands in [the command line](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/docs/cli.md) are. The example
+orchestrator it uses is described in [integrating Fylgja](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/docs/integrating.md).
 
 ## What the host must have
 

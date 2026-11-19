@@ -11,7 +11,7 @@ import json
 import re
 from pathlib import Path
 
-import pytest
+from fylgja_core import schemas
 
 from fylgja_orchestrator import infrahub, netbox
 from fylgja_orchestrator.rehearsal import rules
@@ -127,9 +127,8 @@ def test_the_netbox_sources_section_holds_exactly_its_rules_with_their_severity(
         assert sentence, rule
 
 
-@pytest.mark.xfail(strict=True, reason="Task 4: formats/findings-1.schema.json")
 def test_every_rule_is_a_rule_id_as_findings_1_has_it() -> None:
-    schema = json.loads((ROOT / "formats" / "findings-1.schema.json").read_text())
+    schema = json.loads((schemas.formats_dir("fylgja_core") / "findings-1.schema.json").read_text())
     pattern = re.compile(schema["$defs"]["rule"]["pattern"])
     every = [*rules.SEVERITY, *infrahub.SEVERITY, *netbox.SEVERITY]
     assert "mark.unheld" in every, "the list is blind"

@@ -2,12 +2,13 @@
 a local store, the shipped packages, the real reconcile loop and verify, and the core's fakes of a runtime, served by
 uvicorn on a loopback port in a thread, and reached by the core's own client as two principals.
 
-It is built as `core/tests/test_api.py` builds its application, whose fixture keeps its push and readiness fakes to
-itself. Starlette's `TestClient` answers a request only once its response has ended, so no `Client` could watch
-through it: the application is served for real. The runtime seeds the gNMI reader from every bundle it applies, so
-verify holds on every twin unless a test says otherwise. Every clock and wait the library is handed in a test is a
-`Clock`, which never waits what it is asked; a test acts on the harness through it, through a `Wrapped` client, or
-at a `progress` line it names. A client over `Widening` reads the served core as a later minor release may answer.
+It is built as fylgja-core's `core/tests/test_api.py` builds its application, whose fixture keeps its push and
+readiness fakes to itself. Starlette's `TestClient` answers a request only once its response has ended, so no `Client`
+could watch through it: the application is served for real. The runtime seeds the gNMI reader from every bundle it
+applies, so verify holds on every twin unless a test says otherwise. Every clock and wait the library is handed in a
+test is a `Clock`, which never waits what it is asked; a test acts on the harness through it, through a `Wrapped`
+client, or at a `progress` line it names. A client over `Widening` reads the served core as a later minor release may
+answer.
 """
 
 from __future__ import annotations

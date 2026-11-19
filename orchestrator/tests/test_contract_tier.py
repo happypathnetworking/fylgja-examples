@@ -72,7 +72,7 @@ def test_a_secret_shows_its_name_alone() -> None:
 def test_a_fixture_failing_while_it_holds_a_token_shows_no_value(tmp_path: Path) -> None:
     (tmp_path / "conftest.py").write_text(CONFTEST)
     (tmp_path / "test_failing.py").write_text(FAILING)
-    environ = {"PATH": "/usr/bin:/bin", "PYTHONPATH": f"{TESTS}:{TESTS.parents[1] / 'core' / 'tests'}",
+    environ = {"PATH": "/usr/bin:/bin", "PYTHONPATH": str(TESTS),
                "FYLGJA_INFRAHUB_WRITE_TOKEN": READ}
     ran = subprocess.run(
         [sys.executable, "-m", "pytest", "-q", "-rA", "--tb=long", "-p", "no:cacheprovider", "-p", "no:randomly",
@@ -108,7 +108,7 @@ def test_a_fixture_of_the_netbox_tier_failing_while_it_holds_a_token_shows_no_va
     variable's name too."""
     (tmp_path / "conftest.py").write_text(NETBOX_CONFTEST)
     (tmp_path / "test_failing.py").write_text(NETBOX_FAILING)
-    environ = {"PATH": "/usr/bin:/bin", "PYTHONPATH": f"{TESTS}:{TESTS.parents[1] / 'core' / 'tests'}",
+    environ = {"PATH": "/usr/bin:/bin", "PYTHONPATH": str(TESTS),
                "FYLGJA_NETBOX_WRITE_TOKEN": READ, "FYLGJA_NETBOX_ADDRESS": NETBOX}
     ran = subprocess.run(
         [sys.executable, "-m", "pytest", "-q", "-rA", "--tb=long", "-p", "no:cacheprovider", "-p", "no:randomly",

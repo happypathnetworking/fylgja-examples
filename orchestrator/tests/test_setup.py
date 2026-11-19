@@ -13,6 +13,7 @@ from pathlib import Path
 from types import ModuleType
 
 import pytest
+from fylgja_core import schemas
 
 ROOT = Path(__file__).resolve().parents[2]
 SETUP = ROOT / "orchestrator" / "setup.py"
@@ -31,11 +32,10 @@ def _listed(path: Path, name: str) -> tuple[str, ...]:
     return found
 
 
-@pytest.mark.xfail(strict=True, reason="Task 4: core/setup.py")
 def test_the_list_names_formats_under_formats_and_none_of_the_cores() -> None:
     listed = _listed(SETUP, "ORCHESTRATOR_FORMATS")
     assert list(listed) == sorted(set(listed))
-    core = _listed(ROOT / "core" / "setup.py", "CORE_FORMATS")
+    core = sorted(path.name for path in schemas.formats_dir("fylgja_core").iterdir())
     assert "blueprint-1.schema.json" in core
     assert set(listed).isdisjoint(core)
     assert [n for n in listed if not (ROOT / "formats" / n).is_file()] == []

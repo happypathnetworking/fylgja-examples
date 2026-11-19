@@ -5,7 +5,7 @@ Infrahub is a fake behind `httpx.MockTransport`: the admin's GraphQL by the writ
 a login's bearer, and `AccountProfile` answered to an account's token or refused 401 where the token is none or its
 account is gone (design/verified-facts.md, "Infrahub 1.11.11"). Nothing here opens a socket or starts a process. No
 value of a token or a password is compared inside an assert, whose message would print it: each is compared first
-and the assert given the answer alone (as `core/tests/test_config.py`'s `same()`).
+and the assert given the answer alone (as fylgja-core's `core/tests/test_config.py`'s `same()`).
 """
 
 from __future__ import annotations

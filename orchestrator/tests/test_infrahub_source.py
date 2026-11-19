@@ -89,7 +89,8 @@ class Hub:
         self.info_status = 200
 
     def __call__(self, request: httpx.Request) -> httpx.Response:
-        # Compared outside any assert, so that no failure prints the header (core/tests/test_config.py's `same`).
+        # Compared outside any assert, so that no failure prints the header (fylgja-core's
+        # core/tests/test_config.py's `same`).
         self.keyed = self.keyed and request.headers.get("X-INFRAHUB-KEY") == TOKEN
         if request.url.path == "/api/info":
             self.versions += 1
