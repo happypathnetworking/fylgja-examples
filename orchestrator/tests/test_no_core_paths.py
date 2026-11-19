@@ -36,6 +36,13 @@ CORES_PROJECTS = re.compile(r"fylgja-core-(?:infrahub|netbox)")
 """A Compose project, image, user agent or network (`fylgja-core-netbox_default`) of fylgja-core's own development
 sources: this repository's take names of their own, so that the two run one at a time on a host (D-123)."""
 
+QUOTED_READING = (
+    "orchestrator/tests/demo_host.py",
+    '"fylgja-core-netbox_default" [{"Subnet":"198.51.100.0/24"',
+)
+"""The one place that names a project of fylgja-core's: a Docker reading quoted as it was made, on fylgja-core's
+development NetBox. Only the line holding that text is let through."""
+
 COPIES = {
     "orchestrator/tests/fakes.py": "core/tests/fakes.py",
     "orchestrator/tests/boundary.py": "core/tests/test_boundary.py",
@@ -91,7 +98,7 @@ def test_no_file_names_fylgja_cores_projects() -> None:
         found += [
             f"{path}:{number}: {line.strip()}"
             for number, line in enumerate(body.splitlines(), 1)
-            if CORES_PROJECTS.search(line)
+            if CORES_PROJECTS.search(line) and not (path == QUOTED_READING[0] and QUOTED_READING[1] in line)
         ]
     assert found == []
 
