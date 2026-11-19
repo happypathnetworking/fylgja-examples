@@ -69,3 +69,16 @@ def test_the_check_installs_the_three_at_version(monkeypatch: pytest.MonkeyPatch
         str(tmp_path / "example.whl"),
     ]
     assert not {"--no-index", "--find-links", "--constraints", "--prerelease"} & set(argv)
+
+
+def test_the_check_installs_by_install_pinned_and_not_a_bare_install() -> None:
+    """`check_orchestrator` calls `install_pinned` once and `install` never, so the pins cannot be dropped from it."""
+    tree = ast.parse(SCRIPT.read_text(), str(SCRIPT))
+    function = next(n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == "check_orchestrator")
+    called = [
+        node.func.id
+        for node in ast.walk(function)
+        if isinstance(node, ast.Call) and isinstance(node.func, ast.Name)
+    ]
+    assert called.count("install_pinned") == 1
+    assert "install" not in called

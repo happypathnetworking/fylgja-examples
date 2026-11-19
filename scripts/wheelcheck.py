@@ -87,8 +87,8 @@ NOT_BESIDE = ("starlette", "uvicorn", "grpc", "google.protobuf", "httpx2", "ligh
 NOT_BESIDE_EDGE = tuple(name for name in NOT_BESIDE if name not in READERS)
 NOT_INSTALLED = ("grpc", "google.protobuf", "httpx2", "lightkube", "msgspec", "pygnmi")
 # What each change source, by its package under `fylgja_orchestrator`, never loads: the other source and its reader.
-# `orchestrator/tests/test_boundary_edge.py` holds the same of what each names, and `core/tests/test_wheelcheck.py`
-# holds the two tuples equal.
+# `orchestrator/tests/test_boundary_edge.py` holds the same of what each names, and
+# `orchestrator/tests/test_wheelcheck.py` holds the two tuples equal.
 CROSSED = (
     ("infrahub", ("fylgja_netbox", "fylgja_orchestrator.netbox")),
     ("netbox", ("fylgja_infrahub", "fylgja_orchestrator.infrahub")),
@@ -203,8 +203,6 @@ class Failure(Exception):
     pass
 
 
-
-
 def tree_version(path: Path = VERSION) -> str:
     """The tree's version, the one line of `path` stripped; `Failure` naming the file where it is not one line."""
     try:
@@ -230,7 +228,6 @@ def versioned(wheel: Path, version: str) -> None:
     said = metadata(wheel)["Version"]
     if said != version:
         raise Failure(f"{wheel.name} is version {said}, and VERSION says {version}")
-
 
 
 @functools.cache
@@ -398,8 +395,6 @@ def carried_by_example(wheel: Path) -> int:
         raise Failure(f"{wheel.name} does not carry the example's formats, its GraphQL documents and py.typed, and no "
                       "other:\n" + "\n".join(problems))
     return sum(1 for n in names if n.startswith(ORCHESTRATOR_QUERIES) and n.endswith(".gql"))
-
-
 
 
 def check_orchestrator(tmp: Path) -> str:
