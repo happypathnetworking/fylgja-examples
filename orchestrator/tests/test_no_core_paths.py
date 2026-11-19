@@ -25,9 +25,6 @@ OUTSIDE = (
 file, or a relative path out of the tree."""
 PYPROJECT = re.compile(r"\bcore/tests\b|\breaders/")
 
-TO_BE_TRIMMED = ("scripts/wheelcheck.py",)
-"""Files still holding fylgja-core's own build checks, which the trim of the wheel check removes."""
-
 AT_MAIN = re.compile(
     r"github\.com/happypathnetworking/fylgja(?:-examples)?/(?:blob|tree|raw)/(?:main|HEAD)(?![\w.-])"
 )
@@ -65,7 +62,7 @@ def text(path: str) -> str | None:
 
 def test_no_tracked_file_reads_a_path_of_fylgja_core() -> None:
     found = []
-    held = [path for path in tracked() if path != HERE and path not in TO_BE_TRIMMED]
+    held = [path for path in tracked() if path != HERE]
     for path in held:
         body = text(path)
         if body is None:

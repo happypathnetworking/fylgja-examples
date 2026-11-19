@@ -87,8 +87,9 @@ linkcheck:
 	python3 -I scripts/linkcheck.py
 
 # The example's wheel, built from orchestrator/ and formats/ with its two formats and its Infrahub change source's
-# queries, installed beside the three pinned distributions from PyPI alone, where both its change sources import and
-# its command answers --help. Needs the network.
+# queries, installed in an empty environment beside fylgja-core, fylgja-infrahub and fylgja-netbox at VERSION from
+# PyPI, never built here, where both its change sources import, each with nothing of the other, and its command
+# answers --help and --version. Needs the network, and no Docker.
 wheelcheck:
 	python3 -I scripts/wheelcheck.py
 
