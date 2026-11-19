@@ -243,8 +243,9 @@ PRINCIPALS = ((API_TOKEN, "demo"), (RUNNER_TOKEN, "orchestrator"))
 """The two tokens the demonstration's core knows, each by its name in the environment, with the principal its hash
 is listed under in the token file (D-025): the client's, and the runner's, which `make orchestrator-env` makes."""
 
-NOT_THE_CORES = ("FYLGJA_TLS_CERT", "FYLGJA_TLS_KEY", "FYLGJA_LEASE")
-"""Settings the demonstration's core is never given: it serves HTTP on loopback, over a store that is a directory."""
+NOT_THE_CORES = ("FYLGJA_TLS_CERT", "FYLGJA_TLS_KEY", "FYLGJA_LEASE", "FYLGJA_PACKAGES")
+"""Settings the demonstration's core is never given: it serves HTTP on loopback, over a store that is a directory, and
+it loads its wheel's packages (D-124)."""
 
 REQUEST_TIMEOUT_S = 30
 """Seconds one request is given to answer."""

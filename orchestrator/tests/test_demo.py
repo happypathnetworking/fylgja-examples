@@ -710,6 +710,15 @@ def test_prepare_makes_the_directory_and_the_files_at_their_modes_and_keeps_ever
     assert sorted(path.name for path in local.iterdir()) == [".env", "demo"]
 
 
+def test_the_core_is_given_no_packages_whether_the_shell_or_the_file_holds_some() -> None:
+    host = FakeHost()
+    host.files[ENV_FILE] = "FYLGJA_PACKAGES=from-the-file\n"
+    env = demo.loaded(LOCAL, ENV | {"FYLGJA_PACKAGES": "from-the-shell"}, host)
+    assert env["FYLGJA_PACKAGES"] == "from-the-file"
+    core = demo.core_env(env, demo.records(LOCAL), "127.0.0.1:7700")
+    assert "FYLGJA_PACKAGES" not in core
+
+
 def test_the_core_is_given_its_own_store_tokens_driver_and_packages() -> None:
     assert demo.ROOT == ROOT
     kept = demo.records(LOCAL)
