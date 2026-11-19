@@ -1,4 +1,4 @@
-# fylgja-core (CONTRIBUTING.md).
+# fylgja-examples (CONTRIBUTING.md).
 
 .PHONY: all demo-dependencies venv test lint linkcheck wheelcheck \
 	infrahub-up infrahub-down infrahub-register infrahub-seed contract orchestrator-env prefect-up prefect-down \

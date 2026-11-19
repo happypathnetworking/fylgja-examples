@@ -154,7 +154,7 @@ NetBox's demonstration's time: NetBox was healthy about 730 to 790 seconds after
 readings of 732 to 793 seconds. Infrahub answered about 155 seconds after Compose's start, in five
 readings of 153 to 159 seconds.
 
-Why it is so: the readings are in [verified-facts.md](../design/verified-facts.md).
+Why it is so: the readings are in [verified-facts.md](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/verified-facts.md).
 
 ## What it writes
 

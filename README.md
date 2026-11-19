@@ -1,0 +1,44 @@
+# Fylgja examples
+
+The example orchestrator and the demonstrations of [Fylgja](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/README.md). Fylgja turns a
+blueprint, a network's intent, into a twin: that network running on real network operating system
+images, where a change is rehearsed before it reaches production. This repository shows how to
+join it to a source of truth.
+
+The example orchestrator, under `orchestrator/`, rehearses a change of a source of truth on a
+twin and files the report where the source files such things: a proposed change in
+[Infrahub](https://github.com/opsmill/infrahub), or a branch in NetBox. It is a client of the
+core like any other, through the core's API alone.
+[Integrating Fylgja](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/docs/integrating.md) walks through it.
+
+## One release
+
+The example installs the released packages from PyPI, `fylgja-core`, `fylgja-infrahub` and
+`fylgja-netbox`, each pinned exactly at one release, the one `VERSION` names, and its lock is its
+own. A change here never needs a change of the core, and a change of the core reaches here at a
+release. [CONTRIBUTING.md](CONTRIBUTING.md#moving-to-a-release) says how the pins move.
+
+## A demonstration
+
+From a clone, on a host that meets [what the demonstrations need](docs/demonstrations.md), one
+command starts a source of truth, seeds it with a network, makes a change in it and rehearses the
+change on a twin:
+
+```sh
+make netbox-demo
+```
+
+`make infrahub-demo` does the same with Infrahub, from a branch, since it refuses a detached head.
+`make demo-down` ends what either started. [The demonstrations](docs/demonstrations.md) say what
+each writes and leaves.
+
+## Read on
+
+- [CONTRIBUTING.md](CONTRIBUTING.md) says how to set up, test and change the repository, and
+  holds the runbooks the demonstrations take.
+- [fylgja-core](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/README.md) holds the core, the two readers and the pages of the server, the
+  command and API 1.
+
+## Licence
+
+[Apache License 2.0](LICENSE).

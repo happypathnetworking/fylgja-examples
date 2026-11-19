@@ -3681,7 +3681,6 @@ def as_the_runbook_has_it(source: str, step: Any, less: tuple[str, ...] = ()) ->
     return " ".join(["make", step.target, *(variable for variable in step.variables if variable not in less)])
 
 
-@pytest.mark.xfail(strict=True, reason="Task 7: CONTRIBUTING.md")
 def test_each_sources_steps_are_its_runbooks_in_its_order() -> None:
     assert set(demo.STEPS) == set(demo.SOURCES)
     assert {step.kind for steps in demo.STEPS.values() for step in steps} == {"make", "core", "runner"}
