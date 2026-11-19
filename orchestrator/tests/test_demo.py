@@ -96,8 +96,8 @@ WHERE = ["--local", str(LOCAL), "--main", str(MAIN)]
 MEMINFO = Path("/proc/meminfo")
 ENV_FILE = LOCAL / ".env"
 LOCK = LOCAL / "demo" / "lock"
-INFRAHUB_UP = ("docker", "ps", "-q", "--filter", "label=com.docker.compose.project=fylgja-core-infrahub")
-NETBOX_UP = ("docker", "ps", "-q", "--filter", "label=com.docker.compose.project=fylgja-core-netbox")
+INFRAHUB_UP = ("docker", "ps", "-q", "--filter", "label=com.docker.compose.project=fylgja-examples-infrahub")
+NETBOX_UP = ("docker", "ps", "-q", "--filter", "label=com.docker.compose.project=fylgja-examples-netbox")
 
 
 def up(source: str, ref: str = "main") -> list[str]:
@@ -4284,7 +4284,7 @@ def test_a_network_that_holds_the_whole_pool_stops_the_run_with_the_source_left_
     # After step 1 alone: the source is up, and it is left up, no `down` of it run.
     assert targets.asked == [["netbox-up"]]
     assert acts(host)[-4:] == [made(local, "netbox-up"), *networks_read(host), [*UP["netbox"]]]
-    assert (host.up, host.started) == ({"fylgja-core-netbox"}, [])
+    assert (host.up, host.started) == ({"fylgja-examples-netbox"}, [])
     holding = [
         ("a", IPv4Network("172.16.0.0/12")),
         ("b", IPv4Network("172.20.3.0/24")),
@@ -4316,18 +4316,18 @@ def test_a_network_that_holds_the_whole_pool_stops_the_run_with_the_source_left_
     # With a pool of the host's own loaded, the four hold none of it: no stop.
     local, _, host, targets = first(tmp_path / "moved")
     host.networks += pool_networks()
-    EDGE_DEV.append(local / ".env", ["FYLGJA_LAB_POOL=192.0.2.0/24"])
+    EDGE_DEV.append(local / ".env", ["FYLGJA_LAB_POOL=198.51.100.0/24"])
     assert status(host, up_of(local, "netbox", "")) == 0
     assert len(targets.asked) == 6 and capsys.readouterr().err == ""
     # The core is given the same pool, by its environment.
-    assert host.started[0].env["FYLGJA_LAB_POOL"] == "192.0.2.0/24"
+    assert host.started[0].env["FYLGJA_LAB_POOL"] == "198.51.100.0/24"
     # And where that pool's one /24 is held, the stop names the pool as loaded.
     local, _, host, targets = first(tmp_path / "moved-and-held")
-    host.networks.append(("e", ["192.0.2.128/25"]))
-    EDGE_DEV.append(local / ".env", ["FYLGJA_LAB_POOL=192.0.2.0/24"])
+    host.networks.append(("e", ["198.51.100.128/25"]))
+    EDGE_DEV.append(local / ".env", ["FYLGJA_LAB_POOL=198.51.100.0/24"])
     assert status(host, up_of(local, "infrahub")) == 2
     assert capsys.readouterr().err.splitlines() == [
-        f"demo: {pool.refusal(IPv4Network('192.0.2.0/24'), [('e', IPv4Network('192.0.2.128/25'))])}",
+        f"demo: {pool.refusal(IPv4Network('198.51.100.0/24'), [('e', IPv4Network('198.51.100.128/25'))])}",
         "demo: infrahub is left up: set FYLGJA_LAB_POOL in local/.env, then run make infrahub-demo again",
         f"demo: {left_up('infrahub')}",
     ]
@@ -4613,7 +4613,7 @@ def test_the_other_source_is_stopped_first_where_it_is_up(tmp_path: Path, capsys
         f"demo: `{' '.join(INFRAHUB_UP)}` exited 1: whether infrahub is up was not read, and nothing was started",
         f"demo: {NOTHING_LEFT}",
     ]
-    assert (host.up, host.started) == ({"fylgja-core-infrahub"}, [])
+    assert (host.up, host.started) == ({"fylgja-examples-infrahub"}, [])
 
 
 def test_a_stop_of_the_other_source_that_fails_ends_the_run(
@@ -5123,7 +5123,7 @@ def test_nothing_is_stopped_for_a_run_that_could_never_start(
     assert status(host, up_of(local, "infrahub", "")) == 2
     assert capsys.readouterr().err.splitlines() == [no_branch]
     assert acts(host) == [["docker", "info"], ["docker", "compose", "version"], ["containerlab", "version"]]
-    assert (host.up, targets.asked, host.started, host.signalled) == ({"fylgja-core-netbox"}, [], [], [])
+    assert (host.up, targets.asked, host.started, host.signalled) == ({"fylgja-examples-netbox"}, [], [], [])
     assert sorted(path.name for path in local.iterdir()) == [".env"]
 
     # The same of each such check over what an earlier NetBox run left, its runner and its core up with a twin: no
@@ -5947,12 +5947,12 @@ def test_the_fake_host_answers_as_the_real_one_does() -> None:
     # not, until it is pulled.
     host = passing()
     assert host.run([*NETBOX_UP], capture=True) == demo.Done(0, "")
-    host.up = {"fylgja-core-netbox"}
+    host.up = {"fylgja-examples-netbox"}
     ids = host.run([*NETBOX_UP], capture=True).out.split()
     assert len(ids) == 2 and all(len(each) == 12 and int(each, 16) >= 0 for each in ids)
     assert host.run([*INFRAHUB_UP], capture=True) == demo.Done(0, "")
     assert host.run(["docker", "ps", "-q"], capture=True).out.split() == ids
-    host.networks.append(("fylgja-core-netbox_default", ["198.51.100.0/24"]))
+    host.networks.append(("fylgja-examples-netbox_default", ["192.0.2.0/24"]))
     host.networks.append(("both", ["172.20.0.0/16", "fd00::/64"]))
     listed = host.run([*NETWORK_IDS], capture=True).out.split()
     assert len(listed) == len(set(listed)) == 5 and all(len(each) == 12 for each in listed)
@@ -5962,7 +5962,7 @@ def test_the_fake_host_answers_as_the_real_one_does() -> None:
         '"bridge" [{"Subnet":"172.17.0.0/16","Gateway":"172.17.0.1"}]\n'
         '"host" null\n'
         '"none" null\n'
-        '"fylgja-core-netbox_default" [{"Subnet":"198.51.100.0/24","Gateway":"198.51.100.1"}]\n'
+        '"fylgja-examples-netbox_default" [{"Subnet":"192.0.2.0/24","Gateway":"192.0.2.1"}]\n'
         '"both" [{"Subnet":"172.20.0.0/16","Gateway":"172.20.0.1"},{"Subnet":"fd00::/64","Gateway":"fd00::1"}]\n',
     )
     assert host.run([*inspect_, listed[4], listed[1]], capture=True).out.splitlines() == [

@@ -21,7 +21,7 @@
 # volumes, so that the start makes it with this range; what Compose's `up` alone does to such a network was not read.
 services:
   netbox:
-    image: fylgja-core-netbox:${FYLGJA_NETBOX_VERSION:?}-${FYLGJA_NETBOX_BRANCHING_VERSION:?}
+    image: fylgja-examples-netbox:${FYLGJA_NETBOX_VERSION:?}-${FYLGJA_NETBOX_BRANCHING_VERSION:?}
     pull_policy: never
     build:
       context: "${FYLGJA_NETBOX_DEV:?}"
@@ -43,7 +43,7 @@ services:
       SECRET_KEY: "${FYLGJA_NETBOX_SECRET_KEY:?}"
       API_TOKEN_PEPPER_1: "${FYLGJA_NETBOX_API_TOKEN_PEPPER:?}"
   netbox-worker:
-    image: fylgja-core-netbox:${FYLGJA_NETBOX_VERSION:?}-${FYLGJA_NETBOX_BRANCHING_VERSION:?}
+    image: fylgja-examples-netbox:${FYLGJA_NETBOX_VERSION:?}-${FYLGJA_NETBOX_BRANCHING_VERSION:?}
     pull_policy: never
     volumes:
       - "${FYLGJA_NETBOX_DEV:?}/plugins.py:/etc/netbox/config/plugins.py:ro"
@@ -56,4 +56,4 @@ networks:
   default:
     ipam:
       config:
-        - subnet: 198.51.100.0/24
+        - subnet: 192.0.2.0/24

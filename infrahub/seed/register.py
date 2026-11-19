@@ -61,7 +61,7 @@ IMPORT_WAIT_S = 300
 """How long the registration is read until it settles: a first import read `online` 80.3 s after its create was
 sent (design/verified-facts.md, "Infrahub 1.11.11")."""
 
-PROJECT = "fylgja-core-infrahub"
+PROJECT = "fylgja-examples-infrahub"
 """The development Infrahub's Compose project (`scripts/infrahub_dev.py`'s `PROJECT`), whose task workers are read."""
 
 GIT_DIRECTORY = "/opt/infrahub/git"

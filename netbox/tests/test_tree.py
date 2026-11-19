@@ -47,7 +47,7 @@ NAMES = (
 
 EXAMPLES = "FYLGJA_ORCHESTRATOR_NETBOX_TOKEN"
 
-IMAGE = "fylgja-core-netbox:${FYLGJA_NETBOX_VERSION:?}-${FYLGJA_NETBOX_BRANCHING_VERSION:?}"
+IMAGE = "fylgja-examples-netbox:${FYLGJA_NETBOX_VERSION:?}-${FYLGJA_NETBOX_BRANCHING_VERSION:?}"
 PLUGINS = "${FYLGJA_NETBOX_DEV:?}/plugins.py:/etc/netbox/config/plugins.py:ro"
 HOSTS = ["host.docker.internal:host-gateway"]
 KEYS = {

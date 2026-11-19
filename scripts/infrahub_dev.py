@@ -36,7 +36,7 @@ from collections.abc import Callable, Mapping, Sequence
 from http.client import HTTPException
 from pathlib import Path
 
-PROJECT = "fylgja-core-infrahub"
+PROJECT = "fylgja-examples-infrahub"
 """The Compose project; the stopped `fylgja-infrahub` beside it on the host is never named."""
 
 COMPOSE_URL = "https://infrahub.opsmill.io/{version}"
@@ -60,7 +60,7 @@ STOP_TIMEOUT_S = 60
 FETCH_TIMEOUT_S = 60
 """Seconds the published file's server is given to answer the fetch."""
 
-USER_AGENT = "fylgja-core-infrahub_dev"
+USER_AGENT = "fylgja-examples-infrahub_dev"
 """The fetch's User-Agent: the published file's server refused urllib's own with 403, and answered this one
 (design/verified-facts.md, "Infrahub 1.11.11")."""
 

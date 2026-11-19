@@ -32,6 +32,10 @@ AT_MAIN = re.compile(
     r"github\.com/happypathnetworking/fylgja(?:-examples)?/(?:blob|tree|raw)/(?:main|HEAD)(?![\w.-])"
 )
 
+CORES_PROJECTS = re.compile(r"fylgja-core-(?:infrahub|netbox)")
+"""A Compose project, image, user agent or network (`fylgja-core-netbox_default`) of fylgja-core's own development
+sources: this repository's take names of their own, so that the two run one at a time on a host (D-123)."""
+
 COPIES = {
     "orchestrator/tests/fakes.py": "core/tests/fakes.py",
     "orchestrator/tests/boundary.py": "core/tests/test_boundary.py",
@@ -75,6 +79,20 @@ def test_no_link_into_either_repository_is_at_main() -> None:
         if body is None or path == HERE:
             continue
         found += [f"{path}: {hit.group(0)}" for hit in AT_MAIN.finditer(body)]
+    assert found == []
+
+
+def test_no_file_names_fylgja_cores_projects() -> None:
+    found = []
+    for path in tracked():
+        body = text(path)
+        if body is None or path == HERE:
+            continue
+        found += [
+            f"{path}:{number}: {line.strip()}"
+            for number, line in enumerate(body.splitlines(), 1)
+            if CORES_PROJECTS.search(line)
+        ]
     assert found == []
 
 

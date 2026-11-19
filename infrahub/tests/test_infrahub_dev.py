@@ -260,7 +260,7 @@ def test_every_compose_command_names_the_project_the_directory_and_both_files(tm
         "docker",
         "compose",
         "-p",
-        "fylgja-core-infrahub",
+        "fylgja-examples-infrahub",
         "--project-directory",
         str(local / "infrahub"),
         "--env-file",

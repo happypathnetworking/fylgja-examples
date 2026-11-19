@@ -33,7 +33,7 @@ RIGHT = Status("4.7.5", "1.2.3", 1)
 BUILD = ["build", "netbox"]
 UP = ["up", "-d", "--quiet-pull"]
 DOWN = ["down", "--timeout", "60"]
-OTHER = "192.0.2.0/24"
+OTHER = "198.51.100.0/24"
 """A subnet that is not the override's, as the project's network stood before the override named one."""
 TOKEN = "nbt_abcdefghijkl." + "0123456789abcdefghijABCDEFGHIJ0123456789"
 """A token of the form NetBox presents: `nbt_`, a key of 12, a dot and a token of 40."""
@@ -322,7 +322,7 @@ def test_every_compose_command_names_the_project_the_release_and_both_files(tmp_
         "docker",
         "compose",
         "-p",
-        "fylgja-core-netbox",
+        "fylgja-examples-netbox",
         "--project-directory",
         str(found),
         "--env-file",
@@ -398,7 +398,7 @@ def test_up_recreates_a_network_of_another_subnet_and_keeps_the_volumes(
     volumes kept, and the start goes on."""
     network, run = Network(OTHER), Run(0, 0, 0)
     assert start(tmp_path, run, network=network) == 0
-    assert network.names == ["fylgja-core-netbox_default"]
+    assert network.names == ["fylgja-examples-netbox_default"]
     assert run.verbs() == [DOWN, BUILD, UP]
     prefix = netbox_dev.compose(tmp_path, V, override(tmp_path))
     assert all(argv[: len(prefix)] == prefix for argv, _ in run.calls)
@@ -410,7 +410,7 @@ def test_up_recreates_a_network_of_another_subnet_and_keeps_the_volumes(
 
 @pytest.mark.parametrize(
     "subnets",
-    [(), ("198.51.100.0/24", "2001:db8::/64")],
+    [(), ("192.0.2.0/24", "2001:db8::/64")],
     ids=["the-overrides", "with-an-ipv6-subnet-beside-it"],
 )
 def test_up_leaves_a_network_of_the_right_subnet(
@@ -426,10 +426,10 @@ def test_up_leaves_no_network_alone(tmp_path: Path, capsys: pytest.CaptureFixtur
     """A network that does not stand is said nothing of: the start makes it."""
     network, run = Network(absent=True), Run(0, 0)
     assert start(tmp_path, run, network=network) == 0
-    assert network.names == ["fylgja-core-netbox_default"]
+    assert network.names == ["fylgja-examples-netbox_default"]
     assert run.verbs() == [BUILD, UP]
     out, err = capsys.readouterr()
-    assert "fylgja-core-netbox_default" not in out + err
+    assert "fylgja-examples-netbox_default" not in out + err
 
 
 def test_up_says_a_network_it_could_not_inspect_and_goes_on(
@@ -441,7 +441,7 @@ def test_up_says_a_network_it_could_not_inspect_and_goes_on(
     assert start(tmp_path, run, network=network) == 0
     assert run.verbs() == [BUILD, UP]
     out, err = capsys.readouterr()
-    said = [line for line in (out + err).splitlines() if "fylgja-core-netbox_default" in line]
+    said = [line for line in (out + err).splitlines() if "fylgja-examples-netbox_default" in line]
     assert len(said) == 1
     assert "could not be inspected" in said[0] and "within 60 s" in said[0] and netbox_dev.SUBNET in said[0]
 
@@ -504,7 +504,7 @@ def test_up_ends_at_its_bound_naming_it(tmp_path: Path, capsys: pytest.CaptureFi
     assert 1200 <= clock.now <= 1200 + netbox_dev.POLL_S
     assert run.verbs() == [BUILD, UP]
     err = capsys.readouterr().err
-    assert "1200 s" in err and "docker compose -p fylgja-core-netbox logs netbox" in err
+    assert "1200 s" in err and "docker compose -p fylgja-examples-netbox logs netbox" in err
 
 
 def test_up_keeps_a_token_netbox_takes_and_provisions_where_it_is_refused_or_absent(tmp_path: Path) -> None:
@@ -743,22 +743,22 @@ def test_the_network_is_read_by_its_ipam_configuration(
     monkeypatch: pytest.MonkeyPatch, stdout: str, subnets: list[str]
 ) -> None:
     asked = inspected(monkeypatch, stdout=stdout)
-    assert netbox_dev.network_subnets("fylgja-core-netbox_default") == subnets
-    name = "fylgja-core-netbox_default"
+    assert netbox_dev.network_subnets("fylgja-examples-netbox_default") == subnets
+    name = "fylgja-examples-netbox_default"
     assert asked == [["docker", "network", "inspect", "--format", "{{json .IPAM.Config}}", name]]
 
 
 @pytest.mark.parametrize(
     "stderr",
     [
-        "Error response from daemon: network fylgja-core-netbox_default not found\n",
-        "Error: No such network: fylgja-core-netbox_default\n",
+        "Error response from daemon: network fylgja-examples-netbox_default not found\n",
+        "Error: No such network: fylgja-examples-netbox_default\n",
     ],
     ids=["not-found", "no-such-network"],
 )
 def test_a_network_docker_does_not_find_is_absent(monkeypatch: pytest.MonkeyPatch, stderr: str) -> None:
     inspected(monkeypatch, stderr=stderr, status=1)
-    assert netbox_dev.network_subnets("fylgja-core-netbox_default") is None
+    assert netbox_dev.network_subnets("fylgja-examples-netbox_default") is None
 
 
 @pytest.mark.parametrize(
@@ -776,7 +776,7 @@ def test_a_network_that_could_not_be_inspected_is_not_absent(
 ) -> None:
     inspected(monkeypatch, stdout=stdout, stderr=stderr, status=status, late=late)
     with pytest.raises(netbox_dev.Uninspected) as unread:
-        netbox_dev.network_subnets("fylgja-core-netbox_default")
+        netbox_dev.network_subnets("fylgja-examples-netbox_default")
     assert said in str(unread.value)
 
 

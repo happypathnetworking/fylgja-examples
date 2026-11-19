@@ -194,7 +194,7 @@ def registered(**fields: Any) -> dict[str, Any]:
     return {"id": ID, "ref": REF} | SETTLED | fields
 
 
-WORKERS = ("fylgja-core-infrahub-task-worker-1", "fylgja-core-infrahub-task-worker-2")
+WORKERS = ("fylgja-examples-infrahub-task-worker-1", "fylgja-examples-infrahub-task-worker-2")
 
 
 def everywhere(repository_id: str, commit: str) -> dict[str, bool]:
@@ -425,7 +425,7 @@ def test_no_task_worker_or_one_never_cloned_is_refused(schema: Path) -> None:
         register.register(hub, ref=REF, commit=COMMIT, schema=schema, clones=lambda _, __: {}, clock=clock,
                           sleep=clock.sleep)
     assert str(raised.value) == (
-        "no task worker of the Compose project fylgja-core-infrahub is running: start it with make infrahub-up"
+        "no task worker of the Compose project fylgja-examples-infrahub is running: start it with make infrahub-up"
     )
     assert none.mutations == []
 
@@ -463,7 +463,7 @@ def test_a_workers_clone_is_read_in_its_git_directory(monkeypatch: pytest.Monkey
     assert register.worker_clones(ID, COMMIT, run=run) == {WORKERS[0]: True, WORKERS[1]: False}
     assert calls == [
         [
-            "docker", "ps", "--filter", "label=com.docker.compose.project=fylgja-core-infrahub",
+            "docker", "ps", "--filter", "label=com.docker.compose.project=fylgja-examples-infrahub",
             "--filter", "label=com.docker.compose.service=task-worker", "--format", "{{.Names}}",
         ],
         ["docker", "exec", WORKERS[0], "test", "-d", f"/opt/infrahub/git/{ID}/commits/{COMMIT}"],

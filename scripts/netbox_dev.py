@@ -48,7 +48,7 @@ from dataclasses import dataclass
 from http.client import HTTPException
 from pathlib import Path
 
-PROJECT = "fylgja-core-netbox"
+PROJECT = "fylgja-examples-netbox"
 """The Compose project; the spike's `fylgja-netbox` is never named."""
 
 RELEASE_URL = "https://github.com/netbox-community/netbox-docker/archive/refs/tags/{version}.tar.gz"
@@ -105,7 +105,7 @@ INSPECT_TIMEOUT_S = 60
 NETWORK = f"{PROJECT}_default"
 """The project's one network, Compose's default, as Docker names it."""
 
-SUBNET = "198.51.100.0/24"
+SUBNET = "192.0.2.0/24"
 """The override's subnet for `NETWORK`: a documentation range, outside the private ranges Docker takes its networks'
 subnets from, so that it never meets the local driver's default lab pool (fylgja-core's
 core/src/fylgja_core/containerlab/pool.py) nor a network Docker gives itself."""

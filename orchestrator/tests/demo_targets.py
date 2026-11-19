@@ -96,8 +96,8 @@ def exits_at_its_signal(host: FakeHost) -> None:
 
 
 PROJECT_NETWORKS = {
-    "infrahub": ("fylgja-core-infrahub_default", ["172.19.0.0/16"]),
-    "netbox": ("fylgja-core-netbox_default", ["198.51.100.0/24"]),
+    "infrahub": ("fylgja-examples-infrahub_default", ["172.19.0.0/16"]),
+    "netbox": ("fylgja-examples-netbox_default", ["192.0.2.0/24"]),
 }
 """The network each source's Compose project makes, as read on the development host: the development NetBox's at its
 override's range, and Infrahub's a /16 Docker chose, outside the lab pool there."""

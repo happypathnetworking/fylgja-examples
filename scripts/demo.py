@@ -118,7 +118,7 @@ APPARMOR_LINES = ("/opt/srlinux/** mr,", "/run/srlinux/** rw,")
 """Ubuntu's profile of rsyslogd, the file that widens it, and the two lines SR Linux's rsyslogd needs there
 (design/verified-facts.md, "Ubuntu hosts"). Whether the widened profile is loaded is not a user's to read."""
 
-PROJECTS = {"infrahub": "fylgja-core-infrahub", "netbox": "fylgja-core-netbox"}
+PROJECTS = {"infrahub": "fylgja-examples-infrahub", "netbox": "fylgja-examples-netbox"}
 """Each source's Compose project, as `infrahub_dev.py` and `netbox_dev.py` name it, held equal by a test."""
 
 PORTS = {"infrahub": 8000, "netbox": 8800}

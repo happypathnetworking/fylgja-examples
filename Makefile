@@ -92,7 +92,7 @@ linkcheck:
 wheelcheck:
 	python3 -I scripts/wheelcheck.py
 
-# The development Infrahub, the Compose project fylgja-core-infrahub: local/.env's missing names written, never
+# The development Infrahub, the Compose project fylgja-examples-infrahub: local/.env's missing names written, never
 # printed; the published Compose file fetched once; started, and waited for until /api/info answers the version.
 infrahub-up:
 	python3 -I scripts/infrahub_dev.py up --local $(LOCAL) --version $(INFRAHUB_VERSION) --override infrahub/dev/compose.override.yml --repo $(MAIN)/.git
@@ -102,7 +102,7 @@ infrahub-up:
 infrahub-down:
 	python3 -I scripts/infrahub_dev.py down --local $(LOCAL) --version $(INFRAHUB_VERSION) --override infrahub/dev/compose.override.yml --repo $(MAIN)/.git $(if $(filter 1,$(PURGE)),--purge)
 
-# The development NetBox, the Compose project fylgja-core-netbox: local/.env's missing names written, never printed;
+# The development NetBox, the Compose project fylgja-examples-netbox: local/.env's missing names written, never printed;
 # netbox-docker's release fetched once; a project network of another subnet than the override's recreated, its
 # containers removed and its volumes kept; the plugin's image built, started, and waited for until Docker calls netbox
 # healthy, its worker started, and /api/status/ names both versions and a running worker, read with the superuser's
