@@ -162,6 +162,30 @@ set -a; . local/.env; set +a
   --out local/main.json
 ```
 
+**The names a target writes into `local/.env`,** generated where secret, never printed, and kept where already
+there:
+- `make infrahub-up` writes Compose's `INFRAHUB_INITIAL_ADMIN_TOKEN` (the admin's first API token, taken at Infrahub's
+  first start), `INFRAHUB_INITIAL_AGENT_TOKEN` (the agent's, which the task workers use),
+  `INFRAHUB_INITIAL_ADMIN_PASSWORD` (for the web interface), `INFRAHUB_SECURITY_SECRET_KEY` (the key Infrahub signs a
+  login's tokens with) and `INFRAHUB_TELEMETRY_OPTOUT` (`true`), and `FYLGJA_INFRAHUB_ADDRESS`,
+  `FYLGJA_INFRAHUB_WRITE_TOKEN` (the admin token's value) and `FYLGJA_INFRAHUB_TOKEN` (the reader's). A token made
+  again would not open the kept database, so a line already there is never changed. `FYLGJA_INFRAHUB_CA` is never
+  written: the CA bundle an `https://` address is verified against, the system's trust where unset.
+- `make netbox-up` writes `FYLGJA_NETBOX_SUPERUSER_PASSWORD`, `FYLGJA_NETBOX_SECRET_KEY` and
+  `FYLGJA_NETBOX_API_TOKEN_PEPPER` (Compose's: the superuser `admin`'s password, NetBox's secret key and the pepper of
+  its tokens; a pepper made again would refuse every token a kept database holds), `FYLGJA_NETBOX_ADDRESS` and
+  `FYLGJA_NETBOX_WRITE_TOKEN`. `make netbox-seed` writes `FYLGJA_NETBOX_TOKEN` and
+  `FYLGJA_ORCHESTRATOR_NETBOX_TOKEN`. `FYLGJA_NETBOX_CA` is never written: the CA bundle an `https://` address is
+  verified against; the development NetBox is served over http.
+- `make orchestrator-env` writes `FYLGJA_ORCHESTRATOR_AUTH` (the basic auth `fylgja:<password>` the edge's Prefect, the
+  task workers and NetBox's webhook share), `FYLGJA_ORCHESTRATOR_API_TOKEN` (the runner's token of the core's),
+  `FYLGJA_ORCHESTRATOR_SCOPE` (the scope the stages are read under, `tag:fylgja`), `FYLGJA_ORCHESTRATOR_READER`
+  (`infrahub/seed/reader.yaml`), `FYLGJA_ORCHESTRATOR_ROOT` (the directory the commands keep their records under,
+  `local/orchestrator`), `FYLGJA_ORCHESTRATOR_NETBOX_READER` (`netbox/seed/reader.yaml`),
+  `FYLGJA_ORCHESTRATOR_NETBOX_SCOPE` and, with Infrahub, `FYLGJA_ORCHESTRATOR_INFRAHUB_TOKEN`.
+  `FYLGJA_ORCHESTRATOR_SOURCE` (`infrahub` where unset, or `netbox`) is no target's: `scripts/edge_dev.py`'s `serve` and
+  `run` set it from their `--source`, whatever `local/.env` holds.
+
 **The demonstrations** need Docker and containerlab, with the user in the `docker` and
 `clab_admins` groups, and the SR Linux image (`ghcr.io/nokia/srlinux:24.7.1`, public).
 On Ubuntu, SR Linux's `rsyslogd` needs an AppArmor widening
@@ -268,7 +292,7 @@ make orchestrator-serve     # the runner, in a shell of its own with local/.env 
 ```
 
 The core is the installed release, started in a shell of its own with the packages its wheel carries and
-`FYLGJA_PACKAGES` unset ([D-124](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-124)):
+`FYLGJA_PACKAGES` unset (fylgja-core's D-124, to be released with 1.1.0):
 
 ```sh
 set -a; . local/.env; set +a; FYLGJA_DRIVER=containerlab FYLGJA_STORE=local/store .venv/bin/fylgja-core-server
@@ -421,7 +445,7 @@ What the page does not say, because only a contributor needs it:
   empty.
 - The core is given `local/demo/tokens` and `local/demo/store`, the local driver and the listen address, and no
   certificate, key, Lease or `FYLGJA_PACKAGES`: it loads the packages its wheel carries
-  ([D-124](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-124)). Every step is given the same token file and address and no
+  (fylgja-core's D-124, to be released with 1.1.0). Every step is given the same token file and address and no
   `FYLGJA_API_CA`.
 - A make target is given no variable but its own: its environment holds none of make's own names and no name the
   `Makefile` assigns by `?=`, and its variables are those of its command line alone, so `make netbox-demo PURGE=1`,
@@ -439,7 +463,7 @@ What the page does not say, because only a contributor needs it:
 
 ## The acceptance run
 
-An acceptance run is a release's own gate ([D-117](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-117), [D-124](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-124)):
+An acceptance run is a release's own gate ([D-117](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-117), fylgja-core's D-124, to be released with 1.1.0):
 the maintainer watches a change rehearsed on a twin from where its change source starts the rehearsal, and reads the
 report where that source files it, with the core on the local driver. Each written here has every command in order, how
 each one's end is read and what the maintainer is asked to do:
@@ -475,6 +499,8 @@ loaded for each step but the first:
 
 1. `make infrahub-up`. Its end: exit 0, once `GET /api/info` answers `1.11.11`, said as
    `infrahub_dev: Infrahub 1.11.11 answered at …`.
+   It reads Compose's `INFRAHUB_*` from `local/.env`, writing those it lacks, and `FYLGJA_ORCHESTRATOR_AUTH`, which
+   Compose gives the task workers.
 2. Once on a host, after the first `make infrahub-up`: `make orchestrator-env`, which prints names alone; then the
    core, stopped by its pid where it runs and started again (step 6), so that it reads the runner's line in its token
    file; then `make infrahub-up` again, so that the task workers are recreated with the basic auth. After any
@@ -485,11 +511,13 @@ loaded for each step but the first:
    <commit>, in-sync and online, …` and then `register: each of the 2 task workers holds the tree of fylgja at
    <commit>, …`. At 300 s it refuses, naming a worker that lacks the tree and ending `run make infrahub-register
    again`, and it is run again.
+   It reads `FYLGJA_INFRAHUB_ADDRESS` and the writer's token, `FYLGJA_INFRAHUB_WRITE_TOKEN`.
 4. `make infrahub-seed`, with no flag, always after the registration, since a branch runs the checks imported before it
    was made ([D-088](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-088)). Its end: exit 0, with `seed: wrote …/local/infrahub/seed.json`,
    which names the branch `third-link`, its marks `third-link` and `n1-address`, and a `proposed_change` of null.
+   It reads `FYLGJA_INFRAHUB_ADDRESS`, `FYLGJA_INFRAHUB_WRITE_TOKEN` and the reader's `FYLGJA_INFRAHUB_TOKEN`.
 5. `make prefect-up`. Its end: exit 0, with `edge_dev: the development Prefect answers at <the bridge's gateway>:4200,
-   pid <pid>, …`, or `… is up already, pid <pid>`.
+   pid <pid>, …`, or `… is up already, pid <pid>`. It reads `FYLGJA_ORCHESTRATOR_AUTH`.
 6. The core, in a shell of its own, its store, `local/store`, made at its first start and kept:
 
    ```sh
@@ -498,9 +526,13 @@ loaded for each step but the first:
 
    Its end: `FYLGJA_LISTEN`'s address listened on by that process's pid (`ss -Hltnp`), and `GET /v1/version`
    answering there, which takes no token. `FYLGJA_API_ADDRESS`, where the CLI and the runner reach it, is
-   `local/.env`'s, equal to `FYLGJA_LISTEN`.
+   `local/.env`'s, equal to `FYLGJA_LISTEN`. The core reads `FYLGJA_LISTEN`, `FYLGJA_TOKENS` and the SR Linux login,
+   `FYLGJA_CREDENTIAL_SRLINUX_USERNAME` and `_PASSWORD`, from `local/.env`.
 7. `make orchestrator-serve`, in a shell of its own. Its end: `fylgja-orchestrator: serving stage-plan/main,
-   twin-rehearse/main at http://<the bridge's gateway>:4200/api`, and both deployments `READY` some seconds on.
+   twin-rehearse/main at http://<the bridge's gateway>:4200/api`, and both deployments `READY` some seconds on. It reads the
+   runner's own tokens, `FYLGJA_ORCHESTRATOR_API_TOKEN` and `FYLGJA_ORCHESTRATOR_INFRAHUB_TOKEN`, which it hands the runner
+   as `FYLGJA_API_TOKEN` and `FYLGJA_INFRAHUB_TOKEN`; `FYLGJA_ORCHESTRATOR_AUTH`; `FYLGJA_ORCHESTRATOR_SCOPE`, `_READER` and
+   `_ROOT`; and `FYLGJA_API_ADDRESS` and `FYLGJA_INFRAHUB_ADDRESS`, as loaded.
 
 `make infrahub-demo` takes these steps itself and reads the verdict, and is the run's dry run: it ends at the proposed
 change's rehearsal.
@@ -559,25 +591,30 @@ from the check's colour.
    lacks. Its end: exit 0, once `/api/status/` names both versions and a running worker, said as `netbox_dev: NetBox
    4.7.5 with netbox_branching 1.2.3 answers at http://127.0.0.1:8800, <n> worker(s) running`; without a running
    worker it fails, since then no branch is ever ready. It writes the superuser's token, `FYLGJA_NETBOX_WRITE_TOKEN`,
-   where the file holds none or NetBox refuses it.
+   where the file holds none or NetBox refuses it. It needs none of `local/.env`'s names in the shell.
 2. `make netbox-seed`. Its end: exit 0, with a line for each object of the fixture, `made` or `found` and its path,
    then a line for each account, grant or token it made, set or replaced. Where `main` is not the fixture it says each
-   difference and exits 1, deleting nothing. It writes the two accounts' token lines, so `local/.env` is loaded again
+   difference and exits 1, deleting nothing. It reads `FYLGJA_NETBOX_ADDRESS` and the superuser's
+   `FYLGJA_NETBOX_WRITE_TOKEN`, and writes the two accounts' token lines, so `local/.env` is loaded again
    after it.
 3. The core on the local driver, in a shell of its own, started as the run through Infrahub's check starts it.
 4. `make orchestrator-env SOURCE=netbox`, which runs nothing of Infrahub's and needs no Infrahub. Its end: exit 0,
-   printing names alone. Where it added `FYLGJA_ORCHESTRATOR_API_TOKEN`, it lists that token's hash under the
+   printing names alone; it reads `FYLGJA_TOKENS`. Where it added `FYLGJA_ORCHESTRATOR_API_TOKEN`, it lists that token's hash under the
    principal `orchestrator` in the token file `FYLGJA_TOKENS` names and says to restart the core: the core is then
    stopped by its pid and started again by step 3, and `local/.env` loaded again.
 5. `make prefect-up`. Its end: exit 0, with `edge_dev: the development Prefect answers at <the bridge's
    gateway>:4200, pid <pid>, …`, or `… is up already, pid <pid>`. Where anything else listens on port 4200 it refuses,
-   starting and stopping nothing.
+   starting and stopping nothing. It reads `FYLGJA_ORCHESTRATOR_AUTH`.
 6. `make orchestrator-serve SOURCE=netbox`, in a shell of its own, `local/.env` loaded in the same command. Its end:
    `fylgja-orchestrator: serving stage-plan/main, twin-rehearse/main at http://<the bridge's gateway>:4200/api`, and
-   both deployments `READY` some seconds on. A name it needs not set is one line naming it and the target that writes
-   it, exit 2.
+   both deployments `READY` some seconds on. It reads the runner's own tokens, `FYLGJA_ORCHESTRATOR_API_TOKEN` and
+   `FYLGJA_ORCHESTRATOR_NETBOX_TOKEN`, which it hands the runner as `FYLGJA_API_TOKEN` and `FYLGJA_NETBOX_TOKEN`;
+   `FYLGJA_ORCHESTRATOR_NETBOX_READER` and `_NETBOX_SCOPE`, handed on as `FYLGJA_ORCHESTRATOR_READER` and `_SCOPE`;
+   `FYLGJA_ORCHESTRATOR_ROOT` and `FYLGJA_ORCHESTRATOR_AUTH`; and `FYLGJA_API_ADDRESS` and `FYLGJA_NETBOX_ADDRESS`, as
+   loaded. A name it needs not set is one line naming it and the target that writes it, exit 2.
 7. `make netbox-hook`, once the runner serves, since the webhook names the deployment `twin-rehearse/main` by the id
-   Prefect answers for it. Its end: exit 0, with a line for each part of the trigger it made or wrote again, or `hook:
+   Prefect answers for it. It reads `FYLGJA_NETBOX_ADDRESS`, the superuser's `FYLGJA_NETBOX_WRITE_TOKEN` and
+   `FYLGJA_ORCHESTRATOR_AUTH`. Its end: exit 0, with a line for each part of the trigger it made or wrote again, or `hook:
    the tag, the webhook and the event rule fylgja-rehearse stand; nothing made or changed`. The trigger stays
    installed from one run to the next.
 
@@ -689,7 +726,7 @@ and the run is made again from `make netbox-change`, watched from the build.
 ## Moving to a release
 
 This repository pins one release of fylgja-core's packages, exactly, because its tests reach past what the core
-promises ([E-001](design/decisions.md#e-001), [D-124](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-124)). Moving to a new release is one
+promises ([E-001](design/decisions.md#e-001), fylgja-core's D-124, to be released with 1.1.0). Moving to a new release is one
 commit, with the tiers and both demonstrations made again:
 
 1. Move the three pins in `orchestrator/pyproject.toml` (`fylgja-core==`, `fylgja-infrahub==`, `fylgja-netbox==`, and

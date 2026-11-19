@@ -26,7 +26,7 @@ alternative.
 <a id="e-001"></a>
 ### E-001 — The example orchestrator and the demonstrations are a repository of their own, on the released packages
 
-**Status:** Accepted 2026-11-19. Follows fylgja-core's D-122 to D-124 (phase 12, to be released
+**Status:** Accepted 2026-11-19. Follows fylgja-core's D-122 to D-124 (to be released
 with 1.1.0), which settled it there; this entry says what it is here and takes the ids from here
 on.
 

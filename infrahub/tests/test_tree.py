@@ -84,7 +84,6 @@ NOT_A_SITES = {
     ),
     "172.20.1.0": "the subnet the golden deployments are rendered with, from that pool (scripts/render-goldens.py)",
     "172.20.20.3": "a management address containerlab gave on its own default network, as read",
-    "10.244.0.0": "the example network of FYLGJA_POD_CIDR's documentation (.env.example, CONTRIBUTING.md)",
 }
 """Dotted quads the tree holds that are no address of a site's: product defaults, every address, a version."""
 
