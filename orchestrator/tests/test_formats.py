@@ -2,7 +2,7 @@
 concludes from a document's status alone and the report is rendered from the rehearsal's document alone (D-087), so
 every member is there for the report, a check or a command and for nothing else (Constitution XII). The example's
 wheel carries the two files and no other (D-084), and each `$ref`s nothing outside them, so that wheel resolves them
-alone (formats/README.md, note 23)."""
+alone (fylgja-core's formats/README.md, note 23)."""
 
 from __future__ import annotations
 

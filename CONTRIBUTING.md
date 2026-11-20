@@ -158,7 +158,8 @@ against PyPI alone. A candidate release's lock, from TestPyPI, amends that test 
 
 **The Infrahub contract tier** is made ready in this order, the four settings above written
 first: `make infrahub-up`, then `local/.env` loaded, `make orchestrator-env` (it needs Infrahub up
-and the token file), `make infrahub-register`, `make infrahub-seed`, `make prefect-down`, and
+and the token file), `local/.env` loaded again (the target writes into the file, and `make contract`
+reads the shell), `make infrahub-register`, `make infrahub-seed`, `make prefect-down`, and
 `make contract`. Its 11 orchestrator tests skip, without failing, while
 `FYLGJA_ORCHESTRATOR_INFRAHUB_TOKEN` is unset.
 
@@ -224,8 +225,11 @@ loaded after it: before its first run the file lacks them, or does not exist.
 ```sh
 make infrahub-up          # the project started, its secrets added to local/.env
 set -a; . local/.env; set +a
+make orchestrator-env     # needs the token file; adds the example's lines, its Infrahub token among them
+set -a; . local/.env; set +a
 make infrahub-register    # the schema library, the group, and this repository at REF
 make infrahub-seed        # the fixture network on main, and the branch third-link with its two stages
+make prefect-down         # the contract tier starts a Prefect of its own
 make contract             # the contract tier against it
 ```
 
@@ -628,7 +632,7 @@ from the check's colour.
    after it.
 3. The core on the local driver, in a shell of its own, started as the run through Infrahub's check starts it.
 4. `make orchestrator-env SOURCE=netbox`, which runs nothing of Infrahub's and needs no Infrahub. Its end: exit 0,
-   printing names alone; it reads `FYLGJA_TOKENS` only where it adds `FYLGJA_ORCHESTRATOR_API_TOKEN`, it lists that token's hash under the
+   printing names alone; it reads `FYLGJA_TOKENS` only where it adds `FYLGJA_ORCHESTRATOR_API_TOKEN`; where it added that, it lists the token's hash under the
    principal `orchestrator` in the token file `FYLGJA_TOKENS` names and says to restart the core: the core is then
    stopped by its pid and started again by step 3, and `local/.env` loaded again.
 5. `make prefect-up`. Its end: exit 0, with `edge_dev: the development Prefect answers at <the bridge's

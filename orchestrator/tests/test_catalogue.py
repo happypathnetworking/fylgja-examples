@@ -1,7 +1,7 @@
-"""The example's rules are its own, never the core's (formats/README.md, note 11): one constant a rule in `rules.py`,
-the severity each is filed at and, for an error, the status it gives a rehearsal whose cause it is (D-086); and the
-catalogue, `orchestrator/rules.md`, says the same rules with the same severities and statuses. A sentence quotes a
-finding as `<object>: <message> (<rule>)`, short enough to read in a report's first sentence (D-087). The catalogue's
+"""The example's rules are its own, never the core's (fylgja-core's formats/README.md, note 11): one constant a rule in
+`rules.py`, the severity each is filed at and, for an error, the status it gives a rehearsal whose cause it is (D-086);
+and the catalogue, `orchestrator/rules.md`, says the same rules with the same severities and statuses. A sentence quotes
+a finding as `<object>: <message> (<rule>)`, short enough to read in a report's first sentence (D-087). The catalogue's
 last two sections are the change sources', the Infrahub source's and then the NetBox source's, each held to that
 source's own constants: the library names no source's rules (D-085, D-097)."""
 

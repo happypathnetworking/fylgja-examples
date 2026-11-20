@@ -42,8 +42,8 @@ def test_the_lock_holds_version_of_each() -> None:
 
 
 def test_the_lock_is_pypis_alone() -> None:
-    """Every package but the workspace member is from `REGISTRY` itself, not any registry. A candidate release's lock
-    is from TestPyPI, so plan 3's candidate branch amends this test; `main` never does."""
+    """Every package but the workspace member is from `REGISTRY` itself, not any registry. A release candidate's lock
+    is from TestPyPI, so the branch that locks one amends this test; `main` never does."""
     for package in _lock_packages():
         source = package["source"]
         assert isinstance(source, dict)
