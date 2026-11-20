@@ -13,15 +13,15 @@ infrahub/schema/fylgja-stage.yml [--proposed-change]`, with `local/.env` loaded 
 - `files`/`main/`'s object files are loaded by `infrahubctl`, one at a time in the order of their names, where
   `main` holds none of the devices they say; they say the whole network, every relationship named by its peer's
   name. Where `main` holds all of those devices, nothing is loaded: a second load left each device in the one group
-  its file names, out of the query group Infrahub had joined it to at its first generation (design/verified-facts.md,
-  "Infrahub 1.11.11"). A hand edit on `main` is therefore not undone by a seed; a purge and a seed undo it. A `main`
-  holding part of them is refused with nothing written;
+  its file names, out of the query group Infrahub had joined it to at its first generation (fylgja-core's
+  design/verified-facts.md, "Infrahub 1.11.11"). A hand edit on `main` is therefore not undone by a seed; a purge and a
+  seed undo it. A `main` holding part of them is refused with nothing written;
 - the configurations are generated, and waited for until each device of the scope `SCOPE` has its artifact
   `DEFINITION`, `Ready`, and each device the run made shows a checksum that moved;
 - what an earlier seed left of the branch is removed: every `FylgjaStage` whose `branch` is its name, and its open
   proposed change, whether or not the branch is listed. A mark names its branch as text and outlives it (D-088), and
   Infrahub deletes a branch with an open proposed change and keeps that proposed change open, naming a branch gone
-  (design/verified-facts.md, "Infrahub 1.11.11"), so both go before the branch's delete;
+  (fylgja-core's design/verified-facts.md, "Infrahub 1.11.11"), so both go before the branch's delete;
 - the branch `--branch` is made anew from `main`, with `sync_with_git: false`: one an earlier seed left is deleted
   first, and the branch is refused where it does not read the definition, since a branch runs what was imported before
   it was made (D-088). A create that fails or goes unanswered within the request's timeout is read for its branch for
@@ -33,9 +33,9 @@ infrahub/schema/fylgja-stage.yml [--proposed-change]`, with `local/.env` loaded 
   `seed.json` and a read at its times cannot disagree; `head` is read with the reader's token,
   `FYLGJA_INFRAHUB_TOKEN`, never the writer's, connected before anything is removed or written. A `head` refused
   because a list it read was not whole is read again: just after a generation a page of the event log once answered
-  more events than its own count (design/verified-facts.md, "Infrahub 1.11.11"; P3-36). Then the stage is marked: one
-  `FylgjaStage` on `main` naming the branch, the stage's label, its time as `as_of`, verbatim, and a description, so
-  that the rehearsal reads each stage of the branch between its branch point and its head (D-088);
+  more events than its own count (fylgja-core's design/verified-facts.md, "Infrahub 1.11.11"; P3-36). Then the stage is
+  marked: one `FylgjaStage` on `main` naming the branch, the stage's label, its time as `as_of`, verbatim, and a
+  description, so that the rehearsal reads each stage of the branch between its branch point and its head (D-088);
 - with `--proposed-change` (`make infrahub-seed PROPOSED_CHANGE=1`), last, the branch's proposed change into `main`,
   not a draft, named `Rehearse <branch>`. Infrahub runs a proposed change's checks when it is created, so without the
   flag the seed makes none, and the maintainer's opening one is what starts the rehearsal (D-088). Every run makes the
@@ -47,9 +47,9 @@ infrahub/schema/fylgja-stage.yml [--proposed-change]`, with `local/.env` loaded 
 
 The wait is for each configuration, not for the call: Infrahub answers the generation before anything is rendered,
 and a regeneration rewrites an artifact that read `Ready` before it in place, `Ready` again with a new checksum
-(design/verified-facts.md, "Infrahub 1.11.11"; D-082). A failed render ends it at once. Exit 0; 1 for a refusal or a
-failure said on stderr; 2 for a command line not understood, `--branch main`, or a variable not set or not of its
-form.
+(fylgja-core's design/verified-facts.md, "Infrahub 1.11.11"; D-082). A failed render ends it at once. Exit 0; 1 for a
+refusal or a failure said on stderr; 2 for a command line not understood, `--branch main`, or a variable not set or not
+of its form.
 """
 
 from __future__ import annotations
@@ -83,12 +83,13 @@ DEFINITION = "device-config"
 ARTIFACT_WAIT_S = 180
 """How long a generation's artifacts are read until each is `Ready` and each changed device's checksum has moved. On a
 scratch branch a first generation's three read `Ready` 27.9 s after it was asked and a regeneration's had all moved
-11.5 s after; the first seed of `main` read them `Ready` 36 s after (design/verified-facts.md, "Infrahub 1.11.11")."""
+11.5 s after; the first seed of `main` read them `Ready` 36 s after (fylgja-core's design/verified-facts.md, "Infrahub
+1.11.11")."""
 
 QUIET_S = 10
 """Seconds apart two readings of a branch's `head` must agree before a stage's time is taken from them. After a
 generation, Infrahub's own group writes stamped 2.1 to 7.9 s after the last checksum, and a write's events were first
-read 0.49 to 5.92 s after its answer (design/verified-facts.md, "Infrahub 1.11.11")."""
+read 0.49 to 5.92 s after its answer (fylgja-core's design/verified-facts.md, "Infrahub 1.11.11")."""
 
 QUIET_WAIT_S = 120
 """How long a branch's `head` is read, every `QUIET_S`, for two readings to agree."""
@@ -99,7 +100,7 @@ READER_TOKEN = "FYLGJA_INFRAHUB_TOKEN"
 BRANCH_WAIT_S = 120
 """How long a branch is read for, every 2 s, after a `BranchCreate` that failed or went unanswered within `hub.py`'s
 request timeout: one create's branch was listed with a `created_at` 75.1 s after the create was sent, a derivation,
-past that timeout's 60 s (design/verified-facts.md, "Infrahub 1.11.11")."""
+past that timeout's 60 s (fylgja-core's design/verified-facts.md, "Infrahub 1.11.11")."""
 
 
 @dataclass(frozen=True)
@@ -137,7 +138,7 @@ MARK_CREATE = (
     "{ ok object { id } } }"
 )
 """A mark's create. `as_of` is sent as a `String` variable: Infrahub 1.11.11 refuses a `DateTime!` one in that
-position, and answers the value as written (design/verified-facts.md, "Infrahub 1.11.11")."""
+position, and answers the value as written (fylgja-core's design/verified-facts.md, "Infrahub 1.11.11")."""
 OPEN_READ = (
     'query ($branch: String!) { CoreProposedChange(source_branch__value: $branch, state__value: "open") '
     "{ count edges { node { id } } } }"
@@ -415,7 +416,7 @@ def deleted(hub: Hub, query: str, root: str, node: str, what: str) -> None:
 def clear(hub: Hub, name: str) -> None:
     """Remove what an earlier seed left of the branch `name` on `main`, whether or not the branch is listed: every
     `FylgjaStage` naming it, then its open proposed change. A mark outlives its branch (D-088), and a branch deleted
-    under an open proposed change leaves it open (design/verified-facts.md, "Infrahub 1.11.11")."""
+    under an open proposed change leaves it open (fylgja-core's design/verified-facts.md, "Infrahub 1.11.11")."""
     marks = ids(hub, MARKS_READ, "FylgjaStage", name)
     for held in marks:
         deleted(hub, MARK_DELETE, "FylgjaStageDelete", held, f"the mark {held} of {name}")
@@ -465,8 +466,9 @@ def remove(hub: Hub, name: str, *, clock: Callable[[], float]) -> None:
 
 def make(hub: Hub, name: str, *, clock: Callable[[], float], sleep: Callable[[float], None]) -> None:
     """Make the branch `name` from `main`, with `sync_with_git: false`. A create that fails or goes unanswered within
-    the request's timeout can make its branch all the same, once 75.1 s after it was sent (design/verified-facts.md,
-    "Infrahub 1.11.11"), so the branch is then read for until it is listed, within `BRANCH_WAIT_S`."""
+    the request's timeout can make its branch all the same, once 75.1 s after it was sent (fylgja-core's
+    design/verified-facts.md, "Infrahub 1.11.11"), so the branch is then read for until it is listed, within
+    `BRANCH_WAIT_S`."""
     started = clock()
     failed: str | None = None
     try:

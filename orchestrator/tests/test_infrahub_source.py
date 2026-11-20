@@ -930,7 +930,7 @@ def test_infrahub_not_reached_is_a_source_error_naming_the_address(world: Callab
     assert not leaked, "the error holds the token"
 
 
-# A request Infrahub sheds under load (design/verified-facts.md, "Infrahub 1.11.11").
+# A request Infrahub sheds under load (fylgja-core's design/verified-facts.md, "Infrahub 1.11.11").
 
 SHED_WORDS = "Server is shedding load; retry later."
 

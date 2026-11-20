@@ -1,7 +1,7 @@
 """The edge's two flows (D-085): each a thin wrap of the library, adding the run's id, its logger and the document's
 artifact, and after a cancel or a time limit nothing at all. A decorated flow is never called here, since a call with
-no server starts one (verified-facts.md, "Prefect 3.9.2"): each body runs as `.fn`, with Prefect's run context, the
-settings, the source and the core replaced, and the artifact recorded rather than made."""
+no server starts one (fylgja-core's verified-facts.md, "Prefect 3.9.2"): each body runs as `.fn`, with Prefect's run
+context, the settings, the source and the core replaced, and the artifact recorded rather than made."""
 
 from __future__ import annotations
 

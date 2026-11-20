@@ -523,7 +523,7 @@ class FakePush:
 class FakeReader:
     """A gNMI reader over `facts`, keyed `(twin, node)`, each a path to its value as `gnmi.get`
     hands it: a leaf's value, and a list path's entries as a list, one per neighbour (both kinds
-    answer that once the reader collects them, verified-facts.md "gNMI"). It names the node by
+    answer that once the reader collects them, fylgja-core's verified-facts.md "gNMI"). It names the node by
     the driver's address, raises `Unreadable` for a node in `unreadable` or an address no node
     holds, and answers each asked path it has, leaving the rest out, as a node leaves out a
     value it does not hold. Each call is recorded as `(node, paths)`, and the pool it named in

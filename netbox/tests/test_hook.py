@@ -110,8 +110,9 @@ def run(
 
 
 def test_the_values_are_the_triggers_as_read() -> None:
-    """The webhook as it was read starting a run (design/verified-facts.md, "NetBox 4.7.5 with netbox-branching
-    1.2.3"), its body writing the branch's name by Jinja2's `tojson`, and the rule held to the tag by its slug."""
+    """The webhook as it was read starting a run (fylgja-core's design/verified-facts.md, "NetBox 4.7.5 with
+    netbox-branching 1.2.3"), its body writing the branch's name by Jinja2's `tojson`, and the rule held to the tag by
+    its slug."""
     assert hook.TAG == hook.NAME == NAME
     assert hook.RECEIVER.split(":") == [HOST, "4200"]
     assert (hook.FLOW, hook.DEPLOYMENT) == ("twin-rehearse", "main")
@@ -251,8 +252,8 @@ def test_everything_as_it_should_be_sends_no_write(capsys: pytest.CaptureFixture
     ids=["two in another order", "two in order", "one of the two", "two of one", "one twice", "another of two"],
 )
 def test_a_list_of_two_is_held_as_a_set(standing: list[str], written: list[str], held: bool) -> None:
-    """NetBox may answer a list of names in another order than it was written (design/verified-facts.md, "A
-    permission answers `object_types` in an order of its own"): two names in either order are the same, and a list
+    """NetBox may answer a list of names in another order than it was written (fylgja-core's design/verified-facts.md,
+    "A permission answers `object_types` in an order of its own"): two names in either order are the same, and a list
     that lacks one, holds one twice or holds another is not."""
     assert hook.same(standing, written) is held
 
@@ -471,7 +472,7 @@ def test_the_hook_imports_the_standard_library_box_and_httpx_alone() -> None:
 )
 def test_a_body_netbox_sends_is_the_parameters_prefect_reads(name: str, sent: str) -> None:
     """The body template, with `{{ data.name | tojson }}` written as NetBox's worker sent it for a branch of each name
-    (design/verified-facts.md, "A branch's name in a webhook's body"), is the one parameter of `twin-rehearse`, the
-    name as it is: a quote or a backslash in it closes no string of the body's."""
+    (fylgja-core's design/verified-facts.md, "A branch's name in a webhook's body"), is the one parameter of
+    `twin-rehearse`, the name as it is: a quote or a backslash in it closes no string of the body's."""
     assert json.loads(sent) == name
     assert json.loads(hook.BODY.replace("{{ data.name | tojson }}", sent)) == {"parameters": {"branch": name}}

@@ -32,17 +32,17 @@ CA = "FYLGJA_INFRAHUB_CA"
 
 REQUEST_TIMEOUT_S = 60.0
 """Seconds one request is given, the SDK's own default (`infrahub_sdk/config.py`). The longest read on 1.11.11 was
-a repository's create, 9.9 s (design/verified-facts.md, "Infrahub 1.11.11")."""
+a repository's create, 9.9 s (fylgja-core's design/verified-facts.md, "Infrahub 1.11.11")."""
 
 KEEPALIVE_S = 1.0
 """Seconds an idle connection is kept for the next request. Infrahub's server is given a keep-alive of 2 s, gunicorn's
 default, which its uvicorn workers take: read in the image's files, not by a run. Kept for httpx's own 5 s, a poll 2 s
-after the last request once had no answer; kept for 1 s, 120 polls 2 s apart had none fail (design/verified-facts.md,
-"Infrahub 1.11.11")."""
+after the last request once had no answer; kept for 1 s, 120 polls 2 s apart had none fail (fylgja-core's
+design/verified-facts.md, "Infrahub 1.11.11")."""
 
 CTL_TIMEOUT_S = 600
 """`infrahubctl`'s `INFRAHUB_TIMEOUT`: it waits the larger of 120 s and this for a schema load, and the library's
-first load took the server about 133 s, past the 120 s (design/verified-facts.md, "Infrahub 1.11.11")."""
+first load took the server about 133 s, past the 120 s (fylgja-core's design/verified-facts.md, "Infrahub 1.11.11")."""
 
 CTL_LINES = 5
 """How many of `infrahubctl`'s last lines of output a failure carries."""
@@ -51,15 +51,15 @@ SHED_WAIT_DEFAULT_S = 5
 """Seconds waited before a shed request is sent again where Infrahub's `Retry-After` is missing or no count of seconds.
 Infrahub 1.11.11's backpressure answers a request it sheds with HTTP 429, `Retry-After` in whole seconds and
 `X-Infrahub-Admission: shed`, written before any handler runs, so the request did nothing and is sent again, a mutation
-among them (design/verified-facts.md, "Infrahub 1.11.11")."""
+among them (fylgja-core's design/verified-facts.md, "Infrahub 1.11.11")."""
 
 SHED_WAIT_MAX_S = 30
 """The most seconds one wait for a shed request lasts, whatever `Retry-After` says; the least is 1."""
 
 SHED_BUDGET_S = 300
 """The most seconds the waits for one shed request add up to, ours: of the order of infrahub-sdk's own bound for a 429,
-10 retries of at most 60 s each (design/verified-facts.md, "Infrahub 1.11.11"). A wait that would pass it is not taken,
-and the last 429 fails as any 429 does."""
+10 retries of at most 60 s each (fylgja-core's design/verified-facts.md, "Infrahub 1.11.11"). A wait that would pass it
+is not taken, and the last 429 fails as any 429 does."""
 
 HIDDEN = "<token>"
 """What stands for the token wherever Infrahub or `infrahubctl` echoes it."""

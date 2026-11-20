@@ -16,8 +16,8 @@ source and the runner are never given. A test's branch is `fylgja-contract-<8 he
 stopped run left. The branches' functions are the loaded module's (`branch_named`, `branched`); what the other tiers
 add to them, which cannot be imported, is written again here and held by the pure tier's
 `tests/test_contract_netbox_branches.py`: NetBox refuses 500 the `DELETE` of a branch still provisioning, so a branch
-is waited for until it has left `new` and `provisioning` before it is deleted (design/verified-facts.md, "A branch
-deleted before it is `ready`"). Whatever a test writes on `main` it removes in a `finally`.
+is waited for until it has left `new` and `provisioning` before it is deleted (fylgja-core's design/verified-facts.md,
+"A branch deleted before it is `ready`"). Whatever a test writes on `main` it removes in a `finally`.
 
 The tag `TAG` is ensured before any test's branch is made, so that its row of `main`'s changelog never counts against
 a branch, and left: it is the installed trigger's, with the event rule and the webhook `make netbox-hook` writes.
@@ -192,17 +192,18 @@ SLEEP: Callable[[float], None] = time.sleep
 
 def branched(box: Writes, name: str) -> dict[str, Any]:
     """The branch `name`, made where none stands and waited for until `ready`, `BRANCH_WAIT_S` at most: the loaded
-    module's. In the readings of design/verified-facts.md, "NetBox 4.7.5 with netbox-branching 1.2.3", branches read
-    `ready` 11.1 s after their request at the slowest, and two whose `DELETE` NetBox refused while they provisioned
-    read `ready` at reads 26.7 s to 28.2 s after it. 120 s is about 4.3 times the slowest, 28.2 s, a derivation; the
-    bound is the module's `BRANCH_WAIT_S`."""
+    module's. In the readings of fylgja-core's design/verified-facts.md, "NetBox 4.7.5 with netbox-branching 1.2.3",
+    branches read `ready` 11.1 s after their request at the slowest, and two whose `DELETE` NetBox refused while they
+    provisioned read `ready` at reads 26.7 s to 28.2 s after it. 120 s is about 4.3 times the slowest, 28.2 s, a
+    derivation; the bound is the module's `BRANCH_WAIT_S`."""
     return cast(dict[str, Any], BOX.branched(box, name, timeout_s=BRANCH_WAIT_S, clock=CLOCK, sleep=SLEEP))
 
 
 UNSETTLED = ("new", "provisioning")
 """The statuses of a branch whose `DELETE` the tier does not send until the branch has left them: NetBox refused 500
-the `DELETE` of a branch provisioning, and the branch stayed (design/verified-facts.md, "A branch deleted before it is
-`ready`"). A `DELETE` of a branch `new` was not read; it is waited on because it comes before provisioning."""
+the `DELETE` of a branch provisioning, and the branch stayed (fylgja-core's design/verified-facts.md, "A branch deleted
+before it is `ready`"). A `DELETE` of a branch `new` was not read; it is waited on because it comes before
+provisioning."""
 
 POLL_S = 1.0
 """Seconds between two reads of a branch the tier waits on, as `branched` reads one."""
@@ -370,9 +371,9 @@ _TASK = re.compile(r"/core/background-tasks/([0-9a-f-]{36})/")
 
 def failed_tasks(pages: httpx.Client) -> set[str]:
     """The ids of every failed background task NetBox's pages list, of each queue: the API's
-    `core/background-tasks/` listed none, failed or not (design/verified-facts.md, "What the receiver answered is the
-    task's, and not a job's"), and the pages listed each ("A failed sending of a webhook is listed on NetBox's pages
-    and deleted through the API")."""
+    `core/background-tasks/` listed none, failed or not (fylgja-core's design/verified-facts.md, "What the receiver
+    answered is the task's, and not a job's"), and the pages listed each ("A failed sending of a webhook is listed on
+    NetBox's pages and deleted through the API")."""
     found: set[str] = set()
     for queue in range(QUEUES):
         page = pages.get(f"/core/background-queues/{queue}/failed/")

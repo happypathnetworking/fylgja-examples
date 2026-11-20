@@ -4,12 +4,12 @@ as NetBox renders it, the change's two steps on a branch of the test's own, the 
 The module's fixture seeds `main` first, as `make netbox-seed` does; on a `main` the seed has already filled it
 writes nothing.
 
-The tests rest on two budgets (design/verified-facts.md, "NetBox 4.7.5 with netbox-branching 1.2.3"). Every request
-is given `box.py`'s `TIMEOUT_S`, 30 s, a first value: a render of one device read under 0.5 s, and of three 1.4 s to
-2.1 s; the seed's slowest lookup, an interface's, 1.18 s; and the slowest request read, a branch's `DELETE`, read in
-scripts beside the tier and not as the `branch` fixture ends, 3.41 s and 3.31 s in one script and 2.83 s in another;
-30 s is 8.8 times the slowest, a derivation. The `branch` fixture waits up to `BRANCH_WAIT_S`, 120 s, for `ready`:
-branches read `ready` 11.1 s at most after their request, and two whose `DELETE` NetBox refused while they
+The tests rest on two budgets (fylgja-core's design/verified-facts.md, "NetBox 4.7.5 with netbox-branching 1.2.3").
+Every request is given `box.py`'s `TIMEOUT_S`, 30 s, a first value: a render of one device read under 0.5 s, and of
+three 1.4 s to 2.1 s; the seed's slowest lookup, an interface's, 1.18 s; and the slowest request read, a branch's
+`DELETE`, read in scripts beside the tier and not as the `branch` fixture ends, 3.41 s and 3.31 s in one script and 2.83
+s in another; 30 s is 8.8 times the slowest, a derivation. The `branch` fixture waits up to `BRANCH_WAIT_S`, 120 s, for
+`ready`: branches read `ready` 11.1 s at most after their request, and two whose `DELETE` NetBox refused while they
 provisioned read `ready` at reads 26.7 s to 28.2 s after it; 120 s is about 4.3 times the slowest, 28.2 s, a
 derivation.
 """
@@ -114,8 +114,8 @@ def test_the_changes_two_steps_each_move_a_configuration(
 ) -> None:
     """On the test's own branch, made and waited for until `ready` by the fixture, up to `BRANCH_WAIT_S`, 120 s:
     branches read `ready` 11.1 s at most after their request, and two whose `DELETE` NetBox refused while they
-    provisioned read `ready` at reads 26.7 s to 28.2 s after it (design/verified-facts.md, "NetBox 4.7.5 with
-    netbox-branching 1.2.3"); 120 s is about 4.3 times the slowest, 28.2 s, a derivation."""
+    provisioned read `ready` at reads 26.7 s to 28.2 s after it (fylgja-core's design/verified-facts.md, "NetBox 4.7.5
+    with netbox-branching 1.2.3"); 120 s is about 4.3 times the slowest, 28.2 s, a derivation."""
     under = branch["schema_id"]
     main = rendered(box)
     before = rendered(box, under)

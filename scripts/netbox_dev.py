@@ -76,25 +76,26 @@ WRITE_TOKEN = "FYLGJA_NETBOX_WRITE_TOKEN"
 
 UP_WAIT_S = 1200
 """How long `up` waits, from its first start, for Docker to call `netbox` healthy: on new volumes it read healthy
-748.7 s after `up -d` began, which this is 1.6 times (design/verified-facts.md, "NetBox 4.7.5 with netbox-branching
-1.2.3"); the archived repository read 653 s on 4.7.4."""
+748.7 s after `up -d` began, which this is 1.6 times (fylgja-core's design/verified-facts.md, "NetBox 4.7.5 with
+netbox-branching 1.2.3"); the archived repository read 653 s on 4.7.4."""
 
 STATUS_WAIT_S = 60
 """How long `up` waits, from `netbox` healthy, for `/api/status/` to answer with a running worker: a worker started
-was counted about 16 s after its start (design/verified-facts.md)."""
+was counted about 16 s after its start (fylgja-core's design/verified-facts.md)."""
 
 POLL_S = 5
 """Seconds between two asks of Docker or of `/api/status/`."""
 
 STOP_TIMEOUT_S = 60
 """Seconds `down` gives each container to exit by itself before Docker kills it. Under Compose's own 10 s every
-container exited 0, the stop whole in 10.6 s (design/verified-facts.md)."""
+container exited 0, the stop whole in 10.6 s (fylgja-core's design/verified-facts.md)."""
 
 FETCH_TIMEOUT_S = 60
 """Seconds the release's server is given to answer the fetch."""
 
 REQUEST_TIMEOUT_S = 10
-"""Seconds NetBox is given to answer one request: provisioning a token took 1.68 s (design/verified-facts.md)."""
+"""Seconds NetBox is given to answer one request: provisioning a token took 1.68 s (fylgja-core's
+design/verified-facts.md)."""
 
 PS_TIMEOUT_S = 60
 """Seconds `docker compose ps` is given to answer one ask."""
@@ -609,7 +610,8 @@ def network_subnets(name: str) -> list[str] | None:
 
 def fetch_release(url: str, dest: Path) -> None:
     """The archive at `url` unpacked as the directory `dest`, its one top directory stripped, by `tarfile` with the
-    `data` filter. urllib sends its own User-Agent, which the archive answered (design/verified-facts.md)."""
+    `data` filter. urllib sends its own User-Agent, which the archive answered (fylgja-core's
+    design/verified-facts.md)."""
     with urllib.request.urlopen(urllib.request.Request(url), timeout=FETCH_TIMEOUT_S) as response:
         packed = response.read()
     with tarfile.open(fileobj=io.BytesIO(packed), mode="r:gz") as tar:

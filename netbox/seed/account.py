@@ -5,8 +5,8 @@ Run by `make netbox-seed` after the seed, as `.venv/bin/python netbox/seed/accou
 `local/.env` loaded for `FYLGJA_NETBOX_ADDRESS` and the superuser's `FYLGJA_NETBOX_WRITE_TOKEN` (D-042). The reader
 writes nothing to NetBox, and the example's writes are a journal entry on a branch and the branch's tags (D-095,
 D-097), so each runs under an account of its own, no superuser, granted what was read as least for those on the
-running instance (design/verified-facts.md, "NetBox 4.7.5 with netbox-branching 1.2.3"), `GRANTS`: the reader's
-`view` of each type a read lists, under a branch's header too, which asks no grant of its own, and `view` with
+running instance (fylgja-core's design/verified-facts.md, "NetBox 4.7.5 with netbox-branching 1.2.3"), `GRANTS`: the
+reader's `view` of each type a read lists, under a branch's header too, which asks no grant of its own, and `view` with
 `render_config` on `dcim.device` for a render; the example's the same, with `view` and `add` on
 `extras.journalentry`, any object's journal and not a branch's alone, and `view` and `change` on
 `netbox_branching.branch`, which writes any member of a branch, its tags among them, and is all the plugin's source

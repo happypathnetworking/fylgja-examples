@@ -125,7 +125,7 @@ DEPLOYMENT_IDS = {
     "twin-rehearse/main": "7c2e9a14-3b5f-4d60-8e21-9f0a1c3d5e02",
 }
 """Each deployment's id as the fake Prefect answers it: one each, the same at every ask, as the two were read to keep
-theirs at every start of the runner (design/verified-facts.md, "Prefect 3.9.2", 2026-11-14)."""
+theirs at every start of the runner (fylgja-core's design/verified-facts.md, "Prefect 3.9.2", 2026-11-14)."""
 
 APPEARS_S = {"infrahub": 113.8, "netbox": 1.0}
 """Seconds from the step that opens the change returning to the change's flow run of `twin-rehearse/main` made, as
@@ -176,8 +176,8 @@ def rehearsal(status: str) -> dict[str, Any]:
 
 def flow_run(ident: str, deployment_id: str, branch: str, now: float) -> dict[str, Any]:
     """A row of `POST /api/flow_runs/filter` for a run made `now` by the fake clock, `SCHEDULED`: the members of the 36
-    a row was read to hold that the script or a reader of it might ask for (design/verified-facts.md, "Prefect 3.9.2",
-    2026-11-14), its `parameters` `{"branch": <branch>}` as a check or the webhook starts it."""
+    a row was read to hold that the script or a reader of it might ask for (fylgja-core's design/verified-facts.md,
+    "Prefect 3.9.2", 2026-11-14), its `parameters` `{"branch": <branch>}` as a check or the webhook starts it."""
     row: dict[str, Any] = {
         "id": ident,
         "created": stamp(now),
@@ -222,7 +222,8 @@ SORTS = (
 holds; any other is refused, 422, as a body Prefect does not read is."""
 
 LIMIT = 200
-"""The largest `limit` a filter takes: 201 was answered 422 (design/verified-facts.md, "Prefect 3.9.2", 2026-11-14)."""
+"""The largest `limit` a filter takes: 201 was answered 422 (fylgja-core's design/verified-facts.md, "Prefect 3.9.2",
+2026-11-14)."""
 
 
 def read_by_make(argv: Sequence[str], env: Mapping[str, str]) -> tuple[dict[str, str], str]:

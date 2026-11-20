@@ -184,8 +184,8 @@ def test_the_help_says_a_branch_of_the_name_is_deleted(capsys: pytest.CaptureFix
 
 
 def test_a_branch_still_provisioning_is_waited_ready_before_its_delete() -> None:
-    """NetBox refuses the `DELETE` of a branch still provisioning (design/verified-facts.md, "A branch deleted before
-    it is `ready`"): it is waited for through `box.branched`, at its bound, and deleted once `ready`."""
+    """NetBox refuses the `DELETE` of a branch still provisioning (fylgja-core's design/verified-facts.md, "A branch
+    deleted before it is `ready`"): it is waited for through `box.branched`, at its bound, and deleted once `ready`."""
     fake = seeded()
     old = fake.add(BRANCHES, {"name": NAME, "status": "provisioning"})
     clock = Clock()

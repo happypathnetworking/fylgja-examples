@@ -105,28 +105,29 @@ USER = "fylgja"
 UP_S = 90.0
 """How long the server is given to answer `/api/health`, and the runner to serve both deployments. The server
 answered 25.6 s to 30.7 s after its start, on loopback and on the bridge's gateway, and the deployments 3.5 s to
-4.1 s after the runner's (design/verified-facts.md, "Prefect 3.9.2"): 90 s is 2.9 times the slowest, 30.7 s, a
-derivation."""
+4.1 s after the runner's (fylgja-core's design/verified-facts.md, "Prefect 3.9.2"): 90 s is 2.9 times the slowest, 30.7
+s, a derivation."""
 END_S = 30.0
 """How long a process is given to exit after SIGTERM before its session is killed: phase 8's first value, set before
 any end here was timed. In a run of this module the runner was read since to end in 0.8 s and the server in 0.2 s
-(design/verified-facts.md, "The module's end"), the bound 37 times the slower, a derivation that sized nothing."""
+(fylgja-core's design/verified-facts.md, "The module's end"), the bound 37 times the slower, a derivation that sized
+nothing."""
 HOOK_S = 120.0
 """How long `hook.py` is given to install the trigger: a first value, set before any run of it was timed. Its runs
-were read since at 1.4 s, 1.4 s and 1.2 s in a run of this module (design/verified-facts.md, "The module's end"), the
-bound 86 times the slowest, a derivation that sized nothing."""
+were read since at 1.4 s, 1.4 s and 1.2 s in a run of this module (fylgja-core's design/verified-facts.md, "The module's
+end"), the bound 86 times the slowest, a derivation that sized nothing."""
 RUN_S = 60.0
 """The bound from the tag's setting to Prefect listing its flow run. The run's `created` was read 0.967 s to 1.027 s
-after the setting's `PATCH` over four settings, and 0.982 s through the installed trigger (design/verified-facts.md,
-"One setting of the tag is one flow run", "The installed trigger starts the rehearsal's own flow run"): 60 s is 58
-times the slowest, 1.027 s, a derivation. A request lost stays lost, and a setting behind a send still waiting is sent
-only once that one has timed out, at 60 s ("A setting after a lost one"): no test here sets the tag while a send
-waits, since the one receiver left unanswered is a port that refuses, a send that failed in 0.729 s."""
+after the setting's `PATCH` over four settings, and 0.982 s through the installed trigger (fylgja-core's
+design/verified-facts.md, "One setting of the tag is one flow run", "The installed trigger starts the rehearsal's own
+flow run"): 60 s is 58 times the slowest, 1.027 s, a derivation. A request lost stays lost, and a setting behind a send
+still waiting is sent only once that one has timed out, at 60 s ("A setting after a lost one"): no test here sets the
+tag while a send waits, since the one receiver left unanswered is a port that refuses, a send that failed in 0.729 s."""
 DONE_S = 300.0
 """The bound from the run's listing to its reading `COMPLETED`. This tier's whole rehearsal of four stages on the fake
 runtime read `COMPLETED` 25.654 s, 23.351 s and 21.756 s after the tag's setting in three runs, and a probe flow's run
-5.68 s to 11.23 s after it (design/verified-facts.md, "The installed trigger starting a whole rehearsal", "One setting
-of the tag is one flow run"): 300 s is 11.7 times the slowest, 25.654 s, a derivation."""
+5.68 s to 11.23 s after it (fylgja-core's design/verified-facts.md, "The installed trigger starting a whole rehearsal",
+"One setting of the tag is one flow run"): 300 s is 11.7 times the slowest, 25.654 s, a derivation."""
 QUIET_S = 30.0
 """How long after the run's end Prefect is read to list no second run, as the readings of the trigger watched: the
 flow's own untagging started none in the 30 s after the run's end."""
@@ -135,8 +136,8 @@ LOST_S = 45.0
 and nothing was sent again in the 120 s watched ("A port nothing listens on"); 45 s is 62 times 0.729 s."""
 CANCELLED_S = 45.0
 """The bound from the cancel to the run read `CANCELLED`, as phase 8's Prefect contract gives it: a run read
-`CANCELLED` 3.1 s and 3.2 s after `CANCELLING` (design/verified-facts.md, "A cancel over HTTP"), 14 times the
-slowest."""
+`CANCELLED` 3.1 s and 3.2 s after `CANCELLING` (fylgja-core's design/verified-facts.md, "A cancel over HTTP"), 14 times
+the slowest."""
 GONE_S = 30.0
 """How long the core is given to list no twin of the change after the quiet `QUIET_S`: a first value. The library
 deletes its twin before it posts the report, and in this tier's three runs the core listed none at the first read."""

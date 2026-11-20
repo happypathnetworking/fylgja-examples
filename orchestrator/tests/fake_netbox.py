@@ -1,9 +1,9 @@
 """A fake NetBox for the NetBox change source's tests: a handler for `httpx.MockTransport` over state a test sets,
 never an answer captured from NetBox (D-034, D-096). It answers the source's own requests as NetBox 4.7.5 with
-netbox-branching 1.2.3 was read to (design/verified-facts.md): the branches listed by their exact name and a branch's
-tags patched by slug, a branch's journal entries listed in the order written and one written, the object types by
-their app label and model, and `main`'s changelog counted by `time_after` and `changed_object_type_id__n`. Every
-list is answered `page` rows at most, its `next` an address that is no one's, which the source must never follow.
+netbox-branching 1.2.3 was read to (fylgja-core's design/verified-facts.md): the branches listed by their exact name and
+a branch's tags patched by slug, a branch's journal entries listed in the order written and one written, the object
+types by their app label and model, and `main`'s changelog counted by `time_after` and `changed_object_type_id__n`.
+Every list is answered `page` rows at most, its `next` an address that is no one's, which the source must never follow.
 
 `log` holds every request, `(method, path, query, body)`, and `keyed` whether every one carried the token in
 `Authorization` and nowhere else, with no branch header, compared outside any assert. A test scripts an answer for a

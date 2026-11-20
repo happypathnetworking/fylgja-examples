@@ -79,8 +79,8 @@ SOURCE_QUERIES = ROOT / "orchestrator" / "src" / "fylgja_orchestrator" / "infrah
 # What the example's rehearsal library never loads beside the base and the two readers: the libraries of the core's
 # `server` extra, either reader and Prefect, each a module or package; of those, what the command's module never loads,
 # all but the two readers, which the change sources it opens read through; and what is not installed there, the
-# server's libraries that Prefect does not bring: Prefect 3.9.2 brings starlette and uvicorn (verified-facts.md,
-# "Prefect 3.9.2"). A dotted name is judged whole, as `PROBE_READER` judges one.
+# server's libraries that Prefect does not bring: Prefect 3.9.2 brings starlette and uvicorn (fylgja-core's
+# verified-facts.md, "Prefect 3.9.2"). A dotted name is judged whole, as `PROBE_READER` judges one.
 READERS = ("fylgja_infrahub", "fylgja_netbox")
 NOT_BESIDE = ("starlette", "uvicorn", "grpc", "google.protobuf", "httpx2", "lightkube", "msgspec", "pygnmi", "prefect",
               *READERS)

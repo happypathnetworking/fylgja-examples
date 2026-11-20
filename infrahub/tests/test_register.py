@@ -205,10 +205,10 @@ def everywhere(repository_id: str, commit: str) -> dict[str, bool]:
 
 class Workers:
     """The task workers' trees of the registration's commits, `<id>/commits/<commit>`, as Infrahub's runs leave them
-    (design/verified-facts.md, "Infrahub 1.11.11"): an import gives the commit the registration then reads to the one
-    worker that runs it, `lands` naming that worker for each import in turn; and with `broadcast_at`, every worker holds
-    it from that time on, as the fetch Infrahub sends to each worker after a new commit's import makes. `held` is what
-    each worker holds before, by commit."""
+    (fylgja-core's design/verified-facts.md, "Infrahub 1.11.11"): an import gives the commit the registration then reads
+    to the one worker that runs it, `lands` naming that worker for each import in turn; and with `broadcast_at`, every
+    worker holds it from that time on, as the fetch Infrahub sends to each worker after a new commit's import makes.
+    `held` is what each worker holds before, by commit."""
 
     def __init__(
         self,
@@ -340,7 +340,8 @@ def test_a_registration_already_there_imports_its_last_commit(schema: Path) -> N
 
 
 def test_another_ref_is_what_step_1_showed(schema: Path) -> None:
-    """Read on 1.11.11 (design/verified-facts.md): `commit` follows a `ref` changed by the update and an import."""
+    """Read on 1.11.11 (fylgja-core's design/verified-facts.md): `commit` follows a `ref` changed by the update and an
+    import."""
     infrahub = Infrahub(
         kinds=KINDS,
         repository=registered(ref="phase-8/1-base-install", commit=OLD),
@@ -378,9 +379,9 @@ def test_an_import_that_errors_ends_at_once_and_one_that_never_syncs_at_its_boun
 def test_a_settled_registration_on_workers_holding_no_clone_is_imported_until_each_holds_one(
     schema: Path, capsys: pytest.CaptureFixture[str]
 ) -> None:
-    """Read on 1.11.11 (design/verified-facts.md): a recreated task worker holds no clone, and an import with no new
-    commit clones on the one worker that runs it; so the import is asked again, `CLONE_ASK_S` apart, until each holds
-    one. The first is asked at once: a settled registration was sent nothing that would clone."""
+    """Read on 1.11.11 (fylgja-core's design/verified-facts.md): a recreated task worker holds no clone, and an import
+    with no new commit clones on the one worker that runs it; so the import is asked again, `CLONE_ASK_S` apart, until
+    each holds one. The first is asked at once: a settled registration was sent nothing that would clone."""
     infrahub = Infrahub(kinds=KINDS, repository=registered())
     hub, _ = hub_for(infrahub)
     clock = Clock()
@@ -447,7 +448,8 @@ def test_no_task_worker_or_one_never_cloned_is_refused(schema: Path) -> None:
 def test_a_workers_clone_is_read_in_its_git_directory(monkeypatch: pytest.MonkeyPatch) -> None:
     """The task workers are the Compose project's running `task-worker` containers, by their labels, and a worker holds
     the registration at a commit where `/opt/infrahub/git/<the registration's id>/commits/<the commit's 40 hex>` is a
-    directory in it, the tree Infrahub checks the commit out in (design/verified-facts.md, "Infrahub 1.11.11")."""
+    directory in it, the tree Infrahub checks the commit out in (fylgja-core's design/verified-facts.md, "Infrahub
+1.11.11")."""
     import infrahub_dev
 
     assert register.PROJECT == infrahub_dev.PROJECT

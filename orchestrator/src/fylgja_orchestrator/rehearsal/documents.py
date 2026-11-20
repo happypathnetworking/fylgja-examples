@@ -3,8 +3,8 @@ document, what each came to on the twin. Each is a plain JSON value, as the libr
 this module validates one against its format and makes the findings both hold.
 
 The two formats are the example's, carried by its wheel beside its package and not by the core's (D-084,
-formats/README.md, note 23), and read through the core's registry, which holds the core's formats beside them.
-"""
+fylgja-core's formats/README.md, note 23), and read through the core's registry, which holds the core's formats beside
+them. """
 
 from __future__ import annotations
 

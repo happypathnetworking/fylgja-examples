@@ -56,7 +56,7 @@ TIMEOUT = httpx.Timeout(60.0, connect=5.0)
 VALIDATION_S = 300.0
 """How long a set-up waits for a proposed change's artifact validation to complete: it was first read complete 45.7 s
 after the create on a quiet instance, and passed 94.6 s after the create of one queued behind another's (a derivation;
-design/verified-facts.md, "Infrahub 1.11.11")."""
+fylgja-core's design/verified-facts.md, "Infrahub 1.11.11")."""
 
 OPEN_READ = (
     'query ($branch: String!) { CoreProposedChange(source_branch__value: $branch, state__value: "open") '

@@ -84,8 +84,8 @@ def test_a_token_a_header_cannot_carry_is_refused_naming_the_variable_alone(toke
 
 
 def test_the_client_drops_an_idle_connection_before_the_server_does(monkeypatch: pytest.MonkeyPatch) -> None:
-    """Infrahub's server closes a connection idle for 2 s (design/verified-facts.md), the interval of every wait's
-    polls: a connection the client kept longer was once closed under a poll, which then had no answer."""
+    """Infrahub's server closes a connection idle for 2 s (fylgja-core's design/verified-facts.md), the interval of
+    every wait's polls: a connection the client kept longer was once closed under a poll, which then had no answer."""
     made: list[dict[str, Any]] = []
     real = httpx.Client
 
@@ -322,7 +322,8 @@ def test_wait_until_returns_what_it_read_and_ends_at_its_bound_with_the_last_rea
 
 
 SHED_WORDS = "Server is shedding load; retry later."
-"""What 1.11.11 answered a request it shed, with HTTP 429 (design/verified-facts.md, "Infrahub 1.11.11")."""
+"""What 1.11.11 answered a request it shed, with HTTP 429 (fylgja-core's design/verified-facts.md, "Infrahub
+1.11.11")."""
 
 
 def shed(retry_after: str | None = "3", *, marked: bool = True) -> httpx.Response:

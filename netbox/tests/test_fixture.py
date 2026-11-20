@@ -4,8 +4,8 @@ against `testdata/blueprint/three-node.json` and `three-node-probed.json`, the r
 `netbox/seed/template.j2` against the configuration lines the blueprint holds.
 
 Nothing here reaches NetBox: what it makes of the files, and what the template renders, is read on the running
-instance (design/verified-facts.md, "NetBox 4.7.5 with netbox-branching 1.2.3") and held by the contract tier.
-"""
+instance (fylgja-core's design/verified-facts.md, "NetBox 4.7.5 with netbox-branching 1.2.3") and held by the contract
+tier. """
 
 from __future__ import annotations
 

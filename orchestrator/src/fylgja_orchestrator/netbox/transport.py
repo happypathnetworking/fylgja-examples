@@ -5,10 +5,10 @@ The reader writes nothing, and the source must write a journal entry and a branc
 here: `GET`, `POST` and `PATCH` of NetBox's REST API under `/api/`, each with no `X-NetBox-Branch` header, since a
 branch object, its tags and its journal entries live on `main`. A list is read `PAGE` at a time, by `limit` and the
 offset of what was read, until it holds the `count` NetBox answered; NetBox's `next` is never followed, since it holds
-NetBox's own address, nor is a redirect (design/verified-facts.md, "NetBox 4.7.5 with netbox-branching 1.2.3"). Every
-request is given 30 s, 5 s of them to connect, and reads no proxy or certificate from the environment; the token is
-sent in the one header `Authorization`, as NetBox's v2 token is, checked by the client's bearer rule before any request
-so that no HTTP library's complaint can quote it.
+NetBox's own address, nor is a redirect (fylgja-core's design/verified-facts.md, "NetBox 4.7.5 with netbox-branching
+1.2.3"). Every request is given 30 s, 5 s of them to connect, and reads no proxy or certificate from the environment;
+the token is sent in the one header `Authorization`, as NetBox's v2 token is, checked by the client's bearer rule before
+any request so that no HTTP library's complaint can quote it.
 
 Every failure is a `SourceError` saying what was asked. A token refused, HTTP 401 or 403, is `refused_token`'s
 sentence by its status, the call named, quoting nothing of the answer and naming no variable, which the source gives
@@ -38,7 +38,8 @@ TIMEOUT = httpx.Timeout(30.0, connect=5.0)
 """What one request is given: 30 s, 5 s of them to connect."""
 
 PAGE = 100
-"""How many rows one request of a list asks for: NetBox answered a page of 100 whole (design/verified-facts.md)."""
+"""How many rows one request of a list asks for: NetBox answered a page of 100 whole (fylgja-core's
+design/verified-facts.md)."""
 
 QUOTED = 500
 """How many characters of NetBox's words an error quotes."""

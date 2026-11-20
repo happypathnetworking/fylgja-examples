@@ -1,5 +1,6 @@
 """The runner, `fylgja-orchestrator serve` (D-085): the two flows a check or a tag starts, `stage-plan` and
-`twin-rehearse`, served to Prefect as `<flow>/main`, each by its module path (verified-facts.md, "Prefect 3.9.2").
+`twin-rehearse`, served to Prefect as `<flow>/main`, each by its module path (fylgja-core's verified-facts.md, "Prefect
+3.9.2").
 
 It refuses to start, exit 2 in one line, where `PREFECT_API_URL` is unset, or a setting the flows read is unset or
 refused by the clients' rules, or the source named is neither (`settings.refused`), so a runner never serves flows that

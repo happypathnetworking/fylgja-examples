@@ -54,7 +54,7 @@ documentation range on the port it cabled, by its value and its port. They are `
 
 UNSETTLED = ("new", "provisioning")
 """The statuses of a branch that is waited for until `ready` before its `DELETE`, which NetBox refuses 500 in them
-(design/verified-facts.md, "A branch deleted before it is `ready`")."""
+(fylgja-core's design/verified-facts.md, "A branch deleted before it is `ready`")."""
 
 INTERFACE = "dcim.interface"
 

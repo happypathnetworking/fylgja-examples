@@ -39,21 +39,22 @@ TIMEOUT = httpx.Timeout(30.0, connect=5.0)
 KEEPALIVE_S = 1.0
 """Seconds an idle connection is kept for the next request, as the reader keeps one: on a connection kept 2.0 s idle,
 one request in three trials was refused (`RemoteProtocolError`), and from 2.2 s Infrahub's answer came on a new
-connection; the source asks every `VALIDATION_POLL_S` while it waits (design/verified-facts.md, "Infrahub 1.11.11")."""
+connection; the source asks every `VALIDATION_POLL_S` while it waits (fylgja-core's design/verified-facts.md, "Infrahub
+1.11.11")."""
 
 SHED_WAIT_DEFAULT_S = 5
 """Seconds waited before a shed request is sent again where Infrahub's `Retry-After` is missing or no count of seconds.
 Infrahub 1.11.11's backpressure answers a request it sheds with HTTP 429, `Retry-After` in whole seconds and
 `X-Infrahub-Admission: shed`, written before any handler runs, so the request did nothing and is sent again, a mutation
-among them (design/verified-facts.md, "Infrahub 1.11.11")."""
+among them (fylgja-core's design/verified-facts.md, "Infrahub 1.11.11")."""
 
 SHED_WAIT_MAX_S = 30
 """The most seconds one wait for a shed request lasts, whatever `Retry-After` says; the least is 1."""
 
 SHED_BUDGET_S = 300
 """The most seconds the waits for one shed request add up to, ours: of the order of infrahub-sdk's own bound for a 429,
-10 retries of at most 60 s each (design/verified-facts.md, "Infrahub 1.11.11"). A wait that would pass it is not taken,
-and the last 429 fails as any 429 does."""
+10 retries of at most 60 s each (fylgja-core's design/verified-facts.md, "Infrahub 1.11.11"). A wait that would pass it
+is not taken, and the last 429 fails as any 429 does."""
 
 QUOTED = 500
 """How many characters of Infrahub's messages an error quotes."""

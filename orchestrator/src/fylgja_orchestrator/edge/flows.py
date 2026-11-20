@@ -9,13 +9,13 @@ is taken off then and asks for no other. The document the flow is handed is file
 its status: nothing is retried (D-086).
 
 A cancel, or the flow's time limit, gives the body a `BaseException`: Prefect 3.9.2's `TerminationSignal` or its
-`CancelledError` (verified-facts.md, "Prefect 3.9.2"). Inside `rehearse` it reaches the library, whose own handler asks
-the twin's deletion, the one request that also cancels the run in flight, and raises it again. That clean-up has about
-30 s, after which Prefect kills the flow's process; an `except` block's two requests and a `finally`'s artifact were
-read to arrive within it after both a cancel and a time limit. So the flow's `finally` files the document only where
-it was handed one, and adds no request, no wait and no following of its own: `rehearse` hands none on that path, so
-none is filed, and the check concludes from the run's state, stopped (D-085). Then it closes the source and the core,
-which asks nothing of either, whether or not the filing was made or raised.
+`CancelledError` (fylgja-core's verified-facts.md, "Prefect 3.9.2"). Inside `rehearse` it reaches the library, whose own
+handler asks the twin's deletion, the one request that also cancels the run in flight, and raises it again. That
+clean-up has about 30 s, after which Prefect kills the flow's process; an `except` block's two requests and a
+`finally`'s artifact were read to arrive within it after both a cancel and a time limit. So the flow's `finally` files
+the document only where it was handed one, and adds no request, no wait and no following of its own: `rehearse` hands
+none on that path, so none is filed, and the check concludes from the run's state, stopped (D-085). Then it closes the
+source and the core, which asks nothing of either, whether or not the filing was made or raised.
 
 The rehearsal's limit is `Limits().limit_s`, and the flow's own is 300 s above it, for the library's end after its
 limit fires (its cancel, its deletion and its post), so that the library's limit fires first.

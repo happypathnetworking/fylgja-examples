@@ -2,8 +2,8 @@
 `infrahub/seed/stages/`'s object files against `testdata/blueprint/three-node.json`, and the reader document
 `infrahub/seed/reader.yaml` against the platform package it names.
 
-Nothing here reaches Infrahub: what it makes of the files is read on the running instance (design/verified-facts.md,
-"Infrahub 1.11.11") and held by the contract tier.
+Nothing here reaches Infrahub: what it makes of the files is read on the running instance (fylgja-core's
+design/verified-facts.md, "Infrahub 1.11.11") and held by the contract tier.
 """
 
 from __future__ import annotations

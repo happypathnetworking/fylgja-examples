@@ -5,16 +5,16 @@ may write and what each is refused, and the accounts made twice.
 `FYLGJA_ORCHESTRATOR_NETBOX_TOKEN`, which `make netbox-seed` writes into `local/.env`; `box` is the superuser's; each
 is made by the conftest's `writer`, whose `repr` holds no address. The module's fixture seeds `main` first, as
 `make netbox-seed` does; on a `main` the seed has already filled it writes nothing. Each refusal is asserted at the
-status it was read to answer (design/verified-facts.md, "NetBox 4.7.5 with netbox-branching 1.2.3"): a write or a
-list refused for want of a permission is 403. Every write a test sends, and every write it expects refused, is under
-its own branch's header or of that branch, which the `branch` fixture deletes, so that one that wrongly succeeded
-lands on no row of `main`; the example's journal entry, written with no header as the example writes it, is deleted
-after by the superuser.
+status it was read to answer (fylgja-core's design/verified-facts.md, "NetBox 4.7.5 with netbox-branching 1.2.3"): a
+write or a list refused for want of a permission is 403. Every write a test sends, and every write it expects refused,
+is under its own branch's header or of that branch, which the `branch` fixture deletes, so that one that wrongly
+succeeded lands on no row of `main`; the example's journal entry, written with no header as the example writes it, is
+deleted after by the superuser.
 
-The tests rest on two budgets (design/verified-facts.md, "NetBox 4.7.5 with netbox-branching 1.2.3"). The `branch`
-fixture waits up to `BRANCH_WAIT_S`, 120 s, for `ready`: branches read `ready` 11.1 s at most after their request,
-and two whose `DELETE` NetBox refused while they provisioned read `ready` at reads 26.7 s to 28.2 s after it; 120 s
-is about 4.3 times the slowest, 28.2 s, a derivation. Every request is given `TIMEOUT_S`, 30 s, a first value: a
+The tests rest on two budgets (fylgja-core's design/verified-facts.md, "NetBox 4.7.5 with netbox-branching 1.2.3"). The
+`branch` fixture waits up to `BRANCH_WAIT_S`, 120 s, for `ready`: branches read `ready` 11.1 s at most after their
+request, and two whose `DELETE` NetBox refused while they provisioned read `ready` at reads 26.7 s to 28.2 s after it;
+120 s is about 4.3 times the slowest, 28.2 s, a derivation. Every request is given `TIMEOUT_S`, 30 s, a first value: a
 user's create read 1.48 s, and the slowest request read, a branch's `DELETE`, read in scripts beside the tier and not
 as the fixture ends, 3.41 s and 3.31 s in one script and 2.83 s in another; 30 s is 8.8 times the slowest, a
 derivation.

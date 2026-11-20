@@ -393,9 +393,9 @@ def test_up_recreates_a_network_of_another_subnet_and_keeps_the_volumes(
     tmp_path: Path, capsys: pytest.CaptureFixture[str]
 ) -> None:
     """Docker gave the project the local driver's whole lab pool before the override named a range, and the script
-    recreated that network on the kept volumes (design/verified-facts.md, "NetBox 4.7.5 with netbox-branching
-    1.2.3"); what Compose's `up` alone does to it was not read: the containers and the network are removed, the
-    volumes kept, and the start goes on."""
+    recreated that network on the kept volumes (fylgja-core's design/verified-facts.md, "NetBox 4.7.5 with
+    netbox-branching 1.2.3"); what Compose's `up` alone does to it was not read: the containers and the network are
+    removed, the volumes kept, and the start goes on."""
     network, run = Network(OTHER), Run(0, 0, 0)
     assert start(tmp_path, run, network=network) == 0
     assert network.names == ["fylgja-examples-netbox_default"]
@@ -478,7 +478,7 @@ def test_a_down_that_fails_ends_up_with_its_status(tmp_path: Path, capsys: pytes
 
 def test_up_waits_for_health_and_asks_compose_again_where_the_first_start_failed(tmp_path: Path) -> None:
     """The first start exits 1 while NetBox migrates, and leaves the worker created and not started
-    (design/verified-facts.md, "NetBox 4.7.5 with netbox-branching 1.2.3")."""
+    (fylgja-core's design/verified-facts.md, "NetBox 4.7.5 with netbox-branching 1.2.3")."""
     clock = Clock()
     run = Run(0, 1, 0, clock=clock)
     health = healthy_from(clock, at_s=650)
@@ -623,8 +623,8 @@ def refusal(url: str, code: int, body: bytes) -> urllib.error.HTTPError:
 def test_provisioning_posts_the_password_and_says_nothing(
     monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
 ) -> None:
-    """Provisioning answers 201 with the token's `key` and `token` (design/verified-facts.md, "NetBox 4.7.5 with
-    netbox-branching 1.2.3"), and a wrong password 403."""
+    """Provisioning answers 201 with the token's `key` and `token` (fylgja-core's design/verified-facts.md, "NetBox
+    4.7.5 with netbox-branching 1.2.3"), and a wrong password 403."""
     key, secret = "abcdefghijkl", "0123456789abcdefghijABCDEFGHIJ0123456789"
     asked: list[urllib.request.Request] = []
     url = netbox_dev.ADDRESS + "/api/users/tokens/provision/"
@@ -652,7 +652,7 @@ def test_provisioning_posts_the_password_and_says_nothing(
 
 def test_the_status_is_read_with_the_token_and_a_refusal_raises(monkeypatch: pytest.MonkeyPatch) -> None:
     """`/api/status/` names the versions and `rq-workers-running`; a token NetBox never made is 403 `Invalid v2
-    token` (design/verified-facts.md, "NetBox 4.7.5 with netbox-branching 1.2.3")."""
+    token` (fylgja-core's design/verified-facts.md, "NetBox 4.7.5 with netbox-branching 1.2.3")."""
     asked: list[urllib.request.Request] = []
     answers: list[Answer | urllib.error.HTTPError | OSError] = [
         Answer(
@@ -703,7 +703,7 @@ def test_the_status_is_read_with_the_token_and_a_refusal_raises(monkeypatch: pyt
 )
 def test_the_health_is_netbox_rows_and_none_without_it(printed: str) -> None:
     """`ps --format json` prints a row a container, each with `Service` and `Health`
-    (design/verified-facts.md, "NetBox 4.7.5 with netbox-branching 1.2.3")."""
+    (fylgja-core's design/verified-facts.md, "NetBox 4.7.5 with netbox-branching 1.2.3")."""
     assert netbox_dev.health_of(printed) == "starting"
     assert netbox_dev.health_of(printed.replace('"netbox"', '"netbox-worker"')) is None
     assert netbox_dev.health_of("") is None
@@ -789,7 +789,8 @@ def test_ipv4_keeps_a_subnet_that_does_not_read_and_drops_ipv6() -> None:
 def test_the_fetch_unpacks_the_archive_without_its_top_directory(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    """GitHub's archive of a tag holds one directory, `netbox-docker-<tag>/` (design/verified-facts.md)."""
+    """GitHub's archive of a tag holds one directory, `netbox-docker-<tag>/` (fylgja-core's
+    design/verified-facts.md)."""
     packed = io.BytesIO()
     with tarfile.open(fileobj=packed, mode="w:gz") as tar:
         for name, body in (("docker-compose.yml", b"services: {}\n"), ("env/netbox.env", b"SKIP_SUPERUSER=true\n")):

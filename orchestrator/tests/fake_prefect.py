@@ -2,7 +2,7 @@
 recorded (D-034): an `httpx.MockTransport` handler over state a test sets, with a clock that only the glue's `sleep`
 advances, and a fake of the check's own Infrahub client, which answers the open proposed changes of a branch.
 
-The fake answers as Prefect 3.9.2 was read to (design/verified-facts.md, "Prefect 3.9.2"): a deployment by
+The fake answers as Prefect 3.9.2 was read to (fylgja-core's design/verified-facts.md, "Prefect 3.9.2"): a deployment by
 `<flow>/main`, a run made `SCHEDULED` by `create_flow_run` (201), its state read by `GET /api/flow_runs/<id>`, a
 cancel by `set_state` answering `ACCEPT`, a document as an artifact whose `data` is a JSON string, and 401 to every
 request whose basic auth is not the one it accepts.

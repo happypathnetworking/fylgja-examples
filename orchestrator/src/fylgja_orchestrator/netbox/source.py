@@ -100,8 +100,8 @@ BRANCH_TYPE = "netbox_branching.branch"
 UNCOUNTED = (*UNREAD, "extras.webhook", "extras.eventrule")
 """The kinds of `main`'s changelog rows `stage.main.gained` counts nothing of: the two whose rows refuse no read
 (`fylgja_netbox.bracket.UNREAD`), a journal entry and a branch's own, and the trigger's two, a webhook and an event
-rule, which `make netbox-hook` writes on `main` and no read reads (design/verified-facts.md, "A rule's change is
-counted as a change of `main`"). A tag is counted, since a tag can be a scope."""
+rule, which `make netbox-hook` writes on `main` and no read reads (fylgja-core's design/verified-facts.md, "A rule's
+change is counted as a change of `main`"). A tag is counted, since a tag can be a scope."""
 
 _KEYS = ("blueprint", "scope", "read")
 _LINE = re.compile(r"- (blueprint|scope|read):(.*)")
@@ -242,8 +242,8 @@ def _called(mark: Mark) -> str:
 
 def spaced(text: str) -> str:
     """`text` with an empty line put before each list that directly follows a line of text, and nothing else of it
-    changed: NetBox renders a Markdown list only where an empty line stands before it (design/verified-facts.md, "A
-    report as a journal entry")."""
+    changed: NetBox renders a Markdown list only where an empty line stands before it (fylgja-core's
+    design/verified-facts.md, "A report as a journal entry")."""
     lines = text.split("\n")
     out: list[str] = []
     for k, line in enumerate(lines):
@@ -462,7 +462,7 @@ class NetBoxSource:
     def _gained(self, synced: str) -> int:
         """How many rows `main`'s changelog holds of `synced` or later, which `time_after` counts, but of the kinds of
         `UNCOUNTED`, left out by their object types' ids: the name form keeps the kinds it names
-        (design/verified-facts.md, "A branch behind `main`")."""
+        (fylgja-core's design/verified-facts.md, "A branch behind `main`")."""
         if self._types is None:
             self._types = tuple(self._type(kind) for kind in UNCOUNTED)
         answer = self._transport.get(CHANGES, time_after=synced, changed_object_type_id__n=self._types, limit="1")

@@ -82,8 +82,8 @@ SLEEP: Callable[[float], None] = time.sleep
 UNSETTLED = ("new", "provisioning")
 """The statuses of a branch whose `DELETE` the tier does not send until the branch has left them: NetBox refused 500
 the `DELETE` of a branch provisioning, and of one read `new` just before, which status NetBox then held not read, and
-the branch stayed (design/verified-facts.md, "A branch deleted before it is `ready`"). A `DELETE` of a branch `new`
-was not read; it is waited on because it comes before provisioning."""
+the branch stayed (fylgja-core's design/verified-facts.md, "A branch deleted before it is `ready`"). A `DELETE` of a
+branch `new` was not read; it is waited on because it comes before provisioning."""
 
 POLL_S = 1.0
 """Seconds between two reads of a branch the tier waits on before its `DELETE`, as `branched` reads one."""

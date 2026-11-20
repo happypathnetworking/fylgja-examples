@@ -1,6 +1,6 @@
 # The marks of a branch: every FylgjaStage naming it, branch-agnostic and asked on main, with its label, its as_of and
 # its description as written, and the time Infrahub gave its writing, its edge's created_at, which an edit of the
-# description does not move (design/verified-facts.md, "Infrahub 1.11.11", "A mark's times").
+# description does not move (fylgja-core's design/verified-facts.md, "Infrahub 1.11.11", "A mark's times").
 query Marks($branch: String!) {
   FylgjaStage(branch__value: $branch) {
     count

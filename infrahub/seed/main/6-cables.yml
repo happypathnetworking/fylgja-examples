@@ -3,7 +3,7 @@
 # testdata/blueprint/three-node.json less the one between n1 and n3, which the seeded branch adds. Each end is a port
 # the devices' file made, named by its device and its name and nested in the cable, so the load finds that port and
 # makes none. The label is the cable's human-friendly id: its two ends, sorted, joined by a bar. An unlabelled cable
-# would be found again as any other unlabelled one (design/verified-facts.md, "Infrahub 1.11.11").
+# would be found again as any other unlabelled one (fylgja-core's design/verified-facts.md, "Infrahub 1.11.11").
 apiVersion: infrahub.app/v1
 kind: Object
 spec:

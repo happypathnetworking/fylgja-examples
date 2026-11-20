@@ -2,8 +2,8 @@
 the status each error gives, a finding quoted in a sentence, and a source's sentence made the end of another.
 
 A rehearsal's status is given by its document's first error finding, the cause, and by nothing else (D-086): a
-document with none has passed. The rules are the example's own, never the core's (formats/README.md, note 11), and
-the library branches on a rule, never on a message.
+document with none has passed. The rules are the example's own, never the core's (fylgja-core's formats/README.md, note
+11), and the library branches on a rule, never on a message.
 """
 
 from __future__ import annotations

@@ -6,7 +6,8 @@ own (D-085), whose one role, in one group, holds four permissions: `object:Core:
 and `object:Core:ThreadComment:create:allow_default`, which a thread and its comments take;
 `global:edit_default_branch:allow_default`, since both are written on `main`; and the instance's own
 `object:*:*:view:allow_all`, since the three alone read nothing, every kind refused 403, and a view of every kind on
-`main` alone does not read the proposed change's branch (design/verified-facts.md, "Infrahub 1.11.11"; P5-27).
+`main` alone does not read the proposed change's branch (fylgja-core's design/verified-facts.md, "Infrahub 1.11.11";
+P5-27).
 
 Every run reads the role and brings it to exactly the four permissions, made where absent, the ones it lacks added and
 any other taken off, and reads the group and makes it again where it lacks the role or the account, each with a mutation

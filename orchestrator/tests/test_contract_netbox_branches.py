@@ -23,8 +23,8 @@ SYNCED = "2026-11-12T16:30:00.115200Z"
 
 
 PROVISIONING = "A branch in the provisioning status may not be deleted."
-"""NetBox's words in its 500 to a `DELETE` of a branch still provisioning (design/verified-facts.md, "A branch deleted
-before it is `ready`")."""
+"""NetBox's words in its 500 to a `DELETE` of a branch still provisioning (fylgja-core's design/verified-facts.md, "A
+branch deleted before it is `ready`")."""
 
 
 class Branches:

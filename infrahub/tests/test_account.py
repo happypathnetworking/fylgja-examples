@@ -3,9 +3,9 @@ its group, and its token's line in `local/.env`, checked before it is trusted.
 
 Infrahub is a fake behind `httpx.MockTransport`: the admin's GraphQL by the writer's token, a login, a token made with
 a login's bearer, and `AccountProfile` answered to an account's token or refused 401 where the token is none or its
-account is gone (design/verified-facts.md, "Infrahub 1.11.11"). Nothing here opens a socket or starts a process. No
-value of a token or a password is compared inside an assert, whose message would print it: each is compared first
-and the assert given the answer alone (as fylgja-core's `core/tests/test_config.py`'s `same()`).
+account is gone (fylgja-core's design/verified-facts.md, "Infrahub 1.11.11"). Nothing here opens a socket or starts a
+process. No value of a token or a password is compared inside an assert, whose message would print it: each is compared
+first and the assert given the answer alone (as fylgja-core's `core/tests/test_config.py`'s `same()`).
 """
 
 from __future__ import annotations
@@ -476,7 +476,7 @@ def test_an_accepted_line_whose_group_lacks_the_role_mends_the_group_alone(
     assert f"{LINE} in {env} is accepted" in said
 
 
-# A request Infrahub sheds under load (design/verified-facts.md, "Infrahub 1.11.11").
+# A request Infrahub sheds under load (fylgja-core's design/verified-facts.md, "Infrahub 1.11.11").
 
 SHED_WORDS = "Server is shedding load; retry later."
 

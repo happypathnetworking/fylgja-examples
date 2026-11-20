@@ -2,7 +2,7 @@
 # The fixture network on main, read by infrahubctl object load (infrahub/seed/seed.py): the probe of
 # testdata/blueprint/three-node-probed.json, n1-loop, its hosts on n1's uncabled ethernet-1/10 and ethernet-1/11, each
 # gateway the address the devices' file gives that port. A FylgjaProbe, the reader's kind, which the seed loads on main
-# before these files (readers/infrahub/schema/fylgja-probe.yml); it names its device by its name, and is branch-agnostic,
+# before these files (infrahub/schema/fylgja-probe.yml); it names its device by its name, and is branch-agnostic,
 # so the seeded branch reads it too.
 apiVersion: infrahub.app/v1
 kind: Object

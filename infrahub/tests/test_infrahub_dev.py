@@ -370,7 +370,8 @@ def test_up_fetches_the_versions_file_once(tmp_path: Path) -> None:
 
 
 def test_the_fetch_names_itself_to_the_published_files_server(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
-    """The server refused urllib's own User-Agent with 403 (design/verified-facts.md, "Infrahub 1.11.11")."""
+    """The server refused urllib's own User-Agent with 403 (fylgja-core's design/verified-facts.md, "Infrahub
+    1.11.11")."""
     asked: list[urllib.request.Request] = []
 
     def urlopen(request: urllib.request.Request, timeout: float) -> io.BytesIO:
@@ -451,7 +452,8 @@ def test_down_stops_and_a_purge_removes_the_volumes_and_the_seed_file(tmp_path: 
 
 
 def test_the_stop_gives_each_service_the_stop_timeout(tmp_path: Path) -> None:
-    """Compose's own grace of 10 s ended in Neo4j killed, 137 (design/verified-facts.md, "Infrahub 1.11.11")."""
+    """Compose's own grace of 10 s ended in Neo4j killed, 137 (fylgja-core's design/verified-facts.md, "Infrahub
+    1.11.11")."""
     override, repo = tmp_path / "override.yml", tmp_path / ".git"
     run = Run(0)
     assert infrahub_dev.down(tmp_path, VERSION, override, repo, purge=False, run=run) == 0

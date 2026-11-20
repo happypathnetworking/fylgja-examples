@@ -8,7 +8,7 @@ Run by `make netbox-hook` as `.venv/bin/python netbox/seed/hook.py --prefect <Pr
 
 - the id of the deployment `twin-rehearse/main` is read from Prefect with the basic auth. A deployment's id is another
   once Prefect's home is new, and a webhook naming an old id is answered 404 and starts nothing
-  (design/verified-facts.md, "Prefect 3.9.2"), so this is run again after every new home;
+  (fylgja-core's design/verified-facts.md, "Prefect 3.9.2"), so this is run again after every new home;
 - the tag `TAG`, limited to branches; the webhook `NAME`, a `POST` to `http://<receiver>/api/deployments/<id>/
   create_flow_run`, `--receiver` the address NetBox's worker reaches Prefect at, of `BODY`, the branch's name as the
   flow's one parameter, with the basic auth's header line; and the event rule `NAME` on a branch's update while it
@@ -20,15 +20,15 @@ Run by `make netbox-hook` as `.venv/bin/python netbox/seed/hook.py --prefect <Pr
 Each request to NetBox is the superuser's: neither account may list a webhook or an event rule, or read one by its
 id. Both read `main`'s changelog, though, and its rows of a webhook hold `additional_headers` as written, unmasked,
 and `secret` too, which this sets none of, so the basic auth this installs is read there by the reader's account and
-the example's, as read for their grants, which have no constraint (design/verified-facts.md, "NetBox 4.7.5 with
-netbox-branching 1.2.3"). The rows outlive the webhook, so a value once written stays readable until that changelog's
-own pruning, or a purge of the instance, removes its rows; replacing the auth removes no row, and the old value stays
-readable there and only stops opening Prefect. The example accepts this as a known limit: it is a demonstration, whose
-secrets sit together on a development host. Restricting who may view the changelog is by itself no remedy, since both
-accounts must keep that view. A deployment that shares its NetBox puts a receiver of its own between NetBox and
-Prefect, so that Prefect's credential never enters NetBox, though whatever that receiver is sent, a header or a
-`secret`, the same rows hold; or it gives grants that hide the webhook's rows from the accounts that need the
-changelog, which was not read (docs/integrating.md, "Credentials"). The basic auth, its base64
+the example's, as read for their grants, which have no constraint (fylgja-core's design/verified-facts.md, "NetBox 4.7.5
+with netbox-branching 1.2.3"). The rows outlive the webhook, so a value once written stays readable until that
+changelog's own pruning, or a purge of the instance, removes its rows; replacing the auth removes no row, and the old
+value stays readable there and only stops opening Prefect. The example accepts this as a known limit: it is a
+demonstration, whose secrets sit together on a development host. Restricting who may view the changelog is by itself no
+remedy, since both accounts must keep that view. A deployment that shares its NetBox puts a receiver of its own between
+NetBox and Prefect, so that Prefect's credential never enters NetBox, though whatever that receiver is sent, a header or
+a `secret`, the same rows hold; or it gives grants that hide the webhook's rows from the accounts that need the
+changelog, which was not read (fylgja-core's docs/integrating.md, "Credentials"). The basic auth, its base64
 and the header line are handed to `Box.hide` before any request that carries them, so that a refusal echoing one has
 it replaced before NetBox's words are cut; no error is chained to the httpx exception it came from, which carries its
 request's headers.
@@ -74,7 +74,7 @@ by value."""
 BODY = '{"parameters": {"branch": {{ data.name | tojson }}}}'
 """The webhook's body, which NetBox renders with the branch as `data`: the flow's one parameter, the branch's name,
 written as a JSON string by Jinja2's `tojson`, so that a name holding `"` or `\\`, which the plugin takes, is sent as
-it is (design/verified-facts.md, "A branch's name in a webhook's body")."""
+it is (fylgja-core's design/verified-facts.md, "A branch's name in a webhook's body")."""
 
 CONDITIONS = {"and": [{"attr": "tags.slug", "value": TAG, "op": "contains"}]}
 """The rule's conditions: a branch's update sends the webhook only while the branch carries the tag."""

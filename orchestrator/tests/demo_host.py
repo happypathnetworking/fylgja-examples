@@ -204,9 +204,9 @@ class FakeHost:
         """What `docker network inspect --format '{{json .Name}} {{json .IPAM.Config}}' <ids…>` prints: a line a
         network in the order of the ids, its name as a JSON string as Go writes one, no character above ASCII
         escaped, one space, and its IPAM config, a list of `{"Subnet", "Gateway"}` objects with no space in it, or
-        `null` for a network with none, as `host` and `none` (design/verified-facts.md, Docker 29.8.1: the line read
-        was `"fylgja-core-netbox_default" [{"Subnet":"198.51.100.0/24","Gateway":"198.51.100.1"}]`; that reading was
-        made on fylgja-core's development NetBox, and this repository's is named fylgja-examples-netbox, on
+        `null` for a network with none, as `host` and `none` (fylgja-core's design/verified-facts.md, Docker 29.8.1: the
+        line read was `"fylgja-core-netbox_default" [{"Subnet":"198.51.100.0/24","Gateway":"198.51.100.1"}]`; that
+        reading was made on fylgja-core's development NetBox, and this repository's is named fylgja-examples-netbox, on
         192.0.2.0/24). An id no network has is exit 1, as read of a name no network has."""
         held = {short_id(name): (name, subnets) for name, subnets in self.networks}
         ids = ran.argv[ran.argv.index("--format") + 2 :]
@@ -217,7 +217,7 @@ class FakeHost:
     def image_inspected(self, ran: Ran) -> Any:
         """What `docker image inspect --format '{{.Id}}' <ref>` does: prints the image's id, `sha256:` and 64 hex
         digits, exit 0, where Docker holds the reference; exit 1 having printed nothing on stdout where it holds
-        none (design/verified-facts.md: `No such image`, on stderr)."""
+        none (fylgja-core's design/verified-facts.md: `No such image`, on stderr)."""
         ref = ran.argv[-1]
         if ref not in self.images:
             return demo.Done(1, "")

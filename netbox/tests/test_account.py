@@ -156,8 +156,8 @@ def test_the_accounts_their_lines_and_their_grants_are_the_table() -> None:
 
 
 def test_the_fake_answers_users_permissions_and_tokens_as_netbox_does() -> None:
-    """The rules the fake keeps of users, permissions and tokens (design/verified-facts.md, "NetBox 4.7.5 with
-    netbox-branching 1.2.3"): a user made only with a password and answered with none; a token's secret answered by
+    """The rules the fake keeps of users, permissions and tokens (fylgja-core's design/verified-facts.md, "NetBox 4.7.5
+    with netbox-branching 1.2.3"): a user made only with a password and answered with none; a token's secret answered by
     its create alone; a permission's `users` and a token's `user` as rows; `is_superuser` a filter."""
     fake = FakeNetBox()
     box = over(fake)

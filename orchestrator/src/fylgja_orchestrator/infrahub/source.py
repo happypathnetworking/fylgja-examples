@@ -88,7 +88,7 @@ VALIDATION_POLL_S = 5.0
 VALIDATION_APPEAR_S = 120.0
 """Seconds after the first read with no validator, at which none is waited for: one was first answered 25 s and 46 s
 after a proposed change's create on a quiet instance, and created 70.5 s after one whose pipeline queued behind
-another's; a change that touches no device has none (design/verified-facts.md, "Infrahub 1.11.11")."""
+another's; a change that touches no device has none (fylgja-core's design/verified-facts.md, "Infrahub 1.11.11")."""
 
 Kind = Literal["branch-point", "mark", "head"]
 

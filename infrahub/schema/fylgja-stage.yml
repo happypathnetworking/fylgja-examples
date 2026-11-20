@@ -7,7 +7,7 @@
 # proposed change of its branch exists: Infrahub runs a proposed change's checks when it is created, and the
 # maintainer's creating one is what starts the rehearsal, which must then find the marks already there. The kind is
 # branch-agnostic, so a mark is written and read through main's endpoint; a mark whose branch and label are another
-# mark's is refused, and a mark is absent from its branch's diff (design/verified-facts.md, "Infrahub 1.11.11").
+# mark's is refused, and a mark is absent from its branch's diff (fylgja-core's design/verified-facts.md, "Infrahub 1.11.11").
 #
 # `as_of` is the time the mark stands at, answered as written; where it is absent the mark stands at its own writing.
 # It is not `at`, which every other part of Fylgja says, since Infrahub refuses an attribute name shorter than three

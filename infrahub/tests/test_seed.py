@@ -47,7 +47,7 @@ BRANCH = "third-link"
 
 RENDERS = {"1-third-link.yml": ("n1", "n3"), "2-n1-address.yml": ("n1",)}
 """The configurations each stage's file changes, as the reading of the two on a scratch branch showed
-(design/verified-facts.md, "Infrahub 1.11.11")."""
+(fylgja-core's design/verified-facts.md, "Infrahub 1.11.11")."""
 
 EPOCH = datetime(2026, 11, 9, 13, 44, 0, 984696, tzinfo=UTC)
 
@@ -421,7 +421,7 @@ def test_the_baseline_loads_each_file_in_order_joins_the_group_and_generates() -
 
 def test_a_seeded_main_loads_nothing_and_still_generates(capsys: pytest.CaptureFixture[str]) -> None:
     """A load would replace each device's groups, the query groups Infrahub joined it to at its first generation among
-    them (design/verified-facts.md, "Infrahub 1.11.11")."""
+    them (fylgja-core's design/verified-facts.md, "Infrahub 1.11.11")."""
     infrahub = seeded()
     hub, ctl = hub_for(infrahub)
     clock = Clock()
@@ -541,8 +541,8 @@ def answering(*answers: str | Refused) -> seed.Head:
 
 def test_a_head_refused_for_a_list_not_whole_is_read_again() -> None:
     """A page of the branch's event log once answered more events than its own `count` just after a generation, and
-    `head` refused it (design/verified-facts.md, "Infrahub 1.11.11"): such a refusal is a reading not yet still, read
-    again within `QUIET_WAIT_S` (P3-36)."""
+    `head` refused it (fylgja-core's design/verified-facts.md, "Infrahub 1.11.11"): such a refusal is a reading not yet
+    still, read again within `QUIET_WAIT_S` (P3-36)."""
     clock = Clock()
     assert seed.settled(answering(INCOMPLETE, "T", "T"), BRANCH, clock=clock, sleep=clock.sleep) == "T"
     assert clock.slept == [seed.QUIET_S] * 2
@@ -647,7 +647,7 @@ def test_a_delete_refused_stops_the_seed_naming_the_branch() -> None:
 
 def test_a_create_unanswered_is_read_for_the_branch_within_its_bound() -> None:
     """A create once went unanswered past the request's 60 s, its branch made 75.1 s after it was sent
-    (design/verified-facts.md, "Infrahub 1.11.11")."""
+    (fylgja-core's design/verified-facts.md, "Infrahub 1.11.11")."""
     late = seeded(unanswered=3)
     hub, _ = hub_for(late)
     clock = Clock()
@@ -766,7 +766,8 @@ def test_an_earlier_seeds_marks_and_open_proposed_change_are_removed_before_the_
     capsys: pytest.CaptureFixture[str],
 ) -> None:
     """A mark outlives its branch, and an open proposed change outlives its branch's delete (D-088;
-    design/verified-facts.md, "Infrahub 1.11.11"), so both are removed whether or not the branch is listed."""
+    fylgja-core's design/verified-facts.md, "Infrahub 1.11.11"), so both are removed whether or not the branch is
+    listed."""
     earlier = ((BRANCH, "third-link"), (BRANCH, "n1-address"), ("another", "third-link"))
     proposed = ((BRANCH, "open"), (BRANCH, "closed"), ("another", "open"))
     for listed in (True, False):
@@ -793,8 +794,8 @@ def test_an_earlier_seeds_marks_and_open_proposed_change_are_removed_before_the_
 
 def test_each_stage_is_marked_at_its_time() -> None:
     """One `FylgjaStage` a stage on `main`, its `as_of` the stage's time verbatim, sent as a `String` variable: a
-    `DateTime!` one is refused, and the value is answered as written (design/verified-facts.md, "Infrahub 1.11.11";
-    P5-29)."""
+    `DateTime!` one is refused, and the value is answered as written (fylgja-core's design/verified-facts.md, "Infrahub
+    1.11.11"; P5-29)."""
     infrahub = seeded()
     hub, _ = hub_for(infrahub)
     clock = Clock()

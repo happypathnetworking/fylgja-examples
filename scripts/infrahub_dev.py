@@ -47,7 +47,7 @@ ADDRESS = "http://127.0.0.1:8000"
 
 UP_WAIT_S = 600
 """How long `up` waits for `/api/info` to answer once Compose's start returns: on new volumes it answered 155 and
-158 s after (design/verified-facts.md, "Infrahub 1.11.11")."""
+158 s after (fylgja-core's design/verified-facts.md, "Infrahub 1.11.11")."""
 
 POLL_S = 2
 """Seconds between two asks of `/api/info`."""
@@ -55,14 +55,14 @@ POLL_S = 2
 STOP_TIMEOUT_S = 60
 """Seconds `down` gives each container to exit by itself before Docker kills it. Compose's own 10 s killed Neo4j
 (137) before it had stopped; given 300 s it exited 0 11.3 s after its signal, which this is over five times
-(design/verified-facts.md, "Infrahub 1.11.11")."""
+(fylgja-core's design/verified-facts.md, "Infrahub 1.11.11")."""
 
 FETCH_TIMEOUT_S = 60
 """Seconds the published file's server is given to answer the fetch."""
 
 USER_AGENT = "fylgja-examples-infrahub_dev"
 """The fetch's User-Agent: the published file's server refused urllib's own with 403, and answered this one
-(design/verified-facts.md, "Infrahub 1.11.11")."""
+(fylgja-core's design/verified-facts.md, "Infrahub 1.11.11")."""
 
 INFO_TIMEOUT_S = 5
 """Seconds `/api/info` is given to answer one ask."""

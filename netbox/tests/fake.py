@@ -2,8 +2,8 @@
 
 It keeps what is posted by its path, gives each object an id of its path's own, answers a list with its `count`, a
 page at a time, and the filters the seed reads with, and records every request. An object is answered in the shape
-NetBox 4.7.5 answers it (design/verified-facts.md, "NetBox 4.7.5 with netbox-branching 1.2.3"): a related object as
-a row with its `id` and its name, a status and an interface's type as `{value}`, an interface's `cable` and
+NetBox 4.7.5 answers it (fylgja-core's design/verified-facts.md, "NetBox 4.7.5 with netbox-branching 1.2.3"): a related
+object as a row with its `id` and its name, a status and an interface's type as `{value}`, an interface's `cable` and
 `link_peers`, an address's `assigned_object`, a cable's two lists of terminations, and a template's code with its
 surrounding whitespace stripped. A user is answered with no password and no `is_superuser`, and made only with a
 password, its `groups` and the permissions naming it as rows; a permission's `users` as rows; a token's `user` as a
@@ -69,8 +69,8 @@ NEARER = {"new": "provisioning", "provisioning": "ready"}
 """The status a branch not yet `ready` reads at the next read of it by its id."""
 
 UNSETTLED = ("new", "provisioning")
-"""The statuses in which NetBox refuses a branch's `DELETE`, 500 (design/verified-facts.md, "A branch deleted before it
-is `ready`")."""
+"""The statuses in which NetBox refuses a branch's `DELETE`, 500 (fylgja-core's design/verified-facts.md, "A branch
+deleted before it is `ready`")."""
 
 
 class FakeNetBox:

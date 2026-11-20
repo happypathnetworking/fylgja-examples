@@ -341,8 +341,8 @@ def test_branched_makes_the_branch_once_and_waits_for_ready() -> None:
 
 
 def test_a_branch_answered_for_another_name_is_refused_naming_both() -> None:
-    """`?name=` answered the branch of that name alone on the instance (design/verified-facts.md); were it to answer
-    another, the seed would wait for, write to or delete a branch it never asked for."""
+    """`?name=` answered the branch of that name alone on the instance (fylgja-core's design/verified-facts.md); were it
+    to answer another, the seed would wait for, write to or delete a branch it never asked for."""
     name = "fylgja-contract-0a1b2c3d"
     made, seen = over(lambda request: page([branch("ready", name="third-link")]))
     with pytest.raises(BoxError) as raised:

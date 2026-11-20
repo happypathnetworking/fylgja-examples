@@ -11,8 +11,8 @@ loaded for `FYLGJA_NETBOX_ADDRESS` and the superuser's `FYLGJA_NETBOX_WRITE_TOKE
   it;
 - of an object found, the template's code, the platform's template, and the context's data and state are written
   again where they differ, and nothing else of it is touched. NetBox keeps a template's code with its surrounding
-  whitespace stripped (design/verified-facts.md, "NetBox 4.7.5 with netbox-branching 1.2.3"), so the code is sent
-  and compared stripped, and a second seed writes nothing;
+  whitespace stripped (fylgja-core's design/verified-facts.md, "NetBox 4.7.5 with netbox-branching 1.2.3"), so the code
+  is sent and compared stripped, and a second seed writes nothing;
 - a port of the fixture's cables that is cabled to another port than the fixture's is refused, naming both, before
   any cable is made;
 - then `main` is read back, the devices tagged `TAG` with their ports, addresses and cables, and each difference from

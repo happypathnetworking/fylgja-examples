@@ -116,7 +116,8 @@ APPARMOR_PROFILE = "/etc/apparmor.d/usr.sbin.rsyslogd"
 APPARMOR_LOCAL = "/etc/apparmor.d/local/usr.sbin.rsyslogd"
 APPARMOR_LINES = ("/opt/srlinux/** mr,", "/run/srlinux/** rw,")
 """Ubuntu's profile of rsyslogd, the file that widens it, and the two lines SR Linux's rsyslogd needs there
-(design/verified-facts.md, "Ubuntu hosts"). Whether the widened profile is loaded is not a user's to read."""
+(fylgja-core's design/verified-facts.md, "Ubuntu hosts"). Whether the widened profile is loaded is not a user's to
+read."""
 
 PROJECTS = {"infrahub": "fylgja-examples-infrahub", "netbox": "fylgja-examples-netbox"}
 """Each source's Compose project, as `infrahub_dev.py` and `netbox_dev.py` name it, held equal by a test."""
@@ -257,18 +258,18 @@ core's twins, by its CLI."""
 
 PULL_TIMEOUT_S = 1800
 """Seconds one `docker pull` is given; a first value. Another tag of the node's image, 3.2 GB, was read to take 108 s
-(design/verified-facts.md, 2026-11-12), and the one pulled here Docker lists at 5.19 GB."""
+(fylgja-core's design/verified-facts.md, 2026-11-12), and the one pulled here Docker lists at 5.19 GB."""
 
 CORE_WAIT_S = 60
 """Seconds the core is given from its start to answer its version: under the two demonstrations it was said to
-answer 1.05 to 2.1 s after its step began, four times (design/verified-facts.md, "Infrahub 1.11.11" and "NetBox
-4.7.5 with netbox-branching 1.2.3", 2026-11-14), of which this is 28.6 times the slowest."""
+answer 1.05 to 2.1 s after its step began, four times (fylgja-core's design/verified-facts.md, "Infrahub 1.11.11" and
+"NetBox 4.7.5 with netbox-branching 1.2.3", 2026-11-14), of which this is 28.6 times the slowest."""
 
 SERVE_WAIT_S = 60
 """Seconds the runner is given from its start to serve both deployments: under the two demonstrations it was said to
 serve them 3.39 to 7.47 s after its step began, four times, a time that holds the read of Prefect's address before
-the start (design/verified-facts.md, "Prefect 3.9.2", 2026-11-14), of which this is 8.0 times the slowest. Where
-`PREFECT_BIND` is not set, `edge_dev.py` first asks Docker for the bridge's gateway, within this."""
+the start (fylgja-core's design/verified-facts.md, "Prefect 3.9.2", 2026-11-14), of which this is 8.0 times the slowest.
+Where `PREFECT_BIND` is not set, `edge_dev.py` first asks Docker for the bridge's gateway, within this."""
 
 STOP_WAIT_S = 30
 """Seconds a process is given to exit after SIGTERM before it is killed, `edge_dev.py`'s `DOWN_WAIT_S`: the runner
@@ -281,9 +282,9 @@ POLL_S = 5.0
 APPEAR_WAIT_S = 300
 """Seconds from the last step's return for the change's flow run to be listed: under the two demonstrations a
 proposed change's run of `twin-rehearse/main` was listed 141.0 and 106.2 s after `make infrahub-seed
-PROPOSED_CHANGE=1` printed its last line (design/verified-facts.md, "Infrahub 1.11.11", 2026-11-14), and the tag's 5.1
-and 5.2 s after `make netbox-change NETBOX_TAG=1` printed its tag's line ("NetBox 4.7.5 with netbox-branching
-1.2.3"), of which this is 2.13 times the slowest."""
+PROPOSED_CHANGE=1` printed its last line (fylgja-core's design/verified-facts.md, "Infrahub 1.11.11", 2026-11-14), and
+the tag's 5.1 and 5.2 s after `make netbox-change NETBOX_TAG=1` printed its tag's line ("NetBox 4.7.5 with
+netbox-branching 1.2.3"), of which this is 2.13 times the slowest."""
 
 RUN_WAIT_S = 4200
 """Seconds from the change's flow run listed to its end: no reading, but the flow's own bound,
@@ -293,8 +294,8 @@ DOCUMENT_WAIT_S = 60
 """Seconds from the run's end read to its document read, a read unanswered being asked again. The run files its
 document before it ends, and under the two demonstrations the verdict was said 0.20 to 0.26 s after the listing that
 gave the run `COMPLETED`, four times: under NetBox's the document was read at the first ask, and under Infrahub's,
-within one `POLL_S`, it is inferred to have been (design/verified-facts.md, "Prefect 3.9.2", 2026-11-14), of which
-this is 231 times the slowest."""
+within one `POLL_S`, it is inferred to have been (fylgja-core's design/verified-facts.md, "Prefect 3.9.2", 2026-11-14),
+of which this is 231 times the slowest."""
 
 DESTROY_TIMEOUT_S = 300
 """Seconds one `fylgja-core twin destroy` is given: one was read to take 2.3 s (the same facts), and
@@ -1730,8 +1731,8 @@ def settle(env: Mapping[str, str], records: Records, local: Path, listen: str, h
     file removed and said, nothing signalled. Naming this home's runner (`is_runner`), or `edge_dev.py serve` by the
     words the script started it by, which it is for a moment before it becomes the runner (`is_becoming_runner`):
     ended (`ended`), so that, given SIGTERM, it cancels the flow run it was running, whose own clean-up asks its
-    twin's deletion (design/verified-facts.md, "Prefect 3.9.2", 2026-11-14), and the file removed; still standing,
-    Stop, exit 1, its record kept and the core's part not begun.
+    twin's deletion (fylgja-core's design/verified-facts.md, "Prefect 3.9.2", 2026-11-14), and the file removed; still
+    standing, Stop, exit 1, its record kept and the core's part not begun.
 
     **The core**, by the marker `unsettled` (M), which `start_core` writes before it starts a core and which is
     removed here alone, and by what `core.pid` names. Each Stop is exit 1, says why and leaves M standing:
@@ -2082,7 +2083,7 @@ def deployment(prefect: Prefect, flow: str) -> str:
 
 def runs_body(deployment_id: str) -> dict[str, Any]:
     """The body of `POST /api/flow_runs/filter` that lists the deployment's runs, newest first, `RUNS_LIMIT` of them
-    (design/verified-facts.md, "Prefect 3.9.2", 2026-11-14)."""
+    (fylgja-core's design/verified-facts.md, "Prefect 3.9.2", 2026-11-14)."""
     return {
         "flow_runs": {"deployment_id": {"any_": [deployment_id]}},
         "sort": "EXPECTED_START_TIME_DESC",

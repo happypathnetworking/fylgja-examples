@@ -9,7 +9,7 @@ the edge's Prefect as a host and a port with no scheme (`host.docker.internal:42
 `FYLGJA_ORCHESTRATOR_AUTH`, that Prefect's basic auth as `user:password`; the proposed change is read through the
 check's own client of Infrahub, the `ask` a check hands in. No message names the auth, and of the two variables only
 the address, which a fault names as the Prefect it tried. Prefect's own client is never used: the worker's Prefect
-environment is Infrahub's own (design/verified-facts.md, "Infrahub 1.11.11", "A check's runtime").
+environment is Infrahub's own (fylgja-core's design/verified-facts.md, "Infrahub 1.11.11", "A check's runtime").
 
 Infrahub cuts a check at its `timeout` with no message of its own (its validator ends `failure`, "A timed-out check
 ends its validator"), so a check keeps a deadline of its own before it: its `timeout` less `DEADLINE_MARGIN_S`, above

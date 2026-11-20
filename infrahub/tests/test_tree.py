@@ -192,7 +192,7 @@ def on_github(path: str, ours: set[str]) -> bool:
 
 class Replaced(NamedTuple):
     """A list under Compose's own tag `!override`, which replaces the published file's list where an untagged one
-    would be added to it (design/verified-facts.md, "Docker Compose v5.6.0")."""
+    would be added to it (fylgja-core's design/verified-facts.md, "Docker Compose v5.6.0")."""
 
     items: list[str]
 
@@ -245,7 +245,7 @@ def test_the_override_holds_no_value_and_no_host() -> None:
 NEO4J_SLOWEST_START_S = 53.8
 """The slowest start of the development database read on kept volumes, from its container's start to Neo4j's
 `Started.`, under Infrahub 1.11.11: 51.6 s on 2026-11-13; 53.8 s, 27.7 s and 26.1 s from stopped on 2026-11-16, the
-first of them after 47 hours stopped (design/verified-facts.md, "Infrahub 1.11.11")."""
+first of them after 47 hours stopped (fylgja-core's design/verified-facts.md, "Infrahub 1.11.11")."""
 
 
 def test_the_databases_health_check_waits_for_a_start_on_kept_volumes() -> None:

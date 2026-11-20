@@ -3,8 +3,8 @@
 `Box` is given the address and the superuser's token, `FYLGJA_NETBOX_ADDRESS` and `FYLGJA_NETBOX_WRITE_TOKEN` where
 the seed and the account read them (D-042); it has no default address and makes no request until it is asked one.
 Every path is relative to `<address>/api/`, every request carries the token as `Authorization: Bearer <token>`, and a
-branch is selected by its `schema_id` in the header `X-NetBox-Branch` (design/verified-facts.md, "NetBox 4.7.5 with
-netbox-branching 1.2.3").
+branch is selected by its `schema_id` in the header `X-NetBox-Branch` (fylgja-core's design/verified-facts.md, "NetBox
+4.7.5 with netbox-branching 1.2.3").
 
 Every failure is a `BoxError` of one sentence, built here with the token and each of its halves replaced, and each
 value a caller hands `hide`, before NetBox's words are cut; none is chained to the exception it came from: an httpx
@@ -33,15 +33,15 @@ PAGE = 50
 BRANCH_WAIT_S = 120
 """Seconds a branch is given to read `ready` from its request, a bound sized from readings and no measurement of need.
 Branches read `ready` 11.1 s at most after their request; and two whose `DELETE` NetBox refused while they
-provisioned read `ready` at reads 26.7 s to 28.2 s after it, how much sooner not read (design/verified-facts.md,
-"NetBox 4.7.5 with netbox-branching 1.2.3", "A branch deleted before it is `ready`"). 120 s is about 4.3 times the
-slowest, 28.2 s, a derivation."""
+provisioned read `ready` at reads 26.7 s to 28.2 s after it, how much sooner not read (fylgja-core's
+design/verified-facts.md, "NetBox 4.7.5 with netbox-branching 1.2.3", "A branch deleted before it is `ready`"). 120 s is
+about 4.3 times the slowest, 28.2 s, a derivation."""
 
 TIMEOUT_S = 30.0
 """Seconds one request is given, a first value and no measurement of need, in place of httpx's own 5 s. The slowest
 request read was a branch's `DELETE`: 3.41 s and 3.31 s in one script, and 2.83 s in another run
-(design/verified-facts.md, "NetBox 4.7.5 with netbox-branching 1.2.3"); 30 s is 8.8 times the slowest, 3.41 s, a
-derivation."""
+(fylgja-core's design/verified-facts.md, "NetBox 4.7.5 with netbox-branching 1.2.3"); 30 s is 8.8 times the slowest,
+3.41 s, a derivation."""
 
 BRANCHES = "plugins/branching/branches/"
 

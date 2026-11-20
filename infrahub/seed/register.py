@@ -22,8 +22,8 @@ A registration already there and settled, its commit's tree on each worker, is s
 
 A branch's name, `phase-8/2-infrahub-seed` among them, registers from the mount, an import follows the branch moved
 forwards or backwards, `commit` follows a `ref` changed by an update and an import, and the clones are made as above
-(design/verified-facts.md, "Infrahub 1.11.11"). Exit 0; 1 for a refusal or a failure said on stderr; 2 for a command
-line not understood or a variable not set.
+(fylgja-core's design/verified-facts.md, "Infrahub 1.11.11"). Exit 0; 1 for a refusal or a failure said on stderr; 2 for
+a command line not understood or a variable not set.
 """
 
 from __future__ import annotations
@@ -55,11 +55,12 @@ DEFINITION = "device-config"
 
 SCHEMA_WAIT_S = 120
 """How long `main` is read for the library's kinds once the load has returned: the kinds were listed 14.9 s after
-`infrahubctl` gave up on a first load the server finished (design/verified-facts.md, "Infrahub 1.11.11")."""
+`infrahubctl` gave up on a first load the server finished (fylgja-core's design/verified-facts.md, "Infrahub
+1.11.11")."""
 
 IMPORT_WAIT_S = 300
 """How long the registration is read until it settles: a first import read `online` 80.3 s after its create was
-sent (design/verified-facts.md, "Infrahub 1.11.11")."""
+sent (fylgja-core's design/verified-facts.md, "Infrahub 1.11.11")."""
 
 PROJECT = "fylgja-examples-infrahub"
 """The development Infrahub's Compose project (`scripts/infrahub_dev.py`'s `PROJECT`), whose task workers are read."""
@@ -71,8 +72,8 @@ GIT_DIRECTORY = "/opt/infrahub/git"
 CLONE_ASK_S = 30
 """Seconds between two imports asked while a worker lacks the commit's tree. A worker held the tree 1.7 to 2.8 s after
 an import's or a pull's flow began on it, the first import's flow 17.1 to 20.8 s after it was asked or its target
-began; after a new commit's import the other worker held it 8.7 s after the first (design/verified-facts.md,
-"Infrahub 1.11.11")."""
+began; after a new commit's import the other worker held it 8.7 s after the first (fylgja-core's
+design/verified-facts.md, "Infrahub 1.11.11")."""
 
 CLONE_WAIT_S = 300
 """How long the trees are waited for once the registration has settled: no reading is begun at or past it."""

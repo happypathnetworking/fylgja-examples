@@ -10,7 +10,7 @@
 # - python3 at PYTHON_MIN or later: checked, never installed, since uv is never let fetch one (D-115).
 # - Docker with its Compose plugin, and containerlab at CONTAINERLAB_VERSION: containerlab's setup script
 #   (https://containerlab.dev/setup), as root, where the command is missing; it pins Docker per distribution release
-#   (design/verified-facts.md, containerlab, "Install"). One already installed is left alone, another version of it
+#   (fylgja-core's design/verified-facts.md, containerlab, "Install"). One already installed is left alone, another version of it
 #   said.
 # - The user in the groups docker and clab_admins: added where the group exists and does not list the user; a group
 #   added reaches no process begun before it, so the user logs in again.

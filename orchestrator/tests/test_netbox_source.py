@@ -442,9 +442,9 @@ def test_a_head_the_reader_refuses_is_a_read_of_its_findings(world: Callable[...
 
 def test_the_triggers_own_webhook_and_rule_are_no_change_of_main(world: Callable[..., World]) -> None:
     """`make netbox-hook` writes the webhook and the event rule on `main`, and a repair of either adds a row of its
-    kind to `main`'s changelog (design/verified-facts.md, "A rule's change is counted as a change of `main`"): no read
-    reads either, so neither is counted, each left out by its object type's id as the reader's two are. A tag is still
-    counted, since a tag can be a scope."""
+    kind to `main`'s changelog (fylgja-core's design/verified-facts.md, "A rule's change is counted as a change of
+    `main`"): no read reads either, so neither is counted, each left out by its object type's id as the reader's two
+    are. A tag is still counted, since a tag can be a scope."""
     w = world()
     w.netbox.branch(REF)
     w.reader.results = {None: [Result(UNLINKED, (), False)]}

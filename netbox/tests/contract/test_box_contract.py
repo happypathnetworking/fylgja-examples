@@ -30,8 +30,8 @@ def test_listed_is_what_netbox_counts(box: Box) -> None:
 def test_a_branch_is_ready_and_its_schema_id_selects_it(box: Box, branch: dict[str, Any]) -> None:
     """The fixture waits up to `BRANCH_WAIT_S`, 120 s, for `ready`: branches read `ready` 11.1 s at most after their
     request, and two whose `DELETE` NetBox refused while they provisioned read `ready` at reads 26.7 s to 28.2 s after
-    it (design/verified-facts.md, "NetBox 4.7.5 with netbox-branching 1.2.3"); 120 s is about 4.3 times the slowest,
-    28.2 s, a derivation."""
+    it (fylgja-core's design/verified-facts.md, "NetBox 4.7.5 with netbox-branching 1.2.3"); 120 s is about 4.3 times
+    the slowest, 28.2 s, a derivation."""
     assert branch["name"].startswith("fylgja-contract-")
     assert isinstance(branch["id"], int)
     assert branch["status"]["value"] == "ready"

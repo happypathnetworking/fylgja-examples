@@ -124,8 +124,9 @@ def test_the_change_is_a_ready_branch_found_by_its_name(
     source: NetBoxSource, branch: dict[str, Any], box: Writes
 ) -> None:
     """A branch asked at once after its `POST` was read `new` and `provisioning` and the example's writes taken
-    (design/verified-facts.md, "A branch is listed by its name at once"); a branch with no change does not merge, so
-    the merged leg makes a tag on its branch first, which the merge takes to `main` and the test removes there."""
+    (fylgja-core's design/verified-facts.md, "A branch is listed by its name at once"); a branch with no change does not
+    merge, so the merged leg makes a tag on its branch first, which the merge takes to `main` and the test removes
+    there."""
     name = branch["name"]
     assert source.change(name) == Change(name, branch["schema_id"], name, f"branch {name}")
     with pytest.raises(NoChange) as none:
@@ -152,7 +153,7 @@ def test_the_change_is_a_ready_branch_found_by_its_name(
         box.post(TAGS, {"name": slug, "slug": slug}, branch=branch["schema_id"])
         box.post(f"{BRANCHES}{branch['id']}/merge/", {"commit": True})
         # Waited for by `BRANCH_WAIT_S`, 120 s: a merge read `merged` 1.44 s after its request
-        # (design/verified-facts.md, "A merged branch is listed"), 83.3 times that, a derivation.
+        # (fylgja-core's design/verified-facts.md, "A merged branch is listed"), 83.3 times that, a derivation.
         merged = settled(box, branch, leave=("ready", "merging"))
         assert merged is not None and merged["status"]["value"] == "merged"
         with pytest.raises(Unready) as raised:
@@ -300,9 +301,9 @@ def test_a_mark_under_another_scope_or_through_another_core_is_refused_by_name(
 
 def synced(box: Writes, branch: Mapping[str, Any]) -> str:
     """The branch synchronised with `main` by the superuser, as `make netbox-seed` can never do for the example, which
-    is refused it (design/verified-facts.md, "The example's token was refused a branch's `sync`"): its `last_sync` once
-    it has moved and the branch reads `ready`, read by its name every `POLL_S`, `BRANCH_WAIT_S` at most. A sync read
-    `ready` again 1.47 s after its request."""
+    is refused it (fylgja-core's design/verified-facts.md, "The example's token was refused a branch's `sync`"): its
+    `last_sync` once it has moved and the branch reads `ready`, read by its name every `POLL_S`, `BRANCH_WAIT_S` at
+    most. A sync read `ready` again 1.47 s after its request."""
     before = box.get(f"{BRANCHES}{branch['id']}/")["last_sync"]
     box.post(f"{BRANCHES}{branch['id']}/sync/", {"commit": True})
     began = time.monotonic()
@@ -410,8 +411,8 @@ def test_a_report_is_one_journal_entry_whose_kind_is_its_status(
 ) -> None:
     """Each status's report, the library's for a document of each, and one of a detail of `BIG` bytes; and, signed in
     as the superuser, the branch's `journal` page rendering each report's table as a table and each item of its lists
-    as an item of a list (design/verified-facts.md, "NetBox renders it as Markdown, but its lists"): the item's words
-    as the text of a `<li>`, its code and its bold as NetBox renders them."""
+    as an item of a list (fylgja-core's design/verified-facts.md, "NetBox renders it as Markdown, but its lists"): the
+    item's words as the text of a `<li>`, its code and its bold as NetBox renders them."""
     change = source.change(branch["name"])
     stages = [stage.label for stage in source.stages(change)]
     reports = [render(document, limit=None)
@@ -475,11 +476,11 @@ def test_the_examples_account_writes_nothing_else(
 def test_a_lesser_account_reads_the_webhooks_headers_in_the_changelog(box: Writes, example_token: Secret) -> None:
     """The example accepts, as a known limit, that an account with `view` on NetBox's changelog reads the installed
     webhook's headers, and so Prefect's basic auth, in `main`'s changelog (docs/integrating.md, "Credentials";
-    design/verified-facts.md, "A webhook's rows of `main`'s changelog hold its headers, to either lesser account"). A
-    test holds that exposure so that what the documents say of it stays true: a NetBox that masks the header, or a
-    grant that hides the rows, fails it, and the documents are corrected. With the reader's token and with the
-    example's, the installed webhook's rows are those the superuser reads, and the last holds `additional_headers` as
-    the webhook holds it, unmasked. It writes nothing: it reads the webhook, and its rows of `main`'s changelog with
+    fylgja-core's design/verified-facts.md, "A webhook's rows of `main`'s changelog hold its headers, to either lesser
+    account"). A test holds that exposure so that what the documents say of it stays true: a NetBox that masks the
+    header, or a grant that hides the rows, fails it, and the documents are corrected. With the reader's token and with
+    the example's, the installed webhook's rows are those the superuser reads, and the last holds `additional_headers`
+    as the webhook holds it, unmasked. It writes nothing: it reads the webhook, and its rows of `main`'s changelog with
     each token; the header is compared in memory, no message holds it or a part of it, and it, its base64 and the auth
     are hidden from every report besides. Run alone, it needs rows of the webhook that NetBox's changelog retention
     has kept, which `make netbox-hook` writes when it changes the webhook, as the hook's tests here do; a run that
