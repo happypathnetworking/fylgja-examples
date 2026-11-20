@@ -744,7 +744,7 @@ def test_the_core_is_given_its_own_store_tokens_driver_and_packages() -> None:
     removed = ("FYLGJA_TLS_CERT", "FYLGJA_TLS_KEY", "FYLGJA_LEASE", "FYLGJA_API_CA")
     assert {name: core[name] for name in set_for_it} == set_for_it
     assert [name for name in removed if name in core] == []
-    # The core loads its wheel's packages (D-124): it is given no `FYLGJA_PACKAGES`.
+    # The core loads its wheel's packages (D-128): it is given no `FYLGJA_PACKAGES`.
     assert "FYLGJA_PACKAGES" not in core
     as_loaded = [name for name in env if name not in set_for_it and name not in removed]
     assert {*demo.LOGIN, "FYLGJA_LAB_POOL", "PATH"} <= set(as_loaded)

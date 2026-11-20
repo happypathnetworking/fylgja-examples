@@ -1,5 +1,5 @@
 """This repository reads no path of fylgja-core, links to neither repository at `main`, and says where each copy came
-from (D-124: its packages are the core's wheel's).
+from (D-128: its packages are the core's wheel's).
 
 What a test or a script needs of fylgja-core is read from the installed distributions (`fylgja_core.packages.shipped()`,
 `fylgja_core.schemas`) or from this repository's own copy of it.
@@ -31,7 +31,7 @@ AT_MAIN = re.compile(
 
 CORES_PROJECTS = re.compile(r"fylgja-core-(?:infrahub|netbox)")
 """A Compose project, image, user agent or network (`fylgja-core-netbox_default`) of fylgja-core's own development
-sources: this repository's take names of their own, so that the two run one at a time on a host (D-123)."""
+sources: this repository's take names of their own, so that the two run one at a time on a host (D-127)."""
 
 QUOTED_READING = (
     "orchestrator/tests/demo_host.py",

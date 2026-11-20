@@ -1,7 +1,7 @@
 """The example's three distributions are pinned at `VERSION` and the lock holds them at it, from PyPI alone.
 
 The pins are exact because the tests reach past the promise: they read the core's fakes of a runtime and its
-packages, which a release's compatibility statement does not cover (D-124 in fylgja-core). A pin moved without
+packages, which a release's compatibility statement does not cover (D-128 in fylgja-core). A pin moved without
 `VERSION`, or `VERSION` moved without the pins and `uv lock`, fails here.
 """
 
