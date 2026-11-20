@@ -60,11 +60,14 @@ Each command's output is kept in `local/task-2-readings/`.
 
 ## The contract tiers and both demonstrations from a fresh clone, on fylgja-core 1.0.0 from PyPI
 
-Read on 2026-11-20 on the development host (the contract tiers late on 2026-11-19 UTC, by the
-logs' own timestamps), in a fresh `git clone --branch phase-12/1-examples` of this repository
+Read on 2026-11-20 on the development host (the logs' own timestamps are 2026-11-20 UTC, the
+contract tiers from 00:25), in a fresh `git clone --branch phase-12/1-examples` of this repository
 at `f8cacda`, with no `fylgja-core` checkout on any path its commands took; the clone's
-`local/.env` was written by the maintainer for the node login and by the commands themselves
-for the rest (the controller wrote four settings of the core's, below). Each run was made once.
+`local/.env` was written by the commands themselves, by the controller (four settings of the
+core's, below) and, by the controller's record, by the maintainer for the node login at the
+start. Two runs were made twice and both are read below: the Infrahub contract tier (the
+first run skipped the orchestrator's tests) and the Infrahub demonstration (the first try was
+refused); every other run was made once.
 Its output is kept in the plan's workspace under `task-8-logs/`, cited by file name below.
 Seconds are as the logs print them; a figure marked as a derivation is worked out from others.
 *(2026-11-20)*
@@ -121,15 +124,16 @@ Seconds are as the logs print them; a figure marked as a derivation is worked ou
   `3-core-infrahub-down.log`)
 - **The Infrahub demonstration's first try was refused at the host check, after Infrahub came
   up.** Its host checks passed, step 1 started Infrahub, which answered 143 s after Compose's
-  start returned, and the demonstration then printed that the lab pool, which is the default
-  172.20.0.0/16, had no /24 that neither a Docker network nor another twin held: Docker had
-  given the Compose network `fylgja-examples-infrahub_default` the whole of it. The
+  start returned, and the demonstration then printed that the pool 172.20.0.0/16 had no /24 that
+  neither a Docker network nor another twin held, and listed `fylgja-examples-infrahub_default`
+  (172.20.0.0/16) as the Docker network holding part of it. By the controller's record the
+  pool was the default, no `FYLGJA_LAB_POOL` being set before. The
   demonstration printed "set FYLGJA_LAB_POOL in local/.env, then run make infrahub-demo
   again", left Infrahub up, and `make` exited 2. The maintainer then set `FYLGJA_LAB_POOL` in
   the clone's `local/.env` (a site value, not recorded here). (`4-infrahub-demo.log`)
 - **The Infrahub demonstration passed.** The rerun printed "the host's checks passed" and ran
-  its 8 steps (Infrahub answered 0 s after Compose's start returned, the Infrahub already
-  being up from the first try; `make infrahub-register` printed `fylgja` at `f8cacda`,
+  its 8 steps (Infrahub answered 0 s after Compose's start returned; the first try's log
+  says it left Infrahub up, `4-infrahub-demo.log`; `make infrahub-register` printed `fylgja` at `f8cacda`,
   in-sync and online, 76 s on); the flow run `8c2cc48f-5dc3-4a41-93e4-cdb0de315d83` of
   `twin-rehearse/main` went SCHEDULED, PENDING, RUNNING, COMPLETED, and the demonstration
   printed "the rehearsal passed: 4 stages, 148.2 s". The controller's record has the rerun
