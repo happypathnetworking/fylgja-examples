@@ -43,6 +43,10 @@ would run instead.
   them on Ubuntu. Where the local file is not yours to read, it says `cannot read <the file>: check
   that it holds <the two lines>` and the run goes on. Where `/etc/apparmor.d/usr.sbin.rsyslogd` is
   no file, nothing is asked.
+- **One source at a time across the repositories.** fylgja-core's development Infrahub and NetBox
+  take the same ports as these, and are stopped from fylgja-core's checkout, never from here. A
+  demonstration here checks only its own source's port (8000 for Infrahub, 8800 for NetBox), so it
+  goes ahead beside the other repository's other source; the memory check is then the only bound.
 - **Memory available** (`MemAvailable`): 11776 MiB for Infrahub's demonstration and 8704 MiB for
   NetBox's, with the source stopped. With the source already up it is 7168 MiB, the twin's and the
   edge's. The source's own stack adds 4608 MiB for Infrahub and 1536 MiB for NetBox where it is not

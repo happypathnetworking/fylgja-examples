@@ -15,8 +15,8 @@ core like any other, through the core's API alone.
 
 The example installs the released packages from PyPI, `fylgja-core`, `fylgja-infrahub` and
 `fylgja-netbox`, each pinned exactly at one release, the one `VERSION` names, and its lock is its
-own. A change here never needs a change of the core, and a change of the core reaches here at a
-release. [CONTRIBUTING.md](CONTRIBUTING.md#moving-to-a-release) says how the pins move.
+own. A change here is made against the pinned release; one that needs a change of the core is built
+against a checkout of it and merges here once that release is out. [CONTRIBUTING.md](CONTRIBUTING.md#moving-to-a-release) says how the pins move.
 
 ## A demonstration
 

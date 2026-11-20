@@ -3,6 +3,7 @@
 What this repository was built on is what fylgja-core's facts record at v1.0.0:
 `https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/verified-facts.md`. The
 section below is what this repository read for itself, over released packages.
+A section this file lacks that a file here cites is fylgja-core's, at the tag above.
 
 ## uv 0.12.23 over released packages
 

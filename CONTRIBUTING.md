@@ -129,8 +129,9 @@ A fixture changes in a commit of its own, with the diff reviewed.
 ## Local environment
 
 **uv** reads its own configuration (`~/.config/uv/uv.toml`, the `UV_*` variables). An index set
-there is written into `uv.lock` by `uv lock` and refused by the tree's test, so a lock is written
-against PyPI alone.
+there is written into `uv.lock` by `uv lock`, and the tree's test refuses any source of a package
+but PyPI's own simple index (the workspace member apart), so a lock is written
+against PyPI alone. A candidate release's lock, from TestPyPI, amends that test on its own branch.
 
 **Credentials** live in `local/.env` alone (git-ignored, mode `0600`), with the names in
 [`.env.example`](.env.example).
@@ -138,8 +139,28 @@ against PyPI alone.
   file.
 - Never print, log or persist a token or a password.
 - The node login, `FYLGJA_CREDENTIAL_SRLINUX_USERNAME` and `_PASSWORD`, and the core's own
-  settings (`FYLGJA_STORE`, `FYLGJA_LISTEN`, `FYLGJA_TOKENS`, `FYLGJA_API_ADDRESS`) are the
-  maintainer's to write; every other name is made by a target.
+  four settings are yours to write; every other name is made by a target.
+- The core's four settings, for the core run by hand and for `make orchestrator-env`, which
+  refuses with nothing written where `FYLGJA_TOKENS` is unset or names no file. Write these
+  lines, or paths and an address of your own:
+  ```sh
+  FYLGJA_STORE=local/store
+  FYLGJA_TOKENS=local/tokens
+  FYLGJA_LISTEN=127.0.0.1:7650
+  FYLGJA_API_ADDRESS=127.0.0.1:7650
+  ```
+  The token file must exist before `make orchestrator-env`. An empty one is valid, and the
+  target appends the runner's line: `install -m 600 /dev/null local/tokens`. The rest of what
+  these settings take is in
+  [fylgja-core's docs/server.md](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/docs/server.md).
+  The demonstrations need none of the four, since they use their own
+  ([docs/demonstrations.md](docs/demonstrations.md)).
+
+**The Infrahub contract tier** is made ready in this order, the four settings above written
+first: `make infrahub-up`, then `local/.env` loaded, `make orchestrator-env` (it needs Infrahub up
+and the token file), `make infrahub-register`, `make infrahub-seed`, `make prefect-down`, and
+`make contract`. Its 11 orchestrator tests skip, without failing, while
+`FYLGJA_ORCHESTRATOR_INFRAHUB_TOKEN` is unset.
 
 **The contract tiers** read the reader's `FYLGJA_INFRAHUB_ADDRESS`, `FYLGJA_INFRAHUB_TOKEN` and,
 where it is set, `FYLGJA_INFRAHUB_CA`; and `FYLGJA_INFRAHUB_WRITE_TOKEN`, the admin's, for their
@@ -208,6 +229,14 @@ make infrahub-seed        # the fixture network on main, and the branch third-li
 make contract             # the contract tier against it
 ```
 
+- Docker picks the subnet of its Compose network, a /16. Where that holds the lab pool a
+  demonstration takes, set `FYLGJA_LAB_POOL` in `local/.env`
+  ([docs/demonstrations.md](docs/demonstrations.md), "A lab pool no Docker network holds whole");
+  no subnet is fixed here.
+- fylgja-core's development Infrahub and NetBox take the same ports as these and are never
+  stopped from here: stop them from fylgja-core's checkout. A demonstration here refuses only
+  the source whose port it needs (8000 for Infrahub, 8800 for NetBox), so one source at a time
+  across the two repositories is yours to keep.
 - `make infrahub-down` stops it, keeping its containers, network and volumes and everything under
   `local/infrahub/`, so that `make infrahub-up` starts it again holding what it held.
   `make infrahub-down PURGE=1` removes the containers, the network, the volumes and
@@ -599,7 +628,7 @@ from the check's colour.
    after it.
 3. The core on the local driver, in a shell of its own, started as the run through Infrahub's check starts it.
 4. `make orchestrator-env SOURCE=netbox`, which runs nothing of Infrahub's and needs no Infrahub. Its end: exit 0,
-   printing names alone; it reads `FYLGJA_TOKENS`. Where it added `FYLGJA_ORCHESTRATOR_API_TOKEN`, it lists that token's hash under the
+   printing names alone; it reads `FYLGJA_TOKENS` only where it adds `FYLGJA_ORCHESTRATOR_API_TOKEN`, it lists that token's hash under the
    principal `orchestrator` in the token file `FYLGJA_TOKENS` names and says to restart the core: the core is then
    stopped by its pid and started again by step 3, and `local/.env` loaded again.
 5. `make prefect-up`. Its end: exit 0, with `edge_dev: the development Prefect answers at <the bridge's
@@ -731,8 +760,10 @@ commit, with the tiers and both demonstrations made again:
 
 1. Move the three pins in `orchestrator/pyproject.toml` (`fylgja-core==`, `fylgja-infrahub==`, `fylgja-netbox==`, and
    `fylgja-core[server]==` in the `dev` extra) and `VERSION` together, to the release or, for its acceptance run, to
-   its candidate as installed from TestPyPI. `orchestrator/tests/test_pins.py` fails where one moved without the other.
-2. Run `uv lock`, so that `uv.lock` holds the three distributions at that version from PyPI alone, and commit it with
+   its candidate as installed from TestPyPI, where the candidate's lock and install are as plan 3's
+   reading records them. `orchestrator/tests/test_pins.py` fails where one moved without the other.
+2. Run `uv lock`, so that `uv.lock` holds the three distributions at that version from PyPI alone (a release; a candidate's lock is as
+   step 1 says), and commit it with
    the pins.
 3. Run `make lint`, `make test`, `make linkcheck` and `make wheelcheck`, then the contract tiers one at a time
    (`make contract`, `make contract-netbox`).
