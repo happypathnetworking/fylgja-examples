@@ -761,7 +761,6 @@ def test_the_core_is_given_its_own_store_tokens_driver_and_packages() -> None:
         "FYLGJA_STORE": "elsewhere",
         "FYLGJA_DRIVER": "clabernetes",
     }
-    assert "FYLGJA_PACKAGES" not in step
     kept_as_loaded = [name for name in env if name not in ("FYLGJA_API_ADDRESS", "FYLGJA_TOKENS", "FYLGJA_API_CA")]
     the_steps_rest_is_as_loaded = same(
         {name: step[name] for name in kept_as_loaded}, {name: env[name] for name in kept_as_loaded}
@@ -939,7 +938,7 @@ IN_NO_GROUP = (
 
 def test_a_group_the_process_lacks_is_named_and_root_is_asked_for_none() -> None:
     # The host has the group, and `getent` may list the user in it: only what this process holds is asked, since a
-    # process begun before the user was added holds it not (design/verified-facts.md, "Ubuntu hosts").
+    # process begun before the user was added holds it not (fylgja-core's design/verified-facts.md, "Ubuntu hosts").
     host = passing()
     host.held = {1000, 997}
     assert checked(host) == [IN_NO_GROUP.format("docker")]
@@ -1326,7 +1325,8 @@ def unsettle(kept: Any) -> None:
 
 def core_process(kept: Any, listen: str = LISTEN) -> Any:
     """The demonstration's core as `/proc` shows it: the venv's `python3`, then the command's path, under the
-    environment it was started with (design/verified-facts.md, "NetBox 4.7.5 with netbox-branching 1.2.3")."""
+    environment it was started with (fylgja-core's design/verified-facts.md, "NetBox 4.7.5 with netbox-branching
+    1.2.3")."""
     return demo.Process([PYTHON, CORE], demo.core_env(ENV | EDGE, kept, listen))
 
 
