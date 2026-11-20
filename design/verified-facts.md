@@ -123,7 +123,7 @@ Seconds are as the logs print them; a figure marked as a derivation is worked ou
   `make infrahub-down` then stopped its containers, "its containers, network and volumes are
   kept". (`3-core-infrahub-up.log`, `3-examples-infrahub-demo.log`,
   `3-core-infrahub-down.log`)
-- **The Infrahub demonstration's second invocation was refused at the host check, after Infrahub
+- **The Infrahub demonstration's second invocation was refused at the lab-pool check, after Infrahub
   came up.** Its host checks passed, step 1 started Infrahub, which answered 143 s after Compose's
   start returned, and the demonstration then printed that the pool 172.20.0.0/16 had no /24 that
   neither a Docker network nor another twin held, and listed `fylgja-examples-infrahub_default`
