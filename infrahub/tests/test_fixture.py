@@ -100,7 +100,7 @@ def test_the_baseline_is_three_node_less_the_link_n1_n3() -> None:
     assert addresses == {
         (name, port, address) for name, device in fixture.items() for port, address in ADDRESS.findall(device["config"])
     }
-    assert len(addresses) == 6
+    assert len(addresses) == 12
 
     pairs = ((link["a"], link["b"]) for link in network["links"])
     links = {frozenset((end["device"], end["interface"]) for end in pair) for pair in pairs}
@@ -152,13 +152,18 @@ def test_the_third_link_makes_three_node_and_the_address_moves_no_port() -> None
     assert [(kind, tuple(outer for outer, _ in above)) for kind, _, above in address] == [
         ("InterfacePhysical", ()),
         ("IpamIPAddress", ("InterfacePhysical",)),
+        ("IpamIPAddress", ("InterfacePhysical",)),
     ]
-    port, made = address[0][1], address[1][1]
+    port, made = address[0][1], [item for _, item, _ in address[1:]]
     assert {key: value for key, value in port.items() if key != "ip_addresses"} == {
         "name": "ethernet-1/2",
         "device": "n1",
     }, "the port is named and set nothing, so the load finds main's and changes no port"
-    assert made == {"address": "192.0.2.1/24"}
+    # The load sets the port's addresses to the list it is given, so the port's own /31 is listed with the one added.
+    held = [item["address"] for item, (device, port_) in of("IpamIPAddress", "DcimDevice", "InterfacePhysical")
+            if (device["name"], port_["name"]) == ("n1", "ethernet-1/2")]
+    assert made == [{"address": a} for a in [*held, "192.0.2.1/24"]] == [{"address": "10.0.0.4/31"},
+                                                                         {"address": "192.0.2.1/24"}]
 
 
 def test_the_probe_is_the_probed_fixtures() -> None:

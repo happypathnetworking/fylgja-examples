@@ -24,7 +24,7 @@ DOCUMENTATION = tuple(
 )
 LOOPBACK = (ip_network("127.0.0.0/8"), ip_network("::1/128"))
 
-FIXTURES = ("testdata/", "infrahub/seed/main/", "netbox/seed/main.yaml")
+FIXTURES = ("testdata/", "infrahub/seed/main/", "infrahub/seed/stages/", "netbox/seed/main.yaml")
 """The fixtures, whose addresses are the design's fixture's own, 10.x (testdata/blueprint/three-node.json): the
 blueprints, and the network each development source of truth's seed puts on its `main`."""
 
@@ -272,7 +272,8 @@ def test_the_tree_names_no_address() -> None:
     """The tree holds no host name, address or value of a site (CONTRIBUTING.md): outside its test directories, a URL
     names loopback, a `*.example` name, a documentation range or a public reference, and a bare address is in loopback
     or a documentation range; the fixtures alone hold their own, and the documents (`*.md`) and the formats may quote
-    them, source code never; the fixtures are `testdata/` and the Infrahub and NetBox seeds' networks on `main`. A URL
+    them, source code never; the fixtures are `testdata/`, the Infrahub and NetBox seeds' networks on `main` and
+    the Infrahub seed's stages, whose second keeps the /31 its port holds on `main`. A URL
     on github.com names the organisation the formats' ids name, or a repository cited.
     `infrahub/` holds no URL with a host at all, and no address but the documentation range's, loopback in the Compose
     override alone, where the published ports are bound, and, in the fixture's object files, the fixture's six and its
@@ -313,13 +314,15 @@ def test_the_tree_names_no_address() -> None:
     assert [*urls([*infrahub, HERE, ".infrahub.yml"])] == []
     seeded = {found for path, _, found in addresses(infrahub) if path.startswith("infrahub/seed/main/")}
     probe = ["10.1.10.2", "10.1.11.2"]
-    assert sorted(seeded) == sorted([*(f"10.{d}.{port}.1" for d in (1, 2, 3) for port in (10, 11)), *probe])
+    links = [f"10.0.0.{host}" for host in range(6)]
+    assert sorted(seeded) == sorted([*(f"10.{d}.{port}.1" for d in (1, 2, 3) for port in (10, 11)), *probe, *links])
     documentation = (ip_network("192.0.2.0/24"),)
     override = "infrahub/dev/compose.override.yml"
     bound = [hit for hit in addresses(infrahub) if among(hit[2], LOOPBACK)]
     assert {path for path, _, _ in bound} == {override}
     rest = [hit for hit in addresses(infrahub) if hit not in bound]
-    assert [hit for hit in rest if not among(hit[2], documentation) and hit[2] not in seeded] == []
+    area = "0.0.0.0"  # OSPF's backbone area, an id in an address's form, in the template
+    assert [hit for hit in rest if not among(hit[2], documentation) and hit[2] not in {*seeded, area}] == []
 
     compose = URL.search(infrahub_dev.COMPOSE_URL)
     assert compose is not None
