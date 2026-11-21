@@ -319,3 +319,136 @@ derivation is worked out from others. *(2026-11-22)*
   two runs on one host, and says nothing of why they differ.
 - **The CI run is the controller's account.** fylgja-examples' CI run 45083481957 passed on
   `1e2dfb6`, its job `lint-and-test`; no file of the acceptance directory holds it.
+
+## fylgja-core's `nornir-ospf` branch, read in its tree
+
+These readings were made on fylgja-core's branch `nornir-ospf`, in its own tree, from
+2026-11-16 to 2026-11-17, and are carried here as they were when the branch was cut again in this
+repository: the paths they name (`core/.venv`, `testdata/blueprint/three-node.json`,
+`orchestrator/tests/nornir/answers/`) are that tree's, and the versions are those of that day.
+Under fylgja-core the first was a subsection of "SR Linux 24.7.1", and the second a section of its
+own. Nothing below was read again here.
+
+### SR Linux 24.7.1: OSPF point-to-point on /31s, the state read, and scrapli over asyncssh (private branch)
+
+Read on 2026-11-16 on a twin of `testdata/blueprint/three-node.json` on the local driver, SR Linux
+24.7.1, configured by hand through `sr_cli` in a private candidate, one node at a time.
+
+- **A /31 and a point-to-point OSPF interface are accepted as written**, on `n1` with `10.0.0.0`
+  and on `n2` with `10.0.0.1`, the `.0` host address and a router-id of `10.0.0.0` among them. The
+  lines, beside the fixture's own `subinterface 0` and `network-instance default interface
+  ethernet-1/1.0`:
+
+  ```
+  set / interface ethernet-1/1 subinterface 0 ipv4 admin-state enable
+  set / interface ethernet-1/1 subinterface 0 ipv4 address 10.0.0.0/31
+  set / network-instance default protocols ospf instance main admin-state enable
+  set / network-instance default protocols ospf instance main version ospf-v2
+  set / network-instance default protocols ospf instance main router-id 10.0.0.0
+  set / network-instance default protocols ospf instance main area 0.0.0.0 interface ethernet-1/1.0 interface-type point-to-point
+  ```
+
+- **The adjacency was `full` on both ends at the first read**, taken within seconds of the second
+  node's commit; how long it takes to form was not measured beyond that.
+- **The adjacency read** is `info from state network-instance default protocols ospf instance main
+  area * interface * neighbor * adjacency-state | as json`. Its answer nests `network-instance[]`,
+  `protocols.ospf.instance[]`, `area[]`, `interface[]` keyed `interface-name` (the subinterface,
+  `ethernet-1/1.0`), `neighbor[]` with `router-id` and `adjacency-state`
+  (`orchestrator/tests/nornir/answers/full.json`).
+- **That read cannot tell a node with no OSPF from one with no neighbour**: both answer `{\n}`,
+  exit 0 (`n3` before any OSPF, and `n3` with an instance on a port whose far end ran none;
+  `no-neighbour.json`). The instance's presence is a read of its own, `info from state
+  network-instance default protocols ospf instance main oper-state | as json`: `oper-state`
+  `enable` where it runs (`oper.json`), `{\n}` where there is none (`absent.json`).
+- **scrapli's asyncssh transport does not reach the prompt as shipped** (scrapli 2026.2.20,
+  scrapli_community 2025.1.30): it opens its session with a terminal type and no size
+  (`scrapli/transport/plugins/asyncssh/transport.py`, `open_session(term_type="xterm")`), the CLI
+  then asks the terminal for its cursor position (`ESC[999;999H ESC[6n`) and prints no prompt
+  until it is answered, and the open fails after `timeout_ops` with `ScrapliTimeout: timed out
+  getting prompt`. Writing the answer `ESC[80;256R` to the channel in an `on_open` of the
+  connection's own, before the platform's `default_async_on_open`, opened it in 4.1 s, and every
+  read after answered.
+- **Through Nornir's asyncio runner**, with that `on_open` in the `scrapli` connection options'
+  `extras`, `send_commands` of the two reads against the three nodes took 4.6 s with the
+  connections opening and 0.18 s on the kept connections; each host's
+  `result[host][0].scrapli_response` is a list, one response a command, its `.result` the JSON
+  text, and `result[host][0].result` the two texts joined by a blank line.
+
+### Nornir 3.7.0a1 and nornir_scrapli 1.6.0a1 (private branch)
+
+Read from the packages installed in the worktree's `core/.venv` on 2026-11-16 (nornir 3.7.0a1,
+nornir_scrapli 1.6.0a1, scrapli 2026.2.20, scrapli_community 2025.1.30, asyncssh 2.24.1), each from
+the file named, and the starred ones by a run of a twelve-line script on the asyncio runner.
+
+- **`AInitNornir`** is `from nornir import AInitNornir`, `async def`, with `InitNornir`'s
+  arguments, and returns the same `Nornir` (`nornir/init_nornir.py`). *
+- **The asyncio runner** is the runner plugin `asyncio`, class
+  `nornir.plugins.runners.AsyncioRunner`, selected as
+  `runner={"plugin": "asyncio", "options": {...}}`. Its options are `num_workers` (default 20, the
+  hosts in flight at once, a semaphore), `per_host_timeout` and `timeout`, the last two seconds
+  or `None` (`nornir/plugins/runners/__init__.py`). *
+- **A run** is `await nr.arun(task=<an async def taking a Task>, **kwargs)`, an
+  `AggregatedResult`; `on_good` is True and `on_failed` False by default. A synchronous task
+  raises `SyncTaskOnAsyncRunError` (`nornir/core/__init__.py`). *
+- **A host past `per_host_timeout`** has `result[host].failed` True and
+  `result[host][0].exception` a `TaskTimeoutError`, and is added to `nr.data.failed_hosts`, so the
+  next `arun` skips it unless given `on_failed=True`. A poll that reads again must pass it. *
+- **A capability inventory plugin** is a class constructed with `inventory.options` as keyword
+  arguments, with `get_capabilities()` returning a `frozenset`, `frozenset({"asyncio"})` for one
+  with `async def aload(self) -> Inventory` alone. It is registered in code by
+  `CapabilityInventoryPluginRegister.register(name, cls)`
+  (`nornir/core/plugins/inventory.py`, `register.py`); registering a name twice with the same
+  class is a no-op, and another class under the same name raises `PluginAlreadyRegistered`
+  (`PluginRegister.register`, read 2026-11-16). `Inventory`, `Hosts`, `Groups`, `Defaults`, `Host` and `ConnectionOptions`
+  are `nornir.core.inventory`'s, and a `Host`'s repr is `Host: <name>`. *
+- **Closing** is `await nr.aclose_connections(on_good=True, on_failed=False)`, itself an `arun`;
+  hosts that timed out need `on_failed=True` (`nornir/core/__init__.py`).
+- **The runner's `timeout` bounds one `arun`, not a poll**: past it, each host not finished is
+  recorded with a `TaskTimeoutError` and the run returns; nothing is raised to the caller
+  (`nornir/core/run.py`, `_run_timeout_error`; read 2026-11-16). A poll of several rounds keeps
+  its own clock.
+- **nornir_scrapli's async task** is `from nornir_scrapli.async_tasks import send_command`,
+  `async def send_command(task, command, strip_prompt=True, failed_when_contains=None,
+  timeout_ops=None) -> Result`. It opens the connection `scrapli`, registered by the package's
+  entry point in `nornir.plugins.capability_connections`
+  (`nornir_scrapli/async_tasks/core.py`, its `entry_points.txt`).
+- **The connection's `aopen`** builds `AsyncScrapli(**parameters, platform=...)` from the host's
+  hostname, username, password and port, with `transport` defaulting to `asyncssh` and the
+  connection options' `extras` laid over it, `auth_strict_key` and `timeout_ops` among them
+  (`nornir_scrapli/connection.py`).
+- **SR Linux's scrapli platform** is `nokia_srlinux`, in `scrapli_community`
+  (`scrapli_community/nokia/srlinux/`), which nornir_scrapli's `asyncio` extra installed; it
+  needs no pin of its own.
+
+#### The OSPF check on the seeded change (read 2026-11-17)
+
+Read on this host's development Infrahub 1.11.11, the core serving locally on the containerlab
+driver, SR Linux 24.7.1, by `fylgja-orchestrator twin rehearse --branch third-link --json` with
+the runner's tokens, the seed's proposed change open; times are seconds of the command's own
+clock, taken by stamping its progress lines.
+
+- **The seeded change passes, every adjacency FULL at the first read.** Stages `created`,
+  `passed`, `passed`, `skipped` (branch point, `third-link`, `n1-address`, head unchanged), exit
+  0, `already_failing` empty: `ospf: 4 of 4 link ends full` on the baseline's two links, then `6
+  of 6` after each step. Each check was one round, 4.8 s on the baseline and 5.1 s and 5.2 s
+  after the steps, each round opening the three connections anew; the check began 0.1 s after
+  verify held, and verify itself 2.5 s after the create's push (settle) and 2.5 s after each
+  step's. The whole rehearsal took 166 s.
+- **The first run under the check failed the seeded change at `n1-address`, rightly.** Infrahub's
+  object loader sets a port's addresses to the list nested under it: the stage nested one
+  address under `n1:ethernet-1/2`, which then held `192.0.2.1/24` and no longer its `/31`
+  (rendered configuration read back by the reader at the stage's time), so n1's end of n1-n3 left
+  n3's subnet. The check read `5 of 6` for four rounds and `4 of 6` from about 30 s after verify,
+  as the dead interval passed, and failed both ends with "no neighbour" when its 120 s ran out.
+  The stage now lists the port's `/31` with the address it adds.
+- **A link without an address fails both ends.** A throwaway third stage, never committed,
+  deleted `10.0.0.0/31` on the branch (by GraphQL: the loader cannot remove a peer). Verify held
+  (19 hold, 0 fail: layer 1), and the check failed the stage, the rehearsal `failed` at stage 4
+  of 5, exit 1, with `ospf.adjacency.not_full` on `n1:ethernet-1/1` and `n2:ethernet-1/1`, both
+  "no neighbour", the cause `The OSPF check found 2 failures at stage 4, n1-unaddressed, ...`.
+  Losing the address also moved n1's router-id from `10.0.0.0` to `10.0.0.4`, the template's
+  lowest routed address, and the n1-n3 adjacency reset with it: `2 of 6` for eight rounds, `3 of
+  6` at 41 s and `4 of 6` from 46 s into the check, which then ran to its budget, 125 s in all.
+- **A `head` refused for the event log's count, once.** One rehearsal begun seconds after a seed
+  ended refused its head stage with `read.incomplete` (`Infrahub counted 4 in InfrahubEvent ...
+  and answered 11`), as recorded under Infrahub 1.11.11; the same rehearsal run again passed.
