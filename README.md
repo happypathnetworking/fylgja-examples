@@ -11,6 +11,18 @@ twin and files the report where the source files such things: a proposed change 
 core like any other, through the core's API alone.
 [Integrating Fylgja](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/docs/integrating.md) walks through it.
 
+> **This is the `nornir-ospf` branch,** kept off `main` on purpose. It adds one judgement to the
+> example orchestrator's rehearsal: after each stage, every link between two OSPF-speaking devices
+> has a FULL adjacency on both ends, checked over Nornir 3.7.0a1's asyncio runner and
+> nornir-scrapli 1.6.0a1, both alphas pinned exactly. Only the example, the Infrahub seed and
+> template, and the fixtures change; the core and the readers are the release `VERSION` names.
+> Its design is `docs/superpowers/specs/2026-11-16-nornir-ospf-check-design.md`.
+>
+> Run it with `make infrahub-demo` from a checkout of this branch. When switching the demo between
+> `main` and this branch, run `make demo-down PURGE=1` first: the seed loads nothing onto an
+> Infrahub that holds the devices already, so the other branch's devices, without this branch's
+> link addresses, would stay, and the check would find no OSPF instance.
+
 ## One release
 
 The example installs the released packages from PyPI, `fylgja-core`, `fylgja-infrahub` and

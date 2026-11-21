@@ -15,12 +15,16 @@ requires-python = ">=3.14"
 # source and the NetBox change source each read through, each pinned at VERSION: the tests reach past the promise, to
 # the core's fakes and its packages (D-128 in fylgja-core), and test_pins.py holds the pins to VERSION. httpx, each
 # source's own transport, at the core's range. Prefect, pinned as read, for the edge's two flows alone.
+# The private branch's alone, for the OSPF check: Nornir's asyncio runner and nornir_scrapli's async tasks, both
+# alphas, pinned exactly.
 dependencies = [
     "fylgja-core==1.1.0",
     "fylgja-infrahub==1.1.0",
     "fylgja-netbox==1.1.0",
     "httpx>=0.27.0,<1",
     "prefect==3.9.2",
+    "nornir==3.7.0a1",
+    "nornir-scrapli[asyncio]==1.6.0a1",
 ]
 
 [project.scripts]
