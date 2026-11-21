@@ -246,7 +246,7 @@ is listed under in the token file (D-025): the client's, and the runner's, which
 
 NOT_THE_CORES = ("FYLGJA_TLS_CERT", "FYLGJA_TLS_KEY", "FYLGJA_LEASE", "FYLGJA_PACKAGES")
 """Settings the demonstration's core is never given: it serves HTTP on loopback, over a store that is a directory, and
-it loads its wheel's packages (D-124)."""
+it loads its wheel's packages (D-128)."""
 
 REQUEST_TIMEOUT_S = 30
 """Seconds one request is given to answer."""
@@ -981,7 +981,7 @@ def say_not_passed_on(env: Mapping[str, str], given: Sequence[str]) -> None:
 
 def core_env(env: Mapping[str, str], records: Records, listen: str) -> dict[str, str]:
     """The demonstration's core's environment: a step's, with the local driver, the demonstration's own store and the
-    listen address (no `FYLGJA_PACKAGES`: the core loads its wheel's packages, D-124), and with no certificate, key or
+    listen address (no `FYLGJA_PACKAGES`: the core loads its wheel's packages, D-128), and with no certificate, key or
     lease. `<local>/.env`'s own token file and store are never the demonstration's core's, so every twin it lists is
     the demonstration's."""
     given = {name: value for name, value in step_env(env, records, listen).items() if name not in NOT_THE_CORES}

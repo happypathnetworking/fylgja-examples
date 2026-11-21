@@ -13,7 +13,7 @@ classifiers = ["Private :: Do Not Upload"]
 requires-python = ">=3.14"
 # The core's base install, the model package and the client library, and the two readers, which the Infrahub change
 # source and the NetBox change source each read through, each pinned at VERSION: the tests reach past the promise, to
-# the core's fakes and its packages (D-124 in fylgja-core), and test_pins.py holds the pins to VERSION. httpx, each
+# the core's fakes and its packages (D-128 in fylgja-core), and test_pins.py holds the pins to VERSION. httpx, each
 # source's own transport, at the core's range. Prefect, pinned as read, for the edge's two flows alone.
 dependencies = [
     "fylgja-core==1.0.0",

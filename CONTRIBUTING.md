@@ -325,7 +325,7 @@ make orchestrator-serve     # the runner, in a shell of its own with local/.env 
 ```
 
 The core is the installed release, started in a shell of its own with the packages its wheel carries and
-`FYLGJA_PACKAGES` unset (fylgja-core's D-124, to be released with 1.1.0):
+`FYLGJA_PACKAGES` unset (fylgja-core's D-128, to be released with 1.1.0):
 
 ```sh
 set -a; . local/.env; set +a; FYLGJA_DRIVER=containerlab FYLGJA_STORE=local/store .venv/bin/fylgja-core-server
@@ -478,7 +478,7 @@ What the page does not say, because only a contributor needs it:
   empty.
 - The core is given `local/demo/tokens` and `local/demo/store`, the local driver and the listen address, and no
   certificate, key, Lease or `FYLGJA_PACKAGES`: it loads the packages its wheel carries
-  (fylgja-core's D-124, to be released with 1.1.0). Every step is given the same token file and address and no
+  (fylgja-core's D-128, to be released with 1.1.0). Every step is given the same token file and address and no
   `FYLGJA_API_CA`.
 - A make target is given no variable but its own: its environment holds none of make's own names and no name the
   `Makefile` assigns by `?=`, and its variables are those of its command line alone, so `make netbox-demo PURGE=1`,
@@ -496,7 +496,7 @@ What the page does not say, because only a contributor needs it:
 
 ## The acceptance run
 
-An acceptance run is a release's own gate ([D-117](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-117), fylgja-core's D-124, to be released with 1.1.0):
+An acceptance run is a release's own gate ([D-117](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-117), fylgja-core's D-128, to be released with 1.1.0):
 the maintainer watches a change rehearsed on a twin from where its change source starts the rehearsal, and reads the
 report where that source files it, with the core on the local driver. Each written here has every command in order, how
 each one's end is read and what the maintainer is asked to do:
@@ -759,7 +759,7 @@ and the run is made again from `make netbox-change`, watched from the build.
 ## Moving to a release
 
 This repository pins one release of fylgja-core's packages, exactly, because its tests reach past what the core
-promises ([E-001](design/decisions.md#e-001), fylgja-core's D-124, to be released with 1.1.0). Moving to a new release is one
+promises ([E-001](design/decisions.md#e-001), fylgja-core's D-128, to be released with 1.1.0). Moving to a new release is one
 commit, with the tiers and both demonstrations made again:
 
 1. Move the three pins in `orchestrator/pyproject.toml` (`fylgja-core==`, `fylgja-infrahub==`, `fylgja-netbox==`, and
