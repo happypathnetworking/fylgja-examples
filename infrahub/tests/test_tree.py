@@ -56,9 +56,10 @@ CITED = {
 }
 """Repositories on github.com the tree cites outside the organisation the formats' ids name."""
 
-LOCKED = {"uv.lock": ("pypi.org", "files.pythonhosted.org")}
-"""The hosts a file alone may name, each file by its path: the lock's index and its files (D-108). A lock written
-through a site's mirror names that site's host, and fails."""
+LOCKED = {"uv.lock": ("pypi.org", "files.pythonhosted.org", "test-files.pythonhosted.org")}
+"""The hosts a file alone may name, each file by its path: the lock's index and its files (D-108), and, while the
+lock is a release candidate's, TestPyPI's files. A lock written through a site's mirror names that site's host, and
+fails."""
 
 TEMPLATES = {"scripts/publish.py": ("github.com", "/{repository}/blob/{tag}")}
 """The one address a file alone may write as a template, each file by its path: the base the publish script makes

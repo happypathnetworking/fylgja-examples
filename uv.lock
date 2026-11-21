@@ -624,8 +624,8 @@ wheels = [
 
 [[package]]
 name = "fylgja-core"
-version = "1.0.0"
-source = { registry = "https://pypi.org/simple" }
+version = "1.1.0rc1"
+source = { registry = "https://test.pypi.org/simple" }
 dependencies = [
     { name = "httpx" },
     { name = "jsonschema" },
@@ -633,7 +633,7 @@ dependencies = [
     { name = "referencing" },
 ]
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/c0/99/f89a0ff48bacb5f37db195d16462d76ac204e9005185ae7ab731bb027289/fylgja_core-1.0.0-py3-none-any.whl", hash = "sha256:c660b375ab392a651dbd5ab9b8e5a9f49436c4bea9b21b5759bb805615461bd1", size = 315876, upload-time = "2026-11-18T03:00:29.301Z" },
+    { url = "https://test-files.pythonhosted.org/packages/6e/a6/90fddf6dd965e88a9ca6ee7aff13ff49d918f273ab02facc42ce4cc83365/fylgja_core-1.1.0rc1-py3-none-any.whl", hash = "sha256:96efd86ddac1fb8c42b8d1df6b9622e21b1f1e45429a74a5b6927ec1284c28c0", size = 317047, upload-time = "2026-11-21T16:22:27.962Z" },
 ]
 
 [package.optional-dependencies]
@@ -655,26 +655,26 @@ server = [
 
 [[package]]
 name = "fylgja-infrahub"
-version = "1.0.0"
-source = { registry = "https://pypi.org/simple" }
+version = "1.1.0rc1"
+source = { registry = "https://test.pypi.org/simple" }
 dependencies = [
     { name = "fylgja-core" },
     { name = "httpx" },
 ]
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/eb/e9/7544da9673a03fa4b886a4e077e0c075008a6d447f153c1a5b1a406ea262/fylgja_infrahub-1.0.0-py3-none-any.whl", hash = "sha256:0d1ca0ff62828259b1cdbec0ef08cbd96fa2a5624d3ea288887db47de1b10c57", size = 68647, upload-time = "2026-11-18T03:00:24.725Z" },
+    { url = "https://test-files.pythonhosted.org/packages/25/7d/0b779cd8d12c43e7de8f5b81fb04b7ce31a837b82f193d5804df5b3a7241/fylgja_infrahub-1.1.0rc1-py3-none-any.whl", hash = "sha256:08bc134b05719de06368360cf70723a224a0897c70b000a6e23ea1ee4218e37e", size = 68708, upload-time = "2026-11-21T16:22:29.075Z" },
 ]
 
 [[package]]
 name = "fylgja-netbox"
-version = "1.0.0"
-source = { registry = "https://pypi.org/simple" }
+version = "1.1.0rc1"
+source = { registry = "https://test.pypi.org/simple" }
 dependencies = [
     { name = "fylgja-core" },
     { name = "httpx" },
 ]
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/5a/0a/273fa7facb282a0f7ef9849abab4bf124b069dcbc27f47dcf0f189d357a6/fylgja_netbox-1.0.0-py3-none-any.whl", hash = "sha256:9d2f6c1ee8b77c67dd7abd6064a507a608e15f3687fbb1e8adb4e72241d688e3", size = 55557, upload-time = "2026-11-18T03:00:31.354Z" },
+    { url = "https://test-files.pythonhosted.org/packages/da/3a/ee573c6f5c1cf4304fb778f11e3bcc936c5ac951585f0734800b609fb387/fylgja_netbox-1.1.0rc1-py3-none-any.whl", hash = "sha256:ae4b7fcaecd0fb2f2441c27916fb12dfb01430a4c35306c81dcc6ef9e1bf29d6", size = 55611, upload-time = "2026-11-21T16:22:30.58Z" },
 ]
 
 [[package]]
@@ -699,10 +699,10 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "fylgja-core", specifier = "==1.0.0" },
-    { name = "fylgja-core", extras = ["server"], marker = "extra == 'dev'", specifier = "==1.0.0" },
-    { name = "fylgja-infrahub", specifier = "==1.0.0" },
-    { name = "fylgja-netbox", specifier = "==1.0.0" },
+    { name = "fylgja-core", specifier = "==1.1.0rc1", index = "https://test.pypi.org/simple" },
+    { name = "fylgja-core", extras = ["server"], marker = "extra == 'dev'", specifier = "==1.1.0rc1", index = "https://test.pypi.org/simple" },
+    { name = "fylgja-infrahub", specifier = "==1.1.0rc1", index = "https://test.pypi.org/simple" },
+    { name = "fylgja-netbox", specifier = "==1.1.0rc1", index = "https://test.pypi.org/simple" },
     { name = "httpx", specifier = ">=0.27.0,<1" },
     { name = "mypy", marker = "extra == 'dev'", specifier = "==2.4.0" },
     { name = "prefect", specifier = "==3.9.2" },
