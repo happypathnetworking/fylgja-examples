@@ -452,3 +452,102 @@ clock, taken by stamping its progress lines.
 - **A `head` refused for the event log's count, once.** One rehearsal begun seconds after a seed
   ended refused its head stage with `read.incomplete` (`Infrahub counted 4 in InfrahubEvent ...
   and answered 11`), as recorded under Infrahub 1.11.11; the same rehearsal run again passed.
+
+## The OSPF rehearsal from a fresh clone, on fylgja-core 1.1.0rc1
+
+Read on 2026-11-21 (the logs' own timestamps are 2026-11-21 UTC from 23:32 to 23:56, the
+second `demo-down` at 00:28 on 2026-11-22) on the development host, in the fresh clone,
+outside every worktree, that the candidate's demonstrations were run in, switched to the
+branch `nornir-acceptance` at this branch's commit `229f9f4` (rebased onto 1.1.0 as
+`2cf49a8`), with the clone's own `local/.env`. The clone's `fylgja-core`, `fylgja-infrahub`
+and `fylgja-netbox` were 1.1.0rc1 from TestPyPI. The records are fylgja-core's main checkout,
+`local/phase-12/acceptance/demo/`, cited by file name. The seconds are as the logs print them;
+a wall figure is read from a wrapper's saved output (`*.wrapper.out`). *(2026-11-21)*
+
+- **The first run failed at step 7, the runner importing a module its venv lacked.**
+  `make infrahub-demo`
+  ran its steps 1 to 6 (Infrahub 1.11.11 answered 153 s after Compose's start returned in step 1;
+  `make infrahub-register REF=nornir-acceptance` printed that `fylgja` read `nornir-acceptance`
+  at `229f9f4`, in-sync and online, 96 s on; Prefect answered), then printed "step 7, the
+  runner: the runner exited before it served" and `make` exited 1 (`nornir-infrahub-demo.log`;
+  `nornir-infrahub-demo.wrapper.out` printed `nornir infrahub-demo FAIL 412s`). The runner's
+  log ends:
+  `File ".../orchestrator/src/fylgja_orchestrator/nornir/ospf.py", line 22, in <module>`,
+  `from nornir import AInitNornir`, `ModuleNotFoundError: No module named 'nornir'`
+  (`nornir-runner-first.log`). `make demo-down PURGE=1` ended it (`nornir-demo-down-0.log`).
+  `make venv` on this branch's lock then resolved 140 packages and
+  installed 12: `asyncssh` 2.24.1, `lxml` 6.1.3, `nornir` 3.7.0a1, `nornir-scrapli` 1.6.0a1,
+  `nornir-utils` 0.3.0, `ntc-templates` 9.3.0, `scrapli` 2026.2.20, `scrapli-cfg` 2025.1.30,
+  `scrapli-community` 2025.1.30, `scrapli-netconf` 2026.1.12, `textfsm` 2.1.1, and
+  `fylgja-orchestrator` 1.1.0rc1 again from the clone's `orchestrator/` (`nornir-venv.log`).
+  The two logs show that the venv lacked `nornir` until that `make venv`. The rest of the cause is
+  the controller's reading, not a record: that the clone's `.venv` had been made on the
+  candidate branch's lock (which lists no Nornir; counting `name = "nornir"` in the two locks
+  gave 0 on the candidate and 5 on this branch), that the switch to this branch was made without
+  `make venv`, and that the demonstration does not remake a venv that exists.
+- **The rerun passed.** `make infrahub-demo` exited 0
+  (`nornir-infrahub-demo-2.wrapper.out`: `nornir infrahub-demo ok 948s`) and printed "the
+  rehearsal passed: 4 stages, 179.4 s, flow run
+  387b2b8f-27f5-438e-80e5-74945eea4077" (`nornir-infrahub-demo-2.log`). The proposed change was
+  `18ea347d-f9fd-94eb-2b62-c5121c36306f`; `fylgja` read `nornir-acceptance` at `229f9f4`, 75 s
+  on. The demonstration printed its document as `local/demo/rehearsal.json` of the clone
+  (`nornir-infrahub-demo-2.log`, last lines), saved as `nornir-rehearsal.json`.
+- **The OSPF lines of the runner's log** (`nornir-runner.log`, 23:53:17 to 23:56:19), for the
+  flow run `clever-armadillo`, which is `387b2b8f-27f5-438e-80e5-74945eea4077`:
+
+  ```
+  23:55:32.032 | ospf: stage 1, branch-point, checking within 120s
+  23:55:37.472 | ospf: 4 of 4 link ends full
+  23:55:51.638 | ospf: stage 2, third-link, checking within 120s
+  23:55:56.563 | ospf: 6 of 6 link ends full
+  23:56:08.060 | ospf: stage 3, n1-address, checking within 120s
+  23:56:13.105 | ospf: 6 of 6 link ends full
+  23:56:13.150 | skip: stage 4, head: unchanged
+  ```
+
+  Beside them, the log's `settle: verify ok, 2.43449s of 180s` after stage 1, `verify: stage 2,
+  third-link: 19 hold, 0 fail` and `verify: stage 3, n1-address: 19 hold, 0 fail`; the twin
+  `rh-347d78d1-fcff53dc` was destroyed ("gone") and the report posted; the flow run finished in
+  state Completed. Each stage's check was passed in under 6 s of its 120 s (a derivation: 5.4 s,
+  4.9 s and 5.0 s, from the timestamps above).
+- **The thread was read.** No saved file records the reading; the controller's ledger quotes
+  the maintainer's word after the rehearsal's thread in Infrahub: "I've read it". `make
+  demo-down PURGE=1` then ended the runner, the core and Prefect and removed
+  `fylgja-examples-infrahub` with its volumes (`nornir-demo-down.log`, at 00:28).
+
+- **This repository's contract tiers fail on this branch, in two tests** (read on 2026-11-22,
+  02:13 to 02:56 UTC, in the same clone switched to `nornir-acceptance` at `229f9f4`; the records
+  are `examples-contracts/nornir/` of fylgja-core's acceptance directory, each target's log and
+  `wrapper.out`, which ended `all rc=1`). Infrahub and NetBox were each brought up for their tier
+  and purged after (`infrahub-down.log`, `netbox-down.log`).
+  - **`make contract`** (`contract.log`; wrapper `contract FAIL 952s`): `infrahub/tests/contract/` 7
+    passed in 245.26 s; then `orchestrator/tests/contract/` printed `1 failed, 10 passed in
+    704.15s`. The failure is
+    `tests/contract/test_prefect_contract.py::test_twin_rehearse_runs_to_its_document_and_posts_its_thread`,
+    at `assert rehearsed["status"] == "passed"` (line 333): `AssertionError: assert 'failed' ==
+    'passed'`. The log's line from the rehearsal: `fylgja-twin concluded False in 45.4 s:
+    Rehearsal failed at stage 2 of 4: third-link`, then `The OSPF check found 3 failures at
+    stage 2, third-link, the first n1: n1's OSPF state could not be read: the check could not
+    run: KeyError: 'FYLGJA_CREDENTIAL_SRLINUX_USERNAME is not set' (ospf.node.unread). Stage 1
+    passed. Stages 3 and 4 were not reached.` The tier's cancel test, in the same run, printed
+    `fylgja-twin concluded False: this check's own deadline, 420 s after it began, passed: the
+    run was asked to cancel`.
+  - **`make contract-netbox`** (`contract-netbox.log`; wrapper `contract-netbox FAIL 151s`):
+    `netbox/tests/contract/` printed `1 failed, 13 passed in 150.02s`, and the target stopped
+    there (the log holds no run of the orchestrator's NetBox tier). The failure is
+    `tests/contract/test_seed_contract.py::test_the_changes_two_steps_each_move_a_configuration`
+    at `assert linked[name].split("\n")[1:] == wanted[name][1:], name` (line 140):
+    `AssertionError: n1`, `assert ['# platform ... enable', ...] == ['# platform ...0.0.0.0',
+    ...]`, `At index 3 diff: 'set / interface ethernet-1/1 description "to n2 ethernet-1/1"' !=
+    'set / network-instance default protocols ospf instance main admin-state enable'`, `Right
+    contains 5 more items, first extra item: 'set / interface ethernet-1/2 subinterface 0 ipv4
+    admin-state enable'`. The expected configuration holds an OSPF line at index 3 where the
+    rendered one does not, and 5 lines more.
+  - **What the controller read**, beside the failures: `netbox/seed/main.yaml` of this branch
+    is byte-identical to `netbox/seed/main.yaml` of fylgja-core's `archive/nornir-ospf` (the same
+    sha256, read again for this entry by the fix wave's implementer, not the controller), and
+    fylgja-core's `archive/nornir-ospf`'s diff from `e7cdc0c` changes no NetBox configuration
+    template (the controller's reading of the diff).
+  - **The controller's ruling, not a reading:** these two failures are this branch's own
+    defects, carried from `nornir-ospf` as it was, and are left for a later fix. The runs show
+    that the two tests fail on this branch at `229f9f4`, and no more.
