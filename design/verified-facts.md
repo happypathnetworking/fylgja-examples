@@ -158,3 +158,106 @@ Seconds are as the logs print them; a figure marked as a derivation is worked ou
 - **Derivation: where the time went.** NetBox's 774 s to healthy is 78 percent of the
   demonstration's 996 s (derived from the two figures; the controller's record gives the
   996 s); the rehearsal itself took 119.4 s of it.
+
+## The lock over TestPyPI, and both demonstrations from a fresh clone, on fylgja-core 1.1.0rc1
+
+Read on 2026-11-21 on the development host (CPython 3.14.4, which the clone's
+`make venv` printed; uv 0.12.23 is the version the repository's `required-version` pins, and
+neither version is in a lock record, so both are the controller's account for the lock). The lock
+was read at 19:04 UTC in a worktree of this repository whose `pyproject.toml` held, beside the
+workspace table, an explicit index `testpypi` at `https://test.pypi.org/simple` and a
+`[tool.uv.sources]` table naming it for `fylgja-core`, `fylgja-infrahub` and `fylgja-netbox`,
+and whose `orchestrator/pyproject.toml` pinned those three at `==1.1.0rc1` (the commit
+`a27e199`, made at 19:09, holds both). The demonstrations were run in a fresh clone of this
+repository at `a27e199`, on the branch `rc1-acceptance`, in a fresh clone outside every
+worktree, from 22:31 to 23:11 UTC; the clone's `FYLGJA_LAB_POOL` was set to a /16 apart from the
+core's
+default, which lies where Docker allocates the next Compose network, and its node login was
+written by the maintainer. The records are the plan's acceptance directory in fylgja-core's
+main checkout, `local/phase-12/acceptance/`, `lock/` and `demo/`, cited by file name. The
+seconds are as the logs print them; a wall figure is read from a wrapper's saved output
+(`demo/*.wrapper.out`). *(2026-11-21)*
+
+- **`uv lock` resolves with TestPyPI as an explicit index.** It printed `Resolved 129
+  packages in 5.16s` and `Updated fylgja-core v1.0.0 -> v1.1.0rc1` for each of the three
+  (`lock/uv-lock.out`). The lock names `fylgja-core`, `fylgja-infrahub` and `fylgja-netbox`
+  at 1.1.0rc1 with `source = { registry = "https://test.pypi.org/simple" }`, each wheel's URL on
+  `test-files.pythonhosted.org`; counting the lock's `source` tables read 125 from
+  PyPI's simple index, 3 from `https://test.pypi.org/simple` and 1 editable
+  (`fylgja-orchestrator`, `orchestrator`) (`lock/lock-sources.txt`). `httpx` 0.28.1 and
+  `prefect` 3.9.2 stay on PyPI's simple index, as `httpx`'s block names it
+  (`lock/lock-httpx.txt`). The lock's
+  hashes for the three wheels equal TestPyPI's simple pages' (`96efd86d…`, `08bc134b…`,
+  `ae4b7fca…`: `lock/uv-lock.diff`, `lock/simple-fylgja-*.json`), and the orchestrator's
+  `requires-dist` carries `index = "https://test.pypi.org/simple"` on four entries, those of
+  the three distributions (`fylgja-core` twice, once with its `server` extra), and on no other.
+  The diff against the lock before
+  it changes 26 lines (`lock/uv-lock.diff`).
+- **The Infrahub demonstration passed.** In the clone, `make infrahub-demo` exited 0
+  (`demo/infrahub-demo.wrapper.out`: `infrahub-demo ok 1056s`). The clone's venv held
+  `fylgja-core==1.1.0rc1`,
+  `fylgja-infrahub==1.1.0rc1`, `fylgja-netbox==1.1.0rc1` and `fylgja-orchestrator==1.1.0rc1`
+  (`infrahub-demo.log`, lines 42 to 45). Infrahub 1.11.11 answered 158 s after Compose's
+  start returned; `make infrahub-register REF=rc1-acceptance` printed that `fylgja` read
+  `rc1-acceptance` at `a27e199`, in-sync and online, 76 s on. The seed made the proposed change
+  `18ea30dd-37cd-7e8e-3b92-c516bd3dbfd7`, "Rehearse third-link", of the branch `third-link` into
+  `main`; the flow run `00db6a25-2502-4294-828c-4f65587ab678` of `twin-rehearse/main` went
+  PENDING, RUNNING, COMPLETED, and the demonstration printed "the rehearsal passed: 4 stages,
+  154.1 s, flow run 00db6a25-2502-4294-828c-4f65587ab678" (`infrahub-demo.log`). The report is
+  in Infrahub, the proposed change's thread "Fylgja rehearsal"; no saved file records the
+  reading, and the controller's ledger quotes the maintainer's word after it: "I read the
+  rehearsal thread, go ahead". `make demo-down PURGE=1` ended the runner, the core and Prefect and
+  printed that the
+  Compose project `fylgja-examples-infrahub` was removed with its volumes (`demo-down-1.log`).
+- **The NetBox demonstration passed, after a first start that exited 1.** `make netbox-demo`
+  exited 0
+  (`demo/netbox-demo.wrapper.out`: `netbox-demo ok 972s`). NetBox 4.7.5 with `netbox_branching`
+  1.2.3
+  was built from `netbox-docker` 5.1.1. The first start of Compose printed
+  `dependency failed to start: container fylgja-examples-netbox-netbox-1 is unhealthy`, and
+  `netbox_dev` printed "the first start of fylgja-examples-netbox exited 1; waiting for Docker to
+  call netbox healthy", then "netbox healthy 745 s after its start", asked Compose once more
+  (which started the worker, `Container fylgja-examples-netbox-netbox-worker-1 Started`) and
+  printed "NetBox 4.7.5 with netbox_branching 1.2.3 answers", 1 worker running. The core's own
+  development
+  Infrahub and NetBox had been purged at 22:31 (`purge/infrahub-down.log` and
+  `purge/netbox-down.log` print each of the core's two Compose projects
+  removed with its volumes); this run's project, `fylgja-examples-netbox`, is another, and
+  what NetBox did in the 745 s was not read. `make netbox-hook` made the webhook `fylgja-rehearse`;
+  `make netbox-change`
+  set its tag on the branch `third-link`; the flow run
+  `8aab684e-2fef-42e8-973a-5159eaa8e5c9` went SCHEDULED, PENDING, RUNNING, COMPLETED, and the
+  demonstration printed "the rehearsal passed: 4 stages, 112.6 s, flow run
+  8aab684e-2fef-42e8-973a-5159eaa8e5c9" (`netbox-demo.log`). The report is the newest Journal
+  entry of the branch `third-link` in NetBox; no saved file records the reading, and the
+  controller's
+  ledger quotes the maintainer's word after it: "I read the journal, go ahead". `make demo-down
+  PURGE=1` printed that `fylgja-examples-netbox` was removed with its volumes
+  (`demo-down-2.log`).
+- **Derivation: the NetBox first start.** 745 s is 77 percent of the demonstration's 972 s
+  wall (derived from the two figures); the rehearsal itself took
+  112.6 s of it.
+
+- **This repository's contract tiers pass from the clone on the candidate** (read on 2026-11-22,
+  01:23 to 02:13 UTC, in the same clone switched to `rc1-acceptance` at `a27e199`; the records are
+  `examples-contracts/rc1/` of fylgja-core's acceptance directory, each target's log and
+  `wrapper.out`, which holds the wall seconds). Infrahub came up first and NetBox after, each
+  purged afterwards: each log prints its Compose project removed with its volumes
+  (`infrahub-down.log`, `netbox-down.log`).
+  `make contract` (`contract.log`; wrapper `contract ok 964s`): `infrahub/tests/contract/` 7
+  passed in 237.58 s, then `orchestrator/tests/contract/` 11 passed in 722.09 s, no skip. The
+  setup of its first test printed `seed: third-link: its BranchCreate failed (POST
+  /graphql/main answered HTTP 200 with errors: None (http_status 500)); reading for the branch`
+  and then `seed: third-link is listed, 19 s after its BranchCreate was sent`, and the tests
+  passed. `make contract-netbox` (`contract-netbox.log`; wrapper `contract-netbox ok 528s`):
+  `netbox/tests/contract/` 14 passed in 159.32 s, then `orchestrator/tests/contract_netbox/` 11
+  passed and 1 skipped in 365.52 s. The skip is
+  `tests/contract_netbox/test_source_contract.py:491`, and its own message is "no webhook
+  fylgja-rehearse is installed: run make netbox-hook, with the development Prefect up". The
+  wrapper ran `prefect-down-2` before this target (`prefect-down-2.log`: the development
+  Prefect "is not running: no pid file"), and `make netbox-hook` needs Prefect up; the tier's
+  order is thus the controller's account of why no webhook was installed, and the log holds only
+  the message. The setup steps' wall seconds are in `wrapper.out`: `infrahub-up` 214 s,
+  `infrahub-register` 141 s, `infrahub-seed` 288 s, `netbox-up` 754 s (its log: the first start
+  exited 1, "netbox healthy 732 s after its start"), `netbox-seed` 32 s; the wrapper ended
+  `all rc=0`.
