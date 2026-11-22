@@ -1,4 +1,5 @@
-"""The example's three distributions are pinned at `VERSION` and the lock holds them at it, from PyPI alone.
+"""The example's three distributions are pinned at `VERSION` and the lock holds them at it: the three from TestPyPI
+while `VERSION` is a release candidate, and every other package from PyPI.
 
 The pins are exact because the tests reach past the promise: they read the core's fakes of a runtime and its
 packages, which a release's compatibility statement does not cover (D-128 in fylgja-core). A pin moved without
@@ -11,6 +12,8 @@ import tomllib
 from pathlib import Path
 
 REGISTRY = "https://pypi.org/simple"
+# The candidate's index, which only the three pinned distributions come from.
+CANDIDATE_REGISTRY = "https://test.pypi.org/simple"
 
 ROOT = Path(__file__).resolve().parents[2]
 VERSION = (ROOT / "VERSION").read_text().strip()
@@ -41,13 +44,15 @@ def test_the_lock_holds_version_of_each() -> None:
     assert held == dict.fromkeys(PINNED, VERSION)
 
 
-def test_the_lock_is_pypis_alone() -> None:
-    """Every package but the workspace member is from `REGISTRY` itself, not any registry. A release candidate's lock
-    is from TestPyPI, so the branch that locks one amends this test; `main` never does."""
+def test_the_lock_is_pypis_but_for_the_three_from_testpypi() -> None:
+    """Every package but the workspace member is from `REGISTRY` itself, not any registry, except the three pinned
+    distributions, which are from `CANDIDATE_REGISTRY` and nowhere else. This is the candidate's lock: the release's
+    commit puts this test back to PyPI alone, and `main` never carries this one."""
     for package in _lock_packages():
         source = package["source"]
         assert isinstance(source, dict)
         if package["name"] == MEMBER:
             assert set(source) == {"editable"}
             continue
-        assert source == {"registry": REGISTRY}, f"{package['name']} is not from {REGISTRY}: {source}"
+        expected = CANDIDATE_REGISTRY if package["name"] in PINNED else REGISTRY
+        assert source == {"registry": expected}, f"{package['name']} is not from {expected}: {source}"
