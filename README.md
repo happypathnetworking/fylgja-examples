@@ -1,6 +1,6 @@
 # Fylgja examples
 
-The example orchestrator and the demonstrations of [Fylgja](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/README.md). Fylgja turns a
+The example orchestrator and the demonstrations of [Fylgja](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/README.md). Fylgja turns a
 blueprint, a network's intent, into a twin: that network running on real network operating system
 images, where a change is rehearsed before it reaches production. This repository shows how to
 join it to a source of truth.
@@ -9,7 +9,7 @@ The example orchestrator, under `orchestrator/`, rehearses a change of a source 
 twin and files the report where the source files such things: a proposed change in
 [Infrahub](https://github.com/opsmill/infrahub), or a branch in NetBox. It is a client of the
 core like any other, through the core's API alone.
-[Integrating Fylgja](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/docs/integrating.md) walks through it.
+[Integrating Fylgja](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/docs/integrating.md) walks through it.
 
 ## One release
 
@@ -36,7 +36,7 @@ each writes and leaves.
 
 - [CONTRIBUTING.md](CONTRIBUTING.md) says how to set up, test and change the repository, and
   holds the runbooks the demonstrations take.
-- [fylgja-core](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/README.md) holds the core, the two readers and the pages of the server, the
+- [fylgja-core](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/README.md) holds the core, the two readers and the pages of the server, the
   command and API 1.
 
 ## Licence

@@ -1,7 +1,7 @@
 # Verified facts
 
-What this repository was built on is what fylgja-core's facts record at v1.0.0:
-`https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/verified-facts.md`. The
+What this repository was built on is what fylgja-core's facts record at v1.1.0:
+`https://github.com/happypathnetworking/fylgja/blob/v1.1.0/design/verified-facts.md`. The
 section below is what this repository read for itself, over released packages.
 A section this file lacks that a file here cites is fylgja-core's, at the tag above.
 
@@ -169,11 +169,10 @@ workspace table, an explicit index `testpypi` at `https://test.pypi.org/simple` 
 `[tool.uv.sources]` table naming it for `fylgja-core`, `fylgja-infrahub` and `fylgja-netbox`,
 and whose `orchestrator/pyproject.toml` pinned those three at `==1.1.0rc1` (the commit
 `a27e199`, made at 19:09, holds both). The demonstrations were run in a fresh clone of this
-repository at `a27e199`, on the branch `rc1-acceptance`, in a fresh clone outside every
-worktree, from 22:31 to 23:11 UTC; the clone's `FYLGJA_LAB_POOL` was set to a /16 apart from the
-core's
-default, which lies where Docker allocates the next Compose network, and its node login was
-written by the maintainer. The records are the plan's acceptance directory in fylgja-core's
+repository at `a27e199`, on the branch `rc1-acceptance`, outside every worktree, from 22:31
+to 23:11 UTC; the clone's `FYLGJA_LAB_POOL` was set to a /16 apart from the core's default,
+which lies where Docker allocates the next Compose network, and its node login was written by
+the maintainer. The records are the plan's acceptance directory in fylgja-core's
 main checkout, `local/phase-12/acceptance/`, `lock/` and `demo/`, cited by file name. The
 seconds are as the logs print them; a wall figure is read from a wrapper's saved output
 (`demo/*.wrapper.out`). *(2026-11-21)*
@@ -207,32 +206,28 @@ seconds are as the logs print them; a wall figure is read from a wrapper's saved
   in Infrahub, the proposed change's thread "Fylgja rehearsal"; no saved file records the
   reading, and the controller's ledger quotes the maintainer's word after it: "I read the
   rehearsal thread, go ahead". `make demo-down PURGE=1` ended the runner, the core and Prefect and
-  printed that the
-  Compose project `fylgja-examples-infrahub` was removed with its volumes (`demo-down-1.log`).
+  printed that the Compose project `fylgja-examples-infrahub` was removed with its volumes
+  (`demo-down-1.log`).
 - **The NetBox demonstration passed, after a first start that exited 1.** `make netbox-demo`
   exited 0
-  (`demo/netbox-demo.wrapper.out`: `netbox-demo ok 972s`). NetBox 4.7.5 with `netbox_branching`
-  1.2.3
-  was built from `netbox-docker` 5.1.1. The first start of Compose printed
+  (`demo/netbox-demo.wrapper.out`: `netbox-demo ok 972s`). NetBox 4.7.5 with
+  `netbox_branching` 1.2.3 was built from `netbox-docker` 5.1.1. The first start of Compose printed
   `dependency failed to start: container fylgja-examples-netbox-netbox-1 is unhealthy`, and
   `netbox_dev` printed "the first start of fylgja-examples-netbox exited 1; waiting for Docker to
   call netbox healthy", then "netbox healthy 745 s after its start", asked Compose once more
   (which started the worker, `Container fylgja-examples-netbox-netbox-worker-1 Started`) and
   printed "NetBox 4.7.5 with netbox_branching 1.2.3 answers", 1 worker running. The core's own
-  development
-  Infrahub and NetBox had been purged at 22:31 (`purge/infrahub-down.log` and
+  development Infrahub and NetBox had been purged at 22:31 (`purge/infrahub-down.log` and
   `purge/netbox-down.log` print each of the core's two Compose projects
   removed with its volumes); this run's project, `fylgja-examples-netbox`, is another, and
   what NetBox did in the 745 s was not read. `make netbox-hook` made the webhook `fylgja-rehearse`;
-  `make netbox-change`
-  set its tag on the branch `third-link`; the flow run
+  `make netbox-change` set its tag on the branch `third-link`; the flow run
   `8aab684e-2fef-42e8-973a-5159eaa8e5c9` went SCHEDULED, PENDING, RUNNING, COMPLETED, and the
   demonstration printed "the rehearsal passed: 4 stages, 112.6 s, flow run
   8aab684e-2fef-42e8-973a-5159eaa8e5c9" (`netbox-demo.log`). The report is the newest Journal
   entry of the branch `third-link` in NetBox; no saved file records the reading, and the
-  controller's
-  ledger quotes the maintainer's word after it: "I read the journal, go ahead". `make demo-down
-  PURGE=1` printed that `fylgja-examples-netbox` was removed with its volumes
+  controller's ledger quotes the maintainer's word after it: "I read the journal, go ahead".
+  `make demo-down PURGE=1` printed that `fylgja-examples-netbox` was removed with its volumes
   (`demo-down-2.log`).
 - **Derivation: the NetBox first start.** 745 s is 77 percent of the demonstration's 972 s
   wall (derived from the two figures); the rehearsal itself took
@@ -246,7 +241,8 @@ seconds are as the logs print them; a wall figure is read from a wrapper's saved
   (`infrahub-down.log`, `netbox-down.log`).
   `make contract` (`contract.log`; wrapper `contract ok 964s`): `infrahub/tests/contract/` 7
   passed in 237.58 s, then `orchestrator/tests/contract/` 11 passed in 722.09 s, no skip. The
-  setup of its first test printed `seed: third-link: its BranchCreate failed (POST
+  setup of `test_seed_contract.py`'s first test printed
+  `seed: third-link: its BranchCreate failed (POST
   /graphql/main answered HTTP 200 with errors: None (http_status 500)); reading for the branch`
   and then `seed: third-link is listed, 19 s after its BranchCreate was sent`, and the tests
   passed. `make contract-netbox` (`contract-netbox.log`; wrapper `contract-netbox ok 528s`):

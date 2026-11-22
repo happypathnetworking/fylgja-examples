@@ -9,15 +9,3 @@ python-preference = "only-system"
 
 [tool.uv.workspace]
 members = ["orchestrator"]
-
-# The candidate's lock: the three fylgja distributions come from TestPyPI and everything else from PyPI. The index is
-# explicit, so only a distribution a source names is looked up there. 1.1.0's commit takes both tables out.
-[[tool.uv.index]]
-name = "testpypi"
-url = "https://test.pypi.org/simple"
-explicit = true
-
-[tool.uv.sources]
-fylgja-core = { index = "testpypi" }
-fylgja-infrahub = { index = "testpypi" }
-fylgja-netbox = { index = "testpypi" }

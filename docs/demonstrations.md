@@ -6,8 +6,8 @@ network, starts the core and the example orchestrator, makes a change in the sou
 twin to rehearse it and says the verdict and where the report is read.
 
 A demonstration is a development tool, run from a clone of the repository. It is not installed, and
-what it does is not promised the way the commands in [the command line](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/docs/cli.md) are. The example
-orchestrator it uses is described in [integrating Fylgja](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/docs/integrating.md).
+what it does is not promised the way the commands in [the command line](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/docs/cli.md) are. The example
+orchestrator it uses is described in [integrating Fylgja](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/docs/integrating.md).
 
 ## What the host must have
 
@@ -158,7 +158,7 @@ NetBox's demonstration's time: NetBox was healthy about 730 to 790 seconds after
 readings of 732 to 793 seconds. Infrahub answered about 155 seconds after Compose's start, in five
 readings of 153 to 159 seconds.
 
-Why it is so: the readings are in [verified-facts.md](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/verified-facts.md).
+Why it is so: the readings are in [verified-facts.md](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/design/verified-facts.md).
 
 ## What it writes
 

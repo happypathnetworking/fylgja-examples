@@ -3,18 +3,18 @@
 > **Not accepting contributions yet.** Thank you for your interest in Fylgja. Fylgja is not
 > taking outside issues or pull requests yet; this page will say when that changes. This page
 > describes how the repository itself works. A security concern is always welcome, as
-> [fylgja-core's SECURITY.md](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/SECURITY.md) describes.
+> [fylgja-core's SECURITY.md](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/SECURITY.md) describes.
 
 How to set up, test and change fylgja-examples, which holds the example orchestrator and the two
-demonstrations of [fylgja-core](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/README.md). The design they follow lives there: the system in
-[architecture.md](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/architecture.md), the rules every change keeps in the
-[constitution](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/constitution.md), and the reasons in its [decision
-log](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md). This repository's own decisions are in
+demonstrations of [fylgja-core](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/README.md). The design they follow lives there: the system in
+[architecture.md](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/design/architecture.md), the rules every change keeps in the
+[constitution](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/design/constitution.md), and the reasons in its [decision
+log](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/design/decisions.md). This repository's own decisions are in
 [design/decisions.md](design/decisions.md), and what it read for itself in
 [design/verified-facts.md](design/verified-facts.md). Read fylgja-core's
-[verified-facts.md](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/verified-facts.md) for what has been verified against
+[verified-facts.md](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/design/verified-facts.md) for what has been verified against
 containerlab, Infrahub, NetBox, Prefect and the network operating systems, with versions and
-dates. [Integrating Fylgja](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/docs/integrating.md) walks through this example.
+dates. [Integrating Fylgja](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/docs/integrating.md) walks through this example.
 
 This repository installs the released packages `fylgja-core`, `fylgja-infrahub` and
 `fylgja-netbox`, each pinned exactly at `VERSION`, from PyPI, and reads no path of a fylgja-core
@@ -56,14 +56,14 @@ make test               # the pure tier: no infrastructure
 |---|---|---|
 | Python | 3.14 | The system's `python3`, never one uv fetches |
 | uv | 0.12.23 | Makes the environment `.venv` and the wheel check's builds and empty environments, and `infrahubctl`'s own; the root `pyproject.toml` requires exactly this version. Install exactly 0.12.23, by uv's own installer or the distribution's package, pinned to it |
-| fylgja-core, fylgja-infrahub, fylgja-netbox | `VERSION` (1.0.0) | From PyPI, each pinned exactly in `orchestrator/pyproject.toml` and locked in `uv.lock`; `fylgja-core[server]` is also the `dev` extra's. Not `fylgja-nautobot`: the example has no Nautobot source |
+| fylgja-core, fylgja-infrahub, fylgja-netbox | `VERSION` (1.1.0) | From PyPI, each pinned exactly in `orchestrator/pyproject.toml` and locked in `uv.lock`; `fylgja-core[server]` is also the `dev` extra's. Not `fylgja-nautobot`: the example has no Nautobot source |
 | httpx | `>=0.27.0,<1` | The example's transport, at the core's range |
-| Prefect | 3.9.2 | The example orchestrator's edge alone: the two deployments Infrahub's checks start, the second of which NetBox's webhook starts too ([D-085](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-085), [D-097](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-097)) |
+| Prefect | 3.9.2 | The example orchestrator's edge alone: the two deployments Infrahub's checks start, the second of which NetBox's webhook starts too ([D-085](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/design/decisions.md#d-085), [D-097](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/design/decisions.md#d-097)) |
 | pytest, ruff, mypy | 9.2.0, 0.17.3, 2.4.0 | mypy in strict mode |
 | containerlab, Docker | 0.81.0, the host's | The local driver of the demonstration's core; containerlab at the version the demonstrations were verified on |
-| Infrahub, Docker Compose | 1.11.11, the host's | The development Infrahub (`make infrahub-up`): Infrahub's published Compose file for its version, fetched into `local/infrahub/` and never vendored, run by Docker's Compose plugin ([D-083](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-083)) |
+| Infrahub, Docker Compose | 1.11.11, the host's | The development Infrahub (`make infrahub-up`): Infrahub's published Compose file for its version, fetched into `local/infrahub/` and never vendored, run by Docker's Compose plugin ([D-083](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/design/decisions.md#d-083)) |
 | infrahub-sdk\[ctl\] | 1.23.2 | `infrahubctl`, which loads the schema library into the development Infrahub (`make infrahub-register`), in a venv of its own under `local/infrahub/` so that the SDK meets nothing else; no code of the tree imports it |
-| NetBox, netbox-docker, netbox-branching | 4.7.5, 5.1.1, 1.2.3 | The development NetBox (`make netbox-up`): netbox-docker's release for its version, fetched into `local/netbox/` and never vendored, its image with one layer adding the branching plugin, built from `netbox/dev/`, run by Docker's Compose plugin ([D-096](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-096)) |
+| NetBox, netbox-docker, netbox-branching | 4.7.5, 5.1.1, 1.2.3 | The development NetBox (`make netbox-up`): netbox-docker's release for its version, fetched into `local/netbox/` and never vendored, its image with one layer adding the branching plugin, built from `netbox/dev/`, run by Docker's Compose plugin ([D-096](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/design/decisions.md#d-096)) |
 
 `make venv` syncs `.venv` from `uv.lock`, the uv workspace's lock at the root: the example
 orchestrator, editable with every extra, and the three released distributions at the versions
@@ -90,15 +90,15 @@ inside the tree carries a `.gitignore` of `*`.
 | `make netbox-up` | The development NetBox, the Compose project `fylgja-examples-netbox` on the subnet 192.0.2.0/24: NetBox `NETBOX_VERSION` (4.7.5) on netbox-docker `NETBOX_DOCKER_VERSION` (5.1.1) with netbox-branching `NETBOX_BRANCHING_VERSION` (1.2.3), run by `scripts/netbox_dev.py` against `local/`. It adds to `local/.env` each of its names that the file does not hold, the secrets generated and never printed, and changes no line already there; a name held with no value is refused. Waits until `/api/status/` names both versions and a running worker, and provisions the superuser's token into `local/.env` where it holds none or NetBox refuses it |
 | `make netbox-down` | Stops the development NetBox, each container given 60 s to exit by itself. Its containers, network and volumes and everything under `local/netbox/` are kept. `PURGE=1`, and no other value, removes the containers, the network and the volumes; `local/.env`, the release and the image stay, and the next `make netbox-up` provisions the superuser's token again |
 | `make netbox-seed` | The fixture network on the development NetBox's `main` (`netbox/seed/seed.py`), each object found by its name or made, `main` read back and refused, naming each difference and deleting nothing, where it is not the fixture; then the accounts `fylgja-reader` and `fylgja-orchestrator` at their least grants and their tokens' lines in `local/.env` (`netbox/seed/account.py`), each kept where NetBox holds its token as that account's and made again where it does not |
-| `make netbox-hook` | The trigger on the development NetBox (`netbox/seed/hook.py`, [D-097](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-097)): the tag `fylgja-rehearse`, limited to branches, the webhook `fylgja-rehearse` that starts `twin-rehearse/main` on the edge's Prefect, and the event rule that sends it when a branch carrying the tag is updated, each found by its name or made. The webhook names the deployment by its id, so it runs once the runner serves |
+| `make netbox-hook` | The trigger on the development NetBox (`netbox/seed/hook.py`, [D-097](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/design/decisions.md#d-097)): the tag `fylgja-rehearse`, limited to branches, the webhook `fylgja-rehearse` that starts `twin-rehearse/main` on the edge's Prefect, and the event rule that sends it when a branch carrying the tag is updated, each found by its name or made. The webhook names the deployment by its id, so it runs once the runner serves |
 | `make netbox-change` | The seeded change on the development NetBox (`netbox/seed/change.py`): the branch `NETBOX_BRANCH` (`third-link`), deleted where it stands with every journal entry on it and made anew from `main`, its two steps written and each marked by the example's own `stage mark`, which needs the core running. `NETBOX_TAG=1`, and no other value, sets the tag `fylgja-rehearse` last, which asks for the rehearsal |
 | `make orchestrator-env` | The example orchestrator's lines in `local/.env` (`scripts/edge_dev.py env`), each written only where the file lacks it or holds it empty, printed by its name and never its value: the basic auth the edge's Prefect, the task workers and NetBox's webhook share, the runner's token of the core's, its hash appended with the principal `orchestrator` to the token file `FYLGJA_TOKENS` names (refused with nothing written where that names no file), the scope, the reader documents and the records' directory; then, but with `SOURCE=netbox`, its Infrahub account and that account's token. The core is restarted after it, to read the new line |
 | `make prefect-up` | The edge's Prefect (`scripts/edge_dev.py prefect-up`), `.venv`'s `prefect server start`, on port 4200 of the Docker bridge's gateway, or `PREFECT_BIND`; in a session of its own under `local/prefect/`, its basic auth given in its environment and never as an argument; waited for until `/api/health` answers. Refused, with nothing started or stopped, where anything else listens on port 4200 |
 | `make prefect-down` | Ends the server `local/prefect/server.pid` names, only where that process is this project's Prefect server, and no other process |
-| `make orchestrator-serve` | The runner of the change source `SOURCE`, `infrahub` where not given, or `netbox` ([D-097](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-097)), `.venv`'s `fylgja-orchestrator serve`, in the foreground until Ctrl-C, serving `stage-plan/main` and `twin-rehearse/main` to the edge's Prefect (`scripts/edge_dev.py serve --source`). It is given its own tokens of that source and none of any other. Load `local/.env` first |
+| `make orchestrator-serve` | The runner of the change source `SOURCE`, `infrahub` where not given, or `netbox` ([D-097](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/design/decisions.md#d-097)), `.venv`'s `fylgja-orchestrator serve`, in the foreground until Ctrl-C, serving `stage-plan/main` and `twin-rehearse/main` to the edge's Prefect (`scripts/edge_dev.py serve --source`). It is given its own tokens of that source and none of any other. Load `local/.env` first |
 | `make contract` | The contract tier (below) against the running, registered and seeded development Infrahub: `infrahub/tests/contract/`, then `orchestrator/tests/contract/`. Load `local/.env` first |
 | `make contract-netbox` | The NetBox contract tier (below) against the running, seeded development NetBox: `netbox/tests/contract/`, then `orchestrator/tests/contract_netbox/`. Load `local/.env` after `make netbox-seed` |
-| `make infrahub-demo` | A demonstration with the development Infrahub, with no step by hand (`scripts/demo.py up infrahub`, [D-104](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-104)): the host's preconditions are checked, what an earlier run left is ended, the development NetBox is stopped where it is up, the room is checked, then the steps of [Running the example orchestrator](#running-the-example-orchestrator) are taken in order through their own targets, the seed last with its proposed change, and the verdict is read from the rehearsal's document. Exit 0 for `passed` alone. See [The demonstrations](#the-demonstrations) |
+| `make infrahub-demo` | A demonstration with the development Infrahub, with no step by hand (`scripts/demo.py up infrahub`, [D-104](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/design/decisions.md#d-104)): the host's preconditions are checked, what an earlier run left is ended, the development NetBox is stopped where it is up, the room is checked, then the steps of [Running the example orchestrator](#running-the-example-orchestrator) are taken in order through their own targets, the seed last with its proposed change, and the verdict is read from the rehearsal's document. Exit 0 for `passed` alone. See [The demonstrations](#the-demonstrations) |
 | `make netbox-demo` | The same with the development NetBox (`scripts/demo.py up netbox`), the development Infrahub stopped where it is up: the steps of [With NetBox](#with-netbox), its last `make netbox-change NETBOX_TAG=1`, then the verdict read in the same way |
 | `make demo-down` | Ends what a demonstration started (`scripts/demo.py down`): its runner, every twin its core holds, its core, the Prefect server it started and its source, whose volumes are kept, or removed with `PURGE=1` given on a make command line, and by no other value |
 
@@ -152,7 +152,7 @@ against PyPI alone. A candidate release's lock, from TestPyPI, amends that test 
   The token file must exist before `make orchestrator-env`. An empty one is valid, and the
   target appends the runner's line: `install -m 600 /dev/null local/tokens`. The rest of what
   these settings take is in
-  [fylgja-core's docs/server.md](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/docs/server.md).
+  [fylgja-core's docs/server.md](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/docs/server.md).
   The demonstrations need none of the four, since they use their own
   ([docs/demonstrations.md](docs/demonstrations.md)).
 
@@ -170,8 +170,8 @@ own writer. `make contract` sets the other two on its command lines: `FYLGJA_INF
 
 **The readers' commands**, `fylgja-infrahub` and `fylgja-netbox`, are installed by `make venv` in
 `.venv/bin/`, and read their address and token from the environment, never a flag
-([fylgja-core's Infrahub reader](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/readers/infrahub/README.md#the-command), [its NetBox
-reader](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/readers/netbox/README.md#the-command)). Against the development source, seeded, a
+([fylgja-core's Infrahub reader](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/readers/infrahub/README.md#the-command), [its NetBox
+reader](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/readers/netbox/README.md#the-command)). Against the development source, seeded, a
 blueprint is read into a file under `local/`:
 
 ```sh
@@ -211,13 +211,13 @@ there:
 **The demonstrations** need Docker and containerlab, with the user in the `docker` and
 `clab_admins` groups, and the SR Linux image (`ghcr.io/nokia/srlinux:24.7.1`, public).
 On Ubuntu, SR Linux's `rsyslogd` needs an AppArmor widening
-([fylgja-core's facts](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/verified-facts.md)). [docs/demonstrations.md](docs/demonstrations.md)
+([fylgja-core's facts](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/design/verified-facts.md)). [docs/demonstrations.md](docs/demonstrations.md)
 lists every precondition.
 
 ## The development Infrahub
 
 One Infrahub at a stated version runs on the development host as the Compose project
-`fylgja-examples-infrahub` ([D-083](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-083)), behind the make targets above.
+`fylgja-examples-infrahub` ([D-083](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/design/decisions.md#d-083)), behind the make targets above.
 It is brought up, given this repository and seeded in this order. `make infrahub-up` needs none
 of `local/.env`'s names in the shell, and writes the names the others read into it, so the file is
 loaded after it: before its first run the file lacks them, or does not exist.
@@ -248,7 +248,7 @@ make contract             # the contract tier against it
   stay, and the next start is an empty Infrahub, to register and seed again.
 - Infrahub imports a later commit of this repository only when asked: `make infrahub-register`
   imports `REF`'s last commit where the registration reads another. A branch runs what was
-  imported before it was made ([D-088](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-088)), so `make infrahub-seed`,
+  imported before it was made ([D-088](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/design/decisions.md#d-088)), so `make infrahub-seed`,
   which makes its branch anew, follows every `make infrahub-register`.
 - It is stopped (`make infrahub-down`) while the development NetBox runs: the two share published
   ports, and it holds about 4.5 GiB of the host's memory.
@@ -259,7 +259,7 @@ make contract             # the contract tier against it
 ## The development NetBox
 
 One NetBox at stated versions runs on the development host as the Compose project
-`fylgja-examples-netbox` ([D-096](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-096)), behind the make targets above:
+`fylgja-examples-netbox` ([D-096](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/design/decisions.md#d-096)), behind the make targets above:
 NetBox `NETBOX_VERSION` on netbox-docker `NETBOX_DOCKER_VERSION`, with the branching plugin at
 `NETBOX_BRANCHING_VERSION`. It is brought up and seeded in this order. `make netbox-up` needs none
 of `local/.env`'s names in the shell, and writes the names the others read into it, and
@@ -294,18 +294,18 @@ make contract-netbox      # the NetBox contract tier against it
   NetBox. `make netbox-up` recreates a project network that stands with another subnet: it
   removes the project's containers and network, keeps the volumes, and starts it again.
 - A first start on new volumes takes about twelve and a half minutes in fylgja-core's readings,
-  most of it NetBox's migrations ([fylgja-core's facts](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/verified-facts.md), "NetBox
+  most of it NetBox's migrations ([fylgja-core's facts](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/design/verified-facts.md), "NetBox
   4.7.5 with netbox-branching 1.2.3").
 - It is stopped (`make netbox-down`) while the development Infrahub runs, and up for the
   acceptance run through its tag, beside that run's twin.
-- An upgrade is [D-096](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-096)'s procedure, by the three make variables
+- An upgrade is [D-096](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/design/decisions.md#d-096)'s procedure, by the three make variables
   `NETBOX_VERSION`, `NETBOX_DOCKER_VERSION` and `NETBOX_BRANCHING_VERSION`: start the new versions
   on new volumes, seed them, run the contract tier, read again the recorded facts the code leans
   on, and record what was read in [verified-facts.md](design/verified-facts.md).
 
 ## Running the example orchestrator
 
-The example orchestrator's edge ([D-085](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-085)) runs on the development host beside the
+The example orchestrator's edge ([D-085](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/design/decisions.md#d-085)) runs on the development host beside the
 development Infrahub or the development NetBox: a Prefect server, the runner that serves it the two flows `stage-plan`
 and `twin-rehearse`, and what starts them, Infrahub's task workers, where the example's checks start them, or NetBox's
 worker, where its webhook starts `twin-rehearse` ([With NetBox](#with-netbox)). With Infrahub it is set up in this
@@ -325,7 +325,7 @@ make orchestrator-serve     # the runner, in a shell of its own with local/.env 
 ```
 
 The core is the installed release, started in a shell of its own with the packages its wheel carries and
-`FYLGJA_PACKAGES` unset (fylgja-core's D-128, to be released with 1.1.0):
+`FYLGJA_PACKAGES` unset (fylgja-core's D-128, released in 1.1.0):
 
 ```sh
 set -a; . local/.env; set +a; FYLGJA_DRIVER=containerlab FYLGJA_STORE=local/store .venv/bin/fylgja-core-server
@@ -359,7 +359,7 @@ Two more things hold:
 
 ### With NetBox
 
-With NetBox ([D-097](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-097)) the edge needs nothing of Infrahub's. It is set up in this order, the
+With NetBox ([D-097](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/design/decisions.md#d-097)) the edge needs nothing of Infrahub's. It is set up in this order, the
 core running at `FYLGJA_API_ADDRESS` with the token file `FYLGJA_TOKENS` names:
 
 ```sh
@@ -379,7 +379,7 @@ make netbox-change                     # the branch third-link made from main, e
 `make netbox-change NETBOX_TAG=1` sets the tag `fylgja-rehearse` on the branch last, which asks for its rehearsal, as
 setting the tag in NetBox does; the rehearsal's twin is made on the core's driver. The report
 is one journal entry on the branch, its kind the verdict
-([fylgja-core's integrating page](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/docs/integrating.md#the-example-with-netbox-end-to-end)). `make netbox-demo` takes
+([fylgja-core's integrating page](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/docs/integrating.md#the-example-with-netbox-end-to-end)). `make netbox-demo` takes
 these steps with none by hand, the core and the runner in the background and the change's last with its tag
 ([The demonstrations](#the-demonstrations)).
 
@@ -394,7 +394,7 @@ Who holds which token there:
 - **NetBox's webhook** holds the basic auth's header line in its `additional_headers`, written by `make netbox-hook`.
   `main`'s changelog holds the webhook's rows with its `additional_headers` unmasked, and an account that may view
   that changelog, the reader's and the example's among them, reads Prefect's credential there
-  ([fylgja-core's integrating page](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/docs/integrating.md#credentials)). The rows outlive the webhook, so a
+  ([fylgja-core's integrating page](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/docs/integrating.md#credentials)). The rows outlive the webhook, so a
   value once written stays readable until a purge of the instance removes its rows. The example accepts this as a
   known limit: it is a demonstration, whose secrets sit together on a development host. A deployment that shares its
   NetBox puts a receiver of its own between NetBox and Prefect, so that Prefect's credential never enters NetBox.
@@ -431,7 +431,7 @@ What the demonstration meets:
 - **A mark's label is unique within its branch and never taken twice**, and NetBox reads no branch as it stood
   earlier, so a past step cannot be marked again. `make netbox-change` run again for a branch deletes that branch and
   builds it again, marked anew. A change is seeded and marked once for each core: a mark's blueprint is read from the
-  core the rehearsal runs through, which holds it where it was given it ([D-100](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-100)). A
+  core the rehearsal runs through, which holds it where it was given it ([D-100](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/design/decisions.md#d-100)). A
   mark read under another scope is rehearsed under its own (`mark.scope`), and one whose blueprint another core holds
   through that core (`mark.unheld`). Every other remedy is a deletion in NetBox by a person who may delete journal
   entries, which the example's account may not.
@@ -442,7 +442,7 @@ What the demonstration meets:
 ## The demonstrations
 
 `make infrahub-demo` and `make netbox-demo` each take one source's runbook above with no step by hand, on a host that
-meets their preconditions, and `make demo-down` ends what they started ([D-104](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-104)).
+meets their preconditions, and `make demo-down` ends what they started ([D-104](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/design/decisions.md#d-104)).
 [docs/demonstrations.md](docs/demonstrations.md) is their page for a user: the host's preconditions, each named as the
 script checks it and held to the script's own constants, the targets, the order of the steps, where the report is
 read, what a run writes and leaves, and what each refusal says.
@@ -478,7 +478,7 @@ What the page does not say, because only a contributor needs it:
   empty.
 - The core is given `local/demo/tokens` and `local/demo/store`, the local driver and the listen address, and no
   certificate, key, Lease or `FYLGJA_PACKAGES`: it loads the packages its wheel carries
-  (fylgja-core's D-128, to be released with 1.1.0). Every step is given the same token file and address and no
+  (fylgja-core's D-128, released in 1.1.0). Every step is given the same token file and address and no
   `FYLGJA_API_CA`.
 - A make target is given no variable but its own: its environment holds none of make's own names and no name the
   `Makefile` assigns by `?=`, and its variables are those of its command line alone, so `make netbox-demo PURGE=1`,
@@ -490,13 +490,13 @@ What the page does not say, because only a contributor needs it:
   is why `source` is kept.
 - The exit statuses, as the script has them: 0, 1, 2 and 130, and through make 0 or 2, the script's status in make's
   `Error <status>` line. The page says them in prose and promises none.
-- The facts behind the preconditions are in [fylgja-core's facts](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/verified-facts.md), "Ubuntu hosts" (the
+- The facts behind the preconditions are in [fylgja-core's facts](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/design/verified-facts.md), "Ubuntu hosts" (the
   groups and the AppArmor widening) and "Infrahub 1.11.11" (the ports Compose publishes). The lab pool's variable is
-  [D-103](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-103).
+  [D-103](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/design/decisions.md#d-103).
 
 ## The acceptance run
 
-An acceptance run is a release's own gate ([D-117](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-117), fylgja-core's D-128, to be released with 1.1.0):
+An acceptance run is a release's own gate ([D-117](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/design/decisions.md#d-117), fylgja-core's D-128, released in 1.1.0):
 the maintainer watches a change rehearsed on a twin from where its change source starts the rehearsal, and reads the
 report where that source files it, with the core on the local driver. Each written here has every command in order, how
 each one's end is read and what the maintainer is asked to do:
@@ -512,7 +512,7 @@ No two of them run at once: each is a live run of its own, one at a time on the 
   there. The registration reads a branch of this repository's `.git` by its name: `make infrahub-register` takes it as
   `REF`, by default the branch checked out, and the Infrahub run's proposed change is of the branch `make
   infrahub-seed` makes, not of `REF`. A clone at a tag is a detached head, which the Infrahub demonstration refuses
-  ([D-111](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-111)): a run from a tag clones it and then `git switch -c` a branch.
+  ([D-111](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/design/decisions.md#d-111)): a run from a tag clones it and then `git switch -c` a branch.
 - **Alone.** While it runs nothing else live runs on the host: no other twin, no contract tier, and not the other
   source. The Infrahub run is made with the development NetBox down (`make netbox-down`); the NetBox run, with the
   development Infrahub down (`make infrahub-down`), since its task workers start the deployments by name, which the
@@ -546,7 +546,7 @@ loaded for each step but the first:
    again`, and it is run again.
    It reads `FYLGJA_INFRAHUB_ADDRESS` and the writer's token, `FYLGJA_INFRAHUB_WRITE_TOKEN`.
 4. `make infrahub-seed`, with no flag, always after the registration, since a branch runs the checks imported before it
-   was made ([D-088](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-088)). Its end: exit 0, with `seed: wrote …/local/infrahub/seed.json`,
+   was made ([D-088](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/design/decisions.md#d-088)). Its end: exit 0, with `seed: wrote …/local/infrahub/seed.json`,
    which names the branch `third-link`, its marks `third-link` and `n1-address`, and a `proposed_change` of null.
    It reads `FYLGJA_INFRAHUB_ADDRESS`, `FYLGJA_INFRAHUB_WRITE_TOKEN` and the reader's `FYLGJA_INFRAHUB_TOKEN`.
 5. `make prefect-up`. Its end: exit 0, with `edge_dev: the development Prefect answers at <the bridge's gateway>:4200,
@@ -685,7 +685,7 @@ through a forward of port 8800.
   starts;
 - mid-run, one `rh-` twin in `fylgja-core twin list`;
 - at the end, a third journal entry on the branch, by the account `fylgja-orchestrator`, its kind the rehearsal's
-  status ([D-097](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-097)): `success` for `passed`, `danger` for `failed`, and `warning` for
+  status ([D-097](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/design/decisions.md#d-097)): `success` for `passed`, `danger` for `failed`, and `warning` for
   `not_rehearsed` and `stopped`. It is the report: the summary under its heading, which for a pass begins `## Rehearsal
   passed`, with a table and lists, then the detail. Then `fylgja-core twin list` is empty.
 
@@ -759,7 +759,7 @@ and the run is made again from `make netbox-change`, watched from the build.
 ## Moving to a release
 
 This repository pins one release of fylgja-core's packages, exactly, because its tests reach past what the core
-promises ([E-001](design/decisions.md#e-001), fylgja-core's D-128, to be released with 1.1.0). Moving to a new release is one
+promises ([E-001](design/decisions.md#e-001), fylgja-core's D-128, released in 1.1.0). Moving to a new release is one
 commit, with the tiers and both demonstrations made again:
 
 1. Move the three pins in `orchestrator/pyproject.toml` (`fylgja-core==`, `fylgja-infrahub==`, `fylgja-netbox==`, and
@@ -789,7 +789,7 @@ here.
   commit it was copied at, which `orchestrator/tests/test_no_core_paths.py` holds.
 - **No path of fylgja-core is read.** A test or script reads what the installed distributions carry
   (`fylgja_core.packages.shipped()`, `fylgja_core.schemas`) or this repository's own copy.
-- **Links into fylgja-core are at a tag,** `https://github.com/happypathnetworking/fylgja/blob/v1.0.0/<path>`, and the
+- **Links into fylgja-core are at a tag,** `https://github.com/happypathnetworking/fylgja/blob/v1.1.0/<path>`, and the
   path exists there; never at `main`.
 - **Fixtures change in a commit of their own,** with the diff reviewed.
 - **A new rule goes in [`orchestrator/rules.md`](orchestrator/rules.md)** in the same change as the code that files it.

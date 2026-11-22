@@ -1,7 +1,7 @@
 # Working notes for coding agents
 
 This is **fylgja-examples**: the example orchestrator and the two demonstrations of
-[fylgja-core](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/README.md), which turns a blueprint (a network's intent, content-addressed)
+[fylgja-core](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/README.md), which turns a blueprint (a network's intent, content-addressed)
 into a twin running real network operating system images. The example rehearses a change of a
 source of truth on a twin, a proposed change in Infrahub or a branch in NetBox, and is a client
 of the core like any other. The demonstrations make that rehearsal from one command each:
@@ -18,19 +18,19 @@ changes nothing there.
 - `design/decisions.md`: this repository's own log; check it before proposing a change of a
   decision.
 - fylgja-core's entries about the example bind this repository until an entry here supersedes
-  one: [D-085](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-085) to [D-088](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-088),
-  [D-092](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-092) to [D-094](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-094),
-  [D-097](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-097), [D-100](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-100),
-  [D-101](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-101), [D-104](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-104) and
-  [D-111](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/decisions.md#d-111). So do fylgja-core's
-  [constitution](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/constitution.md) and [architecture](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/architecture.md).
+  one: [D-085](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/design/decisions.md#d-085) to [D-088](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/design/decisions.md#d-088),
+  [D-092](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/design/decisions.md#d-092) to [D-094](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/design/decisions.md#d-094),
+  [D-097](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/design/decisions.md#d-097), [D-100](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/design/decisions.md#d-100),
+  [D-101](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/design/decisions.md#d-101), [D-104](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/design/decisions.md#d-104) and
+  [D-111](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/design/decisions.md#d-111). So do fylgja-core's
+  [constitution](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/design/constitution.md) and [architecture](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/design/architecture.md).
 - `formats/README.md`: the example's two formats, one current version each.
 - `docs/demonstrations.md`: what a demonstration needs, does, writes and leaves.
-- [fylgja-core's integrating page](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/docs/integrating.md): how to join Fylgja to a source of
+- [fylgja-core's integrating page](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/docs/integrating.md): how to join Fylgja to a source of
   truth and a platform of your own, walked through this example.
 - `design/verified-facts.md`: what this repository read for itself. What the development
   Infrahub, NetBox, Prefect, containerlab and the network operating systems do is read in
-  [fylgja-core's facts](https://github.com/happypathnetworking/fylgja/blob/v1.0.0/design/verified-facts.md): read it when a task touches one of them,
+  [fylgja-core's facts](https://github.com/happypathnetworking/fylgja/blob/v1.1.0/design/verified-facts.md): read it when a task touches one of them,
   and trust it over recollection.
 
 ## Rules
