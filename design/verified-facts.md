@@ -257,3 +257,65 @@ seconds are as the logs print them; a wall figure is read from a wrapper's saved
   `infrahub-register` 141 s, `infrahub-seed` 288 s, `netbox-up` 754 s (its log: the first start
   exited 1, "netbox healthy 732 s after its start"), `netbox-seed` 32 s; the wrapper ended
   `all rc=0`.
+
+## Both demonstrations from a fresh clone on the released fylgja-core 1.1.0
+
+Read on 2026-11-22 on the development host, in a fresh clone of this repository at `1e2dfb6`
+(the commit of the release, the one `main` and the tag `v1.1.0` name), on the branch
+`release-acceptance`. That the clone lies outside every worktree is the controller's account. The
+records are the plan's acceptance directory in fylgja-core's main checkout,
+`local/phase-12/acceptance/release/`, cited by file name, and the clone's own `local/demo/`.
+`make venv` is a `--locked` sync and passed (`venv.log`); that it installed the packages from
+PyPI's release is the controller's account, and the log shows the versions alone. Infrahub's
+demonstration ran first and NetBox's after it. The seconds are as the logs print them,
+and a wall figure is read from a wrapper's saved output (`*.wrapper.out`); a figure marked as a
+derivation is worked out from others. *(2026-11-22)*
+
+- **`make venv` installed the released packages.** The clone's `make venv` ran `uv sync
+  --locked --all-packages --all-extras` with CPython 3.14.4, resolved 129 packages and installed
+  126, among them `fylgja-core==1.1.0`, `fylgja-infrahub==1.1.0` and `fylgja-netbox==1.1.0`, and
+  `fylgja-orchestrator==1.1.0` from the clone's `orchestrator` directory (`venv.log`, lines 1
+  to 4 and 40 to 43). That the three were read from `importlib.metadata` in the clone's `.venv`
+  is the controller's account; `venv.log` shows the install lines alone.
+- **The Infrahub demonstration passed.** `make infrahub-demo` exited 0
+  (`infrahub-demo.wrapper.out`: `infrahub-demo ok 1032s`). Infrahub 1.11.11 answered 155 s after
+  Compose's start returned (`infrahub-demo.log`, line 75). `make infrahub-register
+  REF=release-acceptance` printed that `fylgja` reads `release-acceptance` at `1e2dfb6`,
+  in-sync and online, 103 s on, and that each of the 2 task workers holds the tree at `1e2dfb6`
+  (`infrahub-demo.log`, lines 129 and 130). The seed made the proposed change
+  `18ea7c66-c302-1436-2fea-c516286c1943`, "Rehearse third-link", of the branch `third-link`
+  into `main`; the flow run `ceed374e-d4d7-4026-8bf8-9c6bf64cece0` of `twin-rehearse/main` went
+  SCHEDULED, PENDING, RUNNING, COMPLETED, and the demonstration printed "the rehearsal passed: 4
+  stages, 157.2 s, flow run ceed374e-d4d7-4026-8bf8-9c6bf64cece0" (`infrahub-demo.log`, lines
+  157 to 163). The report is in Infrahub, the proposed change's thread "Fylgja rehearsal"; no
+  saved file records the reading, and the controller's ledger quotes the maintainer's word after
+  it: "i read the report". `make demo-down PURGE=1` printed that the Compose project
+  `fylgja-examples-infrahub` was removed with its volumes (`demo-down-1.log`, line 51).
+- **The NetBox demonstration passed, after a first start that exited 1.** `make netbox-demo`
+  exited 0 (`netbox-demo.wrapper.out`: `netbox-demo ok 948s`). NetBox 4.7.5 with
+  `netbox_branching` 1.2.3 was built from `netbox-docker` 5.1.1 (`netbox-demo.log`, line 4). The
+  first start of Compose printed `dependency failed to start: container
+  fylgja-examples-netbox-netbox-1 is unhealthy`, and `netbox_dev` printed "the first start of
+  fylgja-examples-netbox exited 1; waiting for Docker to call netbox healthy", then "netbox
+  healthy 733 s after its start", and "NetBox 4.7.5 with netbox_branching 1.2.3 answers", 1
+  worker running (`netbox-demo.log`, lines 92 to 105); what NetBox did in the 733 s was not
+  read. `make netbox-hook` made the webhook `fylgja-rehearse`; `make netbox-change` set its tag
+  on the branch `third-link`; the flow run `e6898b12-b681-4a1b-bad8-8fc203f07289` went PENDING,
+  RUNNING, COMPLETED, and the demonstration printed "the rehearsal passed: 4 stages, 113.4 s,
+  flow run e6898b12-b681-4a1b-bad8-8fc203f07289" (`netbox-demo.log`, lines 168 to 185). The
+  clone's `local/demo/rehearsal.json`, last written by this run, has status `passed`, 4 stages
+  and `took_s` 113.44; the stage results are `created`, `passed`, `passed` and `skipped`
+  (`local/demo/rehearsal.json` of the clone). The report is the newest Journal entry of the
+  branch `third-link` in NetBox; no saved file records the reading, and the controller's ledger
+  quotes the maintainer's word after it: "I read the journal, go ahead". `make demo-down
+  PURGE=1` printed that `fylgja-examples-netbox` was removed with its volumes
+  (`demo-down-2.log`, line 41).
+- **Derivation: the NetBox first start.** 733 s is 77 percent of the demonstration's 948 s
+  wall (derived from the two figures); the rehearsal itself took 113.4 s of it.
+- **Derivation: against the candidate's section above.** The Infrahub demonstration's wall
+  was 1032 s against the candidate's 1056 s, and NetBox's 948 s against 972 s; the rehearsals
+  took 157.2 s against 154.1 s and 113.4 s against 112.6 s, and NetBox's first start became
+  healthy 733 s after its start against 745 s. Each is the difference of two figures read in
+  two runs on one host, and says nothing of why they differ.
+- **The CI run is the controller's account.** fylgja-examples' CI run 45083481957 passed on
+  `1e2dfb6`, its job `lint-and-test`; no file of the acceptance directory holds it.
