@@ -22,6 +22,10 @@ core like any other, through the core's API alone.
 > `main` and this branch, run `make demo-down PURGE=1` first: the seed loads nothing onto an
 > Infrahub that holds the devices already, so the other branch's devices, without this branch's
 > link addresses, would stay, and the check would find no OSPF instance.
+>
+> Then run `make venv`: this branch's lock adds Nornir and nornir-scrapli to `main`'s, and a
+> demonstration makes `.venv` only where it is missing, never remaking one that exists, so a venv
+> made on the other branch would be run as it is.
 
 ## One release
 
